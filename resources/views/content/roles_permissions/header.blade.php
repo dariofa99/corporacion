@@ -38,7 +38,7 @@
           </form>
         </div>
       </li>
-      @include('layouts.navbar_right')
+      @include('content.navbar_right')
       <!-- Messages Dropdown Menu -->
      {{--  <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">

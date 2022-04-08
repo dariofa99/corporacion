@@ -161,3 +161,17 @@ animation: spin 5s linear infinite;
   padding: 0px;
   display: block;
 }
+
+.notification_content{
+  overflow: auto;
+  height: 400px;
+  border: 1px solid rgb(245, 245, 245);
+}
+.content_not_message {
+  overflow: hidden;
+ 
+  
+  width: 100%;
+}
+.itemnot{
+   -ms-word-break: break-all; word-break: break-all; /* Non standard for webkit */ word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; -ms-hyphens: auto; hyphens: auto; }

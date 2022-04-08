@@ -41,21 +41,29 @@
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
           <span class="dropdown-item dropdown-header">
            Notificaciones</span>
-         @foreach(auth()->user()->notifications as $key => $notification)
+
+            <div class="notification_content">
+              @foreach(auth()->user()->notifications as $key => $notification)
          
-          <div class="dropdown-divider"></div>
-          <a @if(isset($notification->data['url']) and $notification->data['url'] and $notification->data['url']!='undefined') href="{{$notification->data['url']}}"  @endif class="dropdown-item">
-            <i @if(isset($notification->data['icon']) and $notification->data['icon']
-             and $notification->data['icon']!='undefined')
-               class="{{$notification->data['icon']}} mr-2" @else class="fas fa-bell" @endif></i>
-            
-            
-            {{$notification->data['message']}}
-   
-            <span class="float-right text-muted text-sm">{{$notification->data['created_at']}}</span>
-          </a> -
-          
-          @endforeach
+              <div class="dropdown-divider"></div>
+              <a @if(isset($notification->data['url']) and $notification->data['url'] and $notification->data['url']!='undefined') href="{{$notification->data['url']}}"  @endif class="dropdown-item">
+                <i @if(isset($notification->data['icon']) and $notification->data['icon']
+                 and $notification->data['icon']!='undefined')
+                   class="{{$notification->data['icon']}} mr-2" @else class="fas fa-bell" @endif>
+                  
+                  </i>
+                     <small class="itemnot">{{$notification->data['message']}}</small>
+               
+                
+                
+       
+                <span class="float-right text-muted text-sm">{{$notification->data['created_at']}}</span>
+              </a> -
+              
+              @endforeach
+            </div>
+
+       
          
          {{--  <div class="dropdown-divider"></div>
           <a href="#" class="dropdown-item">
@@ -68,7 +76,7 @@
             <span class="float-right text-muted text-sm">2 days</span>
           </a> --}}
           <div class="dropdown-divider"></div>
-          <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a>
+         {{--  <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> --}}
         </div>
       </li>
       <!-- 
