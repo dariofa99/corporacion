@@ -1,0 +1,163 @@
+#wait{
+	z-index: 200000;
+}
+#load{
+animation: spin 5s linear infinite;
+}
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+
+
+#content_case_data{
+    padding: 4px;
+    border:1px solid #F6F6F6;
+    margin-top:3px;
+    border-radius: 3px;
+    -webkit-box-shadow: 0px 7px 12px -11px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 7px 12px -11px rgba(0,0,0,0.75);
+    box-shadow: 0px 7px 12px -11px rgba(0,0,0,0.75);
+}  
+
+#content_data{
+    padding: 4px;
+    border:1px solid #F1F2F2;
+    margin-top:3px;
+    border-radius: 3px;    
+}  
+
+#content_data label{
+  font-size: 13px; 
+}  
+
+#content_assignment_data{
+    padding: 4px;
+    border:1px solid #F1F2F2;
+    margin-top:3px;
+    border-radius: 3px;
+}
+
+.content_client_data{
+    padding: 4px;    
+    margin-top:3px;
+    border-radius: 3px;
+
+}
+
+
+.content_log_data{
+    padding: 4px;    
+    margin-top:3px;
+    border-radius: 3px;
+}
+
+.content_bill_data{
+  padding: 4px;    
+  margin-top:3px;
+  border-radius: 3px;
+}
+
+.btn-chat{
+    
+    border-radius: 5px;
+}
+.footer-small-box a{ 
+    text-align: center;
+    padding-left: 5px;
+    color:#F1F2F2 !important;
+}
+
+#change_photo{
+       position: absolute;
+      
+}
+
+.modal-header {
+    padding: 1rem 1rem 0rem 1rem !important;
+}
+
+.order-check {
+    width: 60px !important;
+    height: 0px !important;
+    float: right !important;
+    margin-right: 90px !important;
+}
+.custom-file-label::after{
+  /* cambia el nombre del boton input file*/
+  content:"Abrir" !important;
+}
+
+.small-box {
+    padding-top: 5px;
+  }
+  .small-box > .inner {
+    color: #000000;
+    background-color: #000;
+    margin: 10px 0px 10 10px !important;
+  }
+  .small-box > .inner p {
+    margin: 0px !important;
+    font-size:12px;
+    color:#555;
+  }
+
+  .archive {
+    cursor: pointer;
+  }
+  .tmno {
+    margin-bottom: -6px;
+  }
+
+  #myModal_library_show p ,#myModal_log_details p {
+    border-radius: 7px !important;
+    border-style: solid !important;
+    border-width: 1px !important;
+    padding: 3px 6px 3px 6px !important;
+    border-color: #ccc !important;
+  } 
+  #modal_description_show {
+    height: 80px !important;  
+    overflow: auto !important;
+  }
+
+  #myModal_library_show label {
+    margin-bottom: 2px !important;
+  }
+.supload_supf{
+  border-bottom: 1px solid#F4F6F6;
+  border-radius: 3px;
+  padding: 4px;
+}
+.btn_get_umnotificaton{
+  font-weight: bold;
+  width:14px;
+  height:14px;
+  cursor: pointer;
+  
+}
+.col_details_n{
+  border-bottom: 0.5px solid #EAEDED;
+}
+
+@media only screen and (max-width: 600px) {
+  .content-wrapper>.content {
+      padding: 0px !important;
+  }
+  .container-fluid {
+    padding-right: 3px !important;
+    padding-left: 3px !important;
+  
+  }
+  .card-body {
+      padding: 0px !important;
+  }
+}
+
+.ctn_question{
+  padding: 4px;
+  border: 1px solid #F8F9F9;
+  border-radius: 3px;   
+}
+.menu-rep {
+  list-style: none;
+  padding: 0px;
+  display: block;
+}

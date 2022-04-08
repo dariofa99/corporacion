@@ -1,0 +1,13 @@
+
+[class*=sidebar-dark-] {
+    background-color: #191d38;
+}
+
+.layout-navbar-fixed .wrapper .sidebar-dark-primary .brand-link:not([class*=navbar]) {
+    background-color: #c60b26;
+}
+
+.card-primary.card-outline {
+    border-top: 3px solid #c60b26;
+}
+

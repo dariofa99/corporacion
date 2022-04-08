@@ -1,0 +1,2323 @@
+class Case {
+
+    constructor(id="",case_number="",status="",type_case="",type_branch_law=""){
+        this.id = id;
+        this.case_number = case_number;
+        this.status = status;
+        this.type_case = type_case;
+        this.type_branch_law = type_branch_law;
+    }
+
+    index(request,url){
+		$.ajax({ 
+			url: url,
+			type: 'GET',
+			cache: false,
+			data: request, 
+		  beforeSend: function(xhr){
+			  xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+			},
+		  success: function(res) {
+			  
+			  if(res.view){
+				  $("#content_cases").html(res.view);
+				 // $("[data-toggle='toggle']").bootstrapToggle();
+			  }
+              $("#wait").hide();
+		   },
+			error: function(xhr, textStatus, thrownError) {
+			}
+	});
+	}
+
+    store(request){   
+           
+        $.ajax({
+            url: '/casos',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show();
+                
+            },
+            success: function (res) {
+            $("#wait").hide();
+               Swal.fire({
+                title: 'Creado con éxito.',
+                type: 'success',                
+              });
+              $("#myFormCreateCase")[0].reset();
+              $("#myFormCreateCase input[name=case_number]").val(res.new_id);            
+            },
+            error: function (xhr, textStatus, thrownError) {              
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+            }
+        });
+        }
+
+        update(request){   
+           
+            $.ajax({
+                url: '/casos/'+this.id,
+                type: 'PUT',
+                datatype: 'json',
+                data: request,
+                cache: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    $("#wait").show();
+                    
+                },
+                success: function (res) {
+                $("#wait").hide();
+                   Toast.fire({
+                    title: 'Actualizado con éxito.',
+                    type: 'success',                
+                  });
+                  $("#myFormEditCase select").prop('disabled',true);
+                  $("#myFormEditCase input[name=case_number]").prop('disabled',true);
+                  $(".btns_update_case").hide();
+                  $("#btn_edit_case").show();                  
+                },
+                error: function (xhr, textStatus, thrownError) {              
+                    alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                }
+            });
+            }
+
+        delete(request){   
+           
+            $.ajax({
+                url: '/casos/'+request.case_id,
+                type: 'DELETE',
+                datatype: 'json',
+                data: request,
+                cache: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    $("#wait").show();
+                    
+                },
+                success: function (res) {
+                $("#wait").hide();
+                   Swal.fire({
+                    title: 'Eliminado con éxito.',
+                    type: 'success',                
+                  });
+                 $("#row-case-"+request.case_id).remove();
+                },
+                error: function (xhr, textStatus, thrownError) {              
+                    alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                }
+            });
+            }  
+
+    findUser(request){        
+    $.ajax({
+        url: '/users/find',
+        type: 'POST',
+        datatype: 'json',
+        data: request,
+        cache: false,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            $("#wait").show();
+        },
+        success: function (res) {
+            $("#wait").hide();
+          if(Object.entries(res).length>0 && res.identification_number!==null){
+            $("#myformCreateUser input[name=id]").val(res.id);
+            $("#myformCreateUser input[name=name]").val(res.name).prop('disabled',true);
+            $("#myformCreateUser input[name=email]").val(res.email).prop('disabled',true);
+            $("#myformCreateUser input[name=phone_number]").val(res.phone_number).prop('disabled',true);
+            $("#myformCreateUser input[name=address]").val(res.address).prop('disabled',true);
+            $("#myformCreateUser select[name=role_id]").prop('disabled',true).hide();
+            if(res.roles.length>0){                
+                $("#myformCreateUser #lbl_rol_status").text(res.roles[0].display_name);
+            }else{
+                $("#myformCreateUser #lbl_rol_status").text('Sin rol asignado');
+            }
+           
+            $("#myformCreateUser input[name=password]").val('').prop('disabled',true);
+            $("#myformCreateUser button[type=button]").show();
+            $("#myformCreateUser button[type=submit]").hide();
+          }else{
+            $("#myformCreateUser #lbl_rol_status").text('');
+            $("#myformCreateUser input[name=id]").val('').prop('disabled',false);
+            $("#myformCreateUser input[name=name]").val('').prop('disabled',false);
+            $("#myformCreateUser input[name=email]").val($("#myformCreateUser input[name=identification_number]").val()+'@defaultmail.com').prop('disabled',false);
+            $("#myformCreateUser input[name=phone_number]").val('').prop('disabled',false);
+            $("#myformCreateUser input[name=address]").val('').prop('disabled',false);
+            if( $("#myformCreateUser input[name=type_user_id]").val()==7){
+                $("#myformCreateUser select[id=vo_role_id]").prop('disabled',false).show();            
+            }else if($("#myformCreateUser input[name=type_user_id]").val()==8){
+                $("#myformCreateUser select[id=prof_role_id]").prop('disabled',false).show();            
+            }else{
+                $("#myformCreateUser #lbl_rol_status").text('No se asignará rol');
+            }
+            $("#myformCreateUser input[name=password]").val(request.identification_number).prop('disabled',false);
+            $("#myformCreateUser button[type=button]").hide();
+            $("#myformCreateUser button[type=submit]").show();
+          }
+          //console.log(request)
+        },
+        error: function (xhr, textStatus, thrownError) {
+            alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+        }
+    });
+    }
+
+    findUserCase(request){        
+        $.ajax({
+            url: '/casos/find/notification',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show();
+            },
+            success: function (res) {
+                $("#wait").hide();
+              if(Object.entries(res.notification).length>0){
+                  $("#content_notification_defendant_details p[id=concept]").text(res.notification.log.concept);
+                  var text = res.notification.log.description.replace(/\r?\n/g, '<br />');
+                  $("#content_notification_defendant_details p[id=description]").html(text);
+                  $("#content_notification_defendant_details p[id=created_at]").text(res.notification.created_at);
+                  if(res.notification.log.files.length > 0){
+                    $("#content_notification_defendant_details a[id=log_file_name]").attr('href','/oficina/descargar/documento/'+res.notification.log.files[0].id).text(res.notification.log.files[0].original_name);
+                   $("#content_notification_defendant_details p[id=log_size]").text((res.notification.log.files[0].size));
+                   if(res.notification.log.files[0].size > 1024){
+                        $("#content_notification_defendant_details p[id=log_size]").text((res.notification.log.files[0].size / 1024 / 1024).toFixed(2)+'MB');
+                    }                   
+                  }
+                  $("#content_notification_defendant_details p[id=notification_status]").text(res.notification.status);
+                  if(res.notification.access_address){
+                    $("#content_notification_defendant_details span[id=lbl_accadd_browser]").text((res.notification.access_address.browser));
+                    $("#content_notification_defendant_details span[id=lbl_ipaddress]").text((res.notification.access_address.ip));
+                    $("#content_notification_defendant_details span[id=lbl_os]").text((res.notification.access_address.os));
+                    $("#content_notification_defendant_details span[id=lbl_time]").text((res.notification.access_address.time));
+                    $("#content_notification_defendant_details span[id=lbl_country]").text((res.notification.access_address.country));
+                    $("#content_notification_defendant_details span[id=lbl_city]").text((res.notification.access_address.city));
+                    
+                    $("#content_notification_defendant_details #cont_access_data").show();
+                }else{
+                    $("#content_notification_defendant_details #cont_access_data").hide()
+                }
+
+                   $("#myModal_notification_defendant_details").modal('show')
+              }
+            
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+            }
+        });
+        }
+
+   storeUser(request){        
+        $.ajax({
+            url: '/admin/users',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show();
+                
+            },
+            success: function (res) {
+            if((res.user)){
+                $("#myFormCreateCase input[name=user_id]").val(res.user.id);
+                $("#myFormCreateCase input[name=user_identification_number]").val(res.user.identification_number)
+                if(res.user.type_user_id==7 && (res.render_view || res.render_view=='')){
+                    $("#content_client_data").html(res.render_view);
+                }
+                if(res.user.type_user_id==21 && (res.render_view || res.render_view=='')){
+                    $("#table_list_defendant tbody").html(res.render_view);
+                    //setUserDestSel(res.user)
+                }
+                if(res.user.type_user_id && res.user.type_user_id ==8 && (res.render_view || res.render_view=='')){
+                    $("#table_list_professional tbody").html(res.render_view)
+                }
+                if(res.user.type_user_id && res.user.type_user_id==25 && (res.render_view || res.render_view=='')){
+                    $("#table_list_interventor tbody").html(res.render_view);
+                    //setUserDestSel(res.user);
+                }
+                $("#myModal_create_user").modal('hide');
+            }    
+            if(res.errors){
+                res.errors.forEach(error => {
+                  /*   Toast.fire({
+                        title: error,
+                        type: 'error', 
+                        timer: 5000,               
+                      });  */
+                      toastr.error(error,'',
+                      {"positionClass": "toast-top-right","timeOut":"5000"}); 
+                      
+                });
+            }
+
+                $("#wait").hide();
+
+                
+             
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                $("#wait").hide();
+            }
+        });
+        }
+
+        insertData(request){
+            $.ajax({
+                url: '/casos/insert/data',
+                type: 'POST',
+                datatype: 'json',
+                data: request,
+                cache: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    
+                },
+                success: function (res) {
+                    
+                    toastr.success('Guardado con éxito!','',
+                    {"positionClass": "toast-bottom-right","timeOut":"1000"});  
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                }
+            });
+        }
+
+        insertUserData(request){
+            var casef = this;
+            $.ajax({
+                url: '/users/insert/data',
+                type: 'POST',
+                datatype: 'json',
+                data: request,
+                cache: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    
+                },
+                success: function (res) {
+                    var viewC = new ViewComponents();
+                    var row = viewC.loadUserData(res.data);
+                    $(".content_user_data").html(row);
+                    toastr.success('Guardado con éxito!','',
+                    {"positionClass": "toast-bottom-right","timeOut":"1000"});
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                }
+            });
+        }
+
+        getUserData(request){
+            var casef = this;
+            $.ajax({
+                url: '/users/get/data',
+                type: 'POST',
+                datatype: 'json',
+                data: request,
+                cache: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    
+                },
+                success: function (res) {                      
+                    var viewC = new ViewComponents();
+                    var row = viewC.loadUserData(res.data)
+                    $(".content_user_data").html(row);    
+                    $("#myModal_user_data").modal("show");
+                    $("#user_id").val(res.id);
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                }
+            }); 
+        }
+
+        deleteUserCase(request){
+                $.ajax({
+                url: '/casos/delete/user',
+                type: 'POST',
+                datatype: 'json',
+                data: request,
+                cache: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    $("#wait").show();
+                },
+                success: function (res) {     
+                    ////console.log(res)           
+                    if(request.type_user_id==7 && (res.render_view || res.render_view=='')){
+                        $("#content_client_data").html(res.render_view);
+                    }
+                    if(request.type_user_id==21 && (res.render_view || res.render_view=='')){
+                        $("#table_list_defendant tbody").html(res.render_view);
+                    }
+                    if(request.type_user_id ==8 && (res.render_view || res.render_view=='')){
+                        $("#table_list_professional tbody").html(res.render_view)
+                    }
+                    if(request.type_user_id==25 && (res.render_view || res.render_view=='')){
+                        $("#table_list_interventor tbody").html(res.render_view);
+                    }
+                    $("#wait").hide();
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                }
+            }); 
+        }
+
+
+        insertUser(request){
+            var casef = this;
+            $.ajax({
+                url: '/casos/insert/user',
+                type: 'POST',
+                datatype: 'json',
+                data: request,
+                cache: false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    $("#wait").show();                    
+                },
+                success: function (res) {
+                    ////console.log(res, request, 'aqui')
+                    if(res.type_user_id==7 && (res.render_view || res.render_view=='')){
+                        $("#content_client_data").html(res.render_view);
+                    }
+                    if(res.type_user_id==21 && (res.render_view || res.render_view=='')){
+                        $("#table_list_defendant tbody").html(res.render_view);
+                        //setUserDestSel(res.user);
+                    }
+                    if(res.type_user_id == 8 && (res.render_view || res.render_view=='')){
+                        $("#table_list_professional tbody").html(res.render_view);     
+                    }
+                    if(res.type_user_id==25 && (res.render_view || res.render_view=='')){
+                        $("#table_list_interventor tbody").html(res.render_view);
+                        //setUserDestSel(res.user);
+                    }
+                    $("#wait").hide();
+                },
+                error: function (xhr, textStatus, thrownError) {
+                    alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                }
+            });
+        }
+
+        indexLog(request,url){
+            $.ajax({ 
+                url: url,
+                type: 'GET',
+                cache: false,
+                data: request,
+              beforeSend: function(xhr){
+                  xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                },
+              success: function(res) {
+                  
+                if(res.render_view || res.render_view==''){   
+                    $("#table_list_logs tbody").html(res.render_view);                       
+                }
+                  $("#wait").hide();
+               },
+                error: function(xhr, textStatus, thrownError) {
+                }
+        });
+        }
+
+        logStore(request){
+           
+            $.ajax({
+                url : '/casos/logs',
+                type: "POST",
+                data : request,
+                contentType: false,
+                cache: false,
+                processData:false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                xhr: function(){      
+                $("#wait").show()       
+                var xhr = $.ajaxSettings.xhr();                 
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', function(event) {
+                        var percent = 0;
+                        var position = event.loaded || event.position;
+                        var total = event.total;
+                        if (event.lengthComputable) {
+                            percent = Math.ceil(position / total * 100);
+                        } 
+                        
+                        $("#progress_bar").show();
+                        $("#progressbarwait").css('display','block');
+                        $("#progress_bar .progress-bar").css("width", + percent +"%");
+                        $("#progress_bar .progress-bar").text(percent +"%"); 
+                        $('#progressGeneral').css('width', percent+'%');
+                        $('#progressGeneral').html(percent+'%');                      
+                        if(percent>=100){
+                            $("#progress_bar .progress-bar").text("Terminando el proceso..."); 
+                            $('#progressGeneral').html('Terminando proceso...'); 
+                        }                       
+                    }, true);
+                }
+                return xhr;
+            }
+        //	mimeType:"multipart/form-data"
+        }).done(function(res){ //
+            $("#progress_bar").hide(); 
+            $("#wait").hide();          
+                    try {
+                        if(res.type_log_id=='22'){                           
+                            $("#content_list_doc_send").html(res.view);
+                            $("#myModal_create_log").modal('hide');    
+                            Toast.fire({
+                                title: 'Documento creado con éxito.',
+                                type: 'success', 
+                                timer: 2000,               
+                              });   
+                        }else if(res.type_log_id=='18' || res.type_log_id=='33' || res.type_log_id=='23'){
+                             $("#table_list_logs tbody").html(res.view); 
+                             if(res.render_suport_logs){
+                                $("#accordion_support_logs").html(res.render_suport_logs); 
+                             }
+                             if(res.new_category){
+                                 var option = `<option value="${res.type_category_id}">${res.new_category}</option>`;
+                                 $("#content_form_cl #type_category_id").append(option);
+                             }
+                             if(Object.entries(res.caseL).length>0){
+                                $("#myformCreateLog input[name=id]").val(res.caseL.id);
+                                if (myDropzone_log.files.length == 0){  
+                                    $("#myModal_create_log").modal('hide');          
+                                } else if(myDropzone_log.getRejectedFiles().length > 0) {
+                                    //alert("The attached file is invalid");
+                                } else {
+                                    $("#actions_upload_logs .start").trigger('click');
+                                    $("#custom-tabs-data-tab").removeClass("active").attr('aria-selected',false);;
+                                    $("#custom-tabs-data").removeClass("active").removeClass("show");
+                                    $("#custom-tabs-options-tab").removeClass("active").attr('aria-selected',false);
+                                    $("#custom-tabs-options").removeClass("active").removeClass("show");
+                                    $("#custom-tabs-files-tab").addClass("active").attr('aria-selected',true);;
+                                    $("#custom-tabs-files").addClass("active").addClass("show");
+                                }
+                             }
+                             Toast.fire({
+                                title: 'Actuación creada con éxito.',
+                                type: 'success', 
+                                timer: 2000,               
+                              }); 
+                                                         // $("#table_list_logs tbody [data-toggle='toggle']").bootstrapToggle();
+                        }else if(res.type_log_id=='23'){                          
+                            Toast.fire({
+                                type: 'success',
+                                title: 'La notificación se ha enviado con éxito.'
+                            });
+                        }else if(res.type_log_id=='105' && (res.render_view || res.render_view=='')){                            
+                            $("#table_list_defendant tbody").html(res.render_view); 
+                            $('[data-toggle="tooltip"]').tooltip(); 
+                                                
+                        }
+                    } catch (error) {
+                        
+                }
+                if(res.mail_error){
+                    toastr.error(res.mail_error,'Error',
+                        {"positionClass": "toast-top-right","timeOut":"10000"});
+                }
+        });
+
+
+    }
+
+        logEdit(request){
+            $.ajax({
+                url: '/casos/logs/'+request.id+'/edit',
+                type: 'GET',              
+                data: request,
+                cache       : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    $("#wait").show()
+                },
+                success: function(res)
+                {
+                    $("#wait").hide();
+                    if(res.caseL.type_log_id!=22){
+                        $('#myModal_create_log').modal({backdrop: 'static', keyboard: false})
+                        fillModalCaseLog(res.caseL,res.image_list);
+                        myDropzone_log.options.autoQueue = true;    
+                    }else if(res.caseL.type_log_id==22){
+                        //if($("#myformEditClientLog").length>0){
+                            fillModalCaseClientLog(res.caseL,res.image_list)
+                        //}
+                       
+                    }
+                
+                },
+                error: function(data)
+                {
+                    //console.log(data);
+                }
+            });
+        }
+
+        logShow(request){
+
+            $.ajax({
+                url: '/casos/logs/'+request.id,
+                type: 'GET',              
+                data: request,
+                cache       : false,
+                contentType : false,
+                processData : false,
+                beforeSend: function (xhr) {
+                    xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                    $("#wait").show()
+                },
+                success: function(res)
+                {
+                
+             //console.log(res)                   
+                    $("#wait").hide();
+                    $("#content_form_details_log #concept").text(res.concept);
+                    var text = res.description.replace(/\r?\n/g, '<br />');
+                    $("#content_form_details_log #description").html(text)
+                    $("#content_form_details_log #category").text(res.type_category.name);
+                    $("#content_form_details_log #created_at").text(res.created_at);
+                    var filing_date = res.filing_date !=null ? res.filing_date : 'Sin fecha';
+                    $("#content_form_details_log #lbl_filing_date").text(filing_date);
+                   
+                    $("#content_form_details_log #user_created").text(res.user.name);
+                    var table = $("#list_files_log_details tbody");
+                    if(res.files.length>0){                       
+                        var row = '';
+                        res.files.forEach(file => {
+                            row += `
+                            <tr>
+                                <td>${file.original_name}</td>
+                                <td>${(file.size / 1024 / 1024).toFixed(2)} MB</td>
+                            </tr>`;
+                        });
+                    table.html(row);                    
+                    }else{
+                        row += `
+                        <tr>
+                            <td colspan="2">Sin archivos</td>
+                        </tr>`;
+                        table.html(row);
+                    }
+                    
+                    $("#myModal_log_details").modal('show')
+                },
+                error: function(data)
+                {
+                    //console.log(data);
+                }
+            });
+        }
+
+        logUpdate(id,request){
+           
+            $.ajax({
+                url : '/casos/update/logs/'+id,
+                type: "POST",
+                data : request,
+                contentType: false,
+                cache: false,
+                processData:false,
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                xhr: function(){      
+                $("#wait").show()       
+                var xhr = $.ajaxSettings.xhr();                 
+                if (xhr.upload) {
+                    xhr.upload.addEventListener('progress', function(event) {
+                        var percent = 0;
+                        var position = event.loaded || event.position;
+                        var total = event.total;
+                        if (event.lengthComputable) {
+                            percent = Math.ceil(position / total * 100);
+                        } 
+                        $("#progress_bar").show();
+                        $("#progress_bar .progress-bar").css("width", + percent +"%");
+                        $("#progress_bar .progress-bar").text(percent +"%"); 
+                        if(percent>=100){
+                            $("#progress_bar .progress-bar").text("Terminando el proceso..."); 
+                        }                       
+                    }, true);
+                }
+                return xhr;
+            }
+        //	mimeType:"multipart/form-data"
+        }).done(function(res){ //
+            $("#progress_bar").hide(); 
+            $("#wait").hide();
+            
+           
+                    try {
+                        if(res.type_log_id=='18' || res.type_log_id=='33' || res.type_log_id=='23'){           
+                            $("#table_list_logs tbody").html('');                
+                            $("#table_list_logs tbody").html(res.view);
+                            if(res.render_suport_logs || res.type_log_id=='33'){
+                                $("#accordion_support_logs").html(res.render_suport_logs); 
+                             }
+                          //  $("#table_list_logs tbody [data-toggle='toggle']").bootstrapToggle();
+                        }
+                        if(res.type_log_id=='22'){                           
+                            $("#content_list_doc_send").html(res.view);
+                        }
+                       
+                        if(res.new_category){ 
+                            var option = `<option value="${res.type_category_id}">${res.new_category}</option>`;
+                            $("#content_form_cl #type_category_id").append(option);
+                        }
+                        Toast.fire({
+                            title: 'Actuación actualizada con éxito.',
+                            type: 'success', 
+                            timer: 2000,               
+                          }); 
+                       
+
+                    } catch (error) {
+                        
+                }
+        });
+
+
+    }
+
+    logDelete(request){
+        $.ajax({
+            url: '/casos/logs/'+request.id,
+            type: 'DELETE',              
+            data: request,
+            cache       : false,
+            contentType : false,
+            processData : false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function(res)
+            {
+                try {
+                    if(res.type_log_id=='18' || res.type_log_id=='33' || res.type_log_id=='23'){           
+                        $("#table_list_logs tbody").html('');                
+                        $("#table_list_logs tbody").html(res.view);                       
+                        if(res.render_suport_logs || res.render_suport_logs==''){                            
+                            $("#accordion_support_logs").html(res.render_suport_logs); 
+                        }                      
+                    }
+                    toastr.success('Eliminado con éxito!','',
+                {"positionClass": "toast-bottom-right","timeOut":"2000"});
+               
+                    if(res.type_log_id=='22'){                           
+                        $("#content_list_doc_send").html(res.view);
+                    }
+                 /*    var viewC = new ViewComponents();
+                    var logs = [];
+                    logs[0] = res;
+                    var row = viewC.listLogsTable(logs);
+                    $("#table_list_logs tbody").append(row);  */ 
+                } catch (error) {
+                    console.log(error)
+                }
+                $("#table_list_logs tbody [data-toggle='toggle']").bootstrapToggle();
+                $("#wait").hide()
+            },
+            error: function(data)
+            {
+                //console.log(data);
+            }
+        });
+    }
+
+    getLogs(request){
+        //console.log(request)
+        $.ajax({
+            url: '/casos/get/logs',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                
+            },
+            success: function (res) {                
+                var viewC = new ViewComponents();
+                $("#content_logs_notification").hide();
+                $("#myModal_create_show_logs #title_titular_modal").text('Documentos');
+                if(request.type_log_id==18){
+                    $(".item-tab-rec-logs").show();                   
+                    var logs = []; 
+                    logs = res.logs_send;
+                    var row = viewC.renderLogs(logs);                   
+                    $("#content_logs_send").html(row); 
+                    var logs2 = [];
+                    logs2 = res.logs_rec;
+                    var row2 = viewC.renderLogs(logs2);                   
+                    $("#content_logs_rec").html(row2);
+                }else if(request.type_log_id==23){
+                    $(".item-tab-rec-logs").hide();         
+                     var row = viewC.renderNotifications(res.logs_notif);  
+                     $("#myModal_create_show_logs #title_titular_modal").text('Notificaciones');           
+                    $("#content_logs_notification").html(row).show(); 
+                }
+
+               $("#myModal_create_show_logs").modal('show')
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+            }
+        }); 
+    }
+
+    storePayment(request){
+      
+        $.ajax({
+            url: '/casos/store/payment',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) {                
+                fillModalEditBill(res)
+                if(res.render_view){
+                    $("#table_list_bills tbody").html(res.render_view);
+                    $("#content_list_support_file #payment_files").html(res.image_list);
+                }
+                $("#wait").hide();
+                Toast.fire({
+                    title: 'Nuevo cobro creado con éxito.',
+                    type: 'info', 
+                    timer: 5000,               
+                  });
+               $("#myModal_create_bill").modal('show');
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+            }
+        }); 
+    }
+
+     editPayment(request){
+       
+        $.ajax({
+            url: '/casos/edit/payment',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) {  
+                //console.log(res)              
+                fillModalEditBill(res)  ;
+                if(res.image_list){
+                    $("#content_list_support_file #payment_files").html(res.image_list);
+                    $("#content_list_support_file").show()
+                }
+                $("#wait").hide();
+               $("#myModal_create_bill").modal('show');
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+            }
+        }); 
+    }
+    deletePayment(request){
+       
+        $.ajax({
+            url: '/casos/delete/payment',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) {  
+                ////console.log(res)   
+                if(res.render_view || res.render_view==''){
+                    $("#table_list_bills tbody").html(res.render_view);
+                    var get_total_payments = new Intl.NumberFormat("es-CO").format(res.payment.get_total_payments)
+                    $("#lbl_get_total_payments").text(get_total_payments);
+                    var get_balance_payments = new Intl.NumberFormat("es-CO").format(res.payment.get_balance_payments);                   
+                    $("#lbl_get_balance_payments").text(get_balance_payments);
+                  Toast.fire({
+                    title: 'Eliminado con éxito.',
+                    type: 'success', 
+                    timer: 2000,               
+                  });
+                }    
+
+                $("#wait").hide();
+                
+      
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+            }
+        }); 
+    }
+
+    deletePaymentSupport(request){
+       
+        $.ajax({
+            url: '/payments/delete/supports',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) {                
+                //fillModalEditBill(res)  ;
+                $("#content_list_support_file #item-"+request.id).remove();
+                toastr.success('Eliminado con éxito!','',
+                {"positionClass": "toast-bottom-right","timeOut":"1000"});
+                
+                //if(res.image_list)$("#content_list_support_file #payment_files").html(res.image_list);
+                $("#wait").hide();
+               $("#myModal_create_bill").modal('show');
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+            }
+        }); 
+    } 
+
+    deleteLogSupport(request){
+       
+        $.ajax({
+            url: '/log/delete/supports',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) {                
+                //fillModalEditBill(res)  ;
+                $("#log_files #item-"+request.id).remove();
+                
+                toastr.success('Eliminado con éxito!','',
+                {"positionClass": "toast-bottom-right","timeOut":"1000"});
+                $("#table_list_logs tbody").html(res.view);
+                //if(res.image_list)$("#content_list_support_file #payment_files").html(res.image_list);
+                $("#wait").hide();
+              // $("#myModal_create_bill").modal('show');
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+            }
+        }); 
+    } 
+
+    insertPaymentCredits(request){
+        $.ajax({
+            url: '/payments/insert/credits',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) { 
+                console.log(res,request)               
+                if(res.render_view || res.render_view ==''){
+                    $("#table_list_bills tbody").html(res.render_view);
+                    //$("#content_list_support_file #payment_files").html(res.image_list);
+                    var get_total_payments = new Intl.NumberFormat("es-CO").format(res.payment.get_total_payments)
+                    $("#lbl_get_total_payments").text(get_total_payments);
+                    var get_balance_payments = new Intl.NumberFormat("es-CO").format(res.payment.get_balance_payments);                   
+                    $("#lbl_get_balance_payments").text(get_balance_payments);
+                    toastr.success('Guardado con éxito!','',
+                {"positionClass": "toast-bottom-right","timeOut":"1000"});
+                } 
+               
+                $("#wait").hide();
+               
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                $("#wait").hide();
+            }
+        });
+    }
+
+    updatePayment(request){
+        $.ajax({
+            url: '/casos/update/payment',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) { 
+                       
+                if(res.render_view){
+                    $("#table_list_bills tbody").html(res.render_view);                    
+                }
+               
+                $("#wait").hide();
+                toastr.success('Guardado con éxito!','',
+                {"positionClass": "toast-bottom-right","timeOut":"1000"});
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                $("#wait").hide();
+            }
+        });
+    }
+
+    payCredit(request){
+        $.ajax({
+            url: '/payments/pay/credit',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) { 
+                       
+                //console.log(res)
+                $("#wait").hide();
+                fillModalPayCredit(res)
+                 $("#myModal_pay_credit").modal('show');
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                $("#wait").hide();
+            }
+        });
+    }
+     
+    updateCredit(request,id){
+        $.ajax({
+            url: '/creditos/'+id,
+            type: 'PUT',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) { 
+                       
+                            
+                if(res.error){
+                    Toast.fire({
+                        title: res.error,
+                        type: 'error',  
+                                   
+                      });
+                }else  if(res.render_view){
+                    $("#table_list_bills tbody").html(res.render_view);
+                    var get_total_payments = new Intl.NumberFormat("es-CO").format(res.payment.get_total_payments)
+                    $("#lbl_get_total_payments").text(get_total_payments);
+                    var get_balance_payments = new Intl.NumberFormat("es-CO").format(res.payment.get_balance_payments);                   
+                    $("#lbl_get_balance_payments").text(get_balance_payments);
+                  
+                    toastr.success('Guardado con éxito!','',
+                    {"positionClass": "toast-bottom-right","timeOut":"1000"});
+                }
+ 
+                $("#wait").hide();
+                
+                $("#myModal_pay_credit").modal('hide');
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                $("#wait").hide();
+            }
+        });
+    }
+
+    asigReception(request){
+        $.ajax({
+            url: '/casos/asig/reception',
+            type: 'POST',
+            datatype: 'json',
+            data: request,
+            cache: false,
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
+            },
+            success: function (res) {                    
+                window.location.reload(true);
+                $("#wait").hide();
+                //$("#myModal_pay_credit").modal('hide');
+            },
+            error: function (xhr, textStatus, thrownError) {
+                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
+                $("#wait").hide();
+            }
+        });
+
+    }
+
+}
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+  });
+
+(function(){
+   
+    $("#content_cases").on('click', '.pagination a', function (e) {
+       // alert("sss")
+        e.preventDefault();
+        page = $(this).attr('href');
+        request = {};		 
+        var casef = new Case();        
+        window.history.pushState(null, '', page);
+        casef.index(request,page);
+    });
+
+        $("#myFormSearchIndex").on("submit",function (e) {
+            var request = $(this).serialize();
+            var url = $(this).attr('action');	 
+            //alert(url);
+            var casef = new Case();
+            if($('#myFormSearchIndex select[name=type]').val()=='view_all'){
+                request = {};            
+                window.history.pushState(null, '', url);
+            }else{
+                window.history.pushState(null, '', url+'?'+request);
+            }
+            $("#wait").show();
+            casef.index(request,url);
+
+           
+            e.preventDefault();
+        });
+
+        $("#myFormSearchLog").on("submit",function (e) {
+            var request = $(this).serialize()+'&case_id='+$("#case_id").val();
+            var url = $(this).attr('action');	
+            var casef = new Case();
+            if($('#myFormSearchIndex select[name=type]').val()=='view_all'){
+                request = {};         
+            }
+            $("#wait").show();
+            casef.indexLog(request,url);
+
+           
+            e.preventDefault();
+        });
+
+        $('#myFormSearchIndex select[name=type]').on('change',function(e){
+            $(".input_data").prop('disabled',true).hide().val('');
+            switch (this.value) {
+                case 'view_all':
+                    $('#myFormSearchIndex input[id=types_text]').show();
+                    break;
+                case 'case_number':
+                case 'identification_number':
+                case 'user_name':
+                    $('#myFormSearchIndex input[id=types_text]').prop('disabled',false).show();
+                    break; 
+                case 'type_case':
+                    $('#myFormSearchIndex select[id=types_case]').prop('disabled',false).show();
+                    break;
+                case 'branch_law':
+                    $('#myFormSearchIndex select[id=types_branch_law]').prop('disabled',false).show();
+                    break;
+                case 'status':
+                    $('#myFormSearchIndex select[id=types_status]').prop('disabled',false).show();
+                    break;
+            
+                default:
+                    break;
+            }
+        });
+
+
+        $('#myFormSearchLog select[name=type]').on('change',function(e){
+            $("#myFormSearchLog .input_data").prop('disabled',true).hide().val('');
+            switch (this.value) {
+                case 'view_all':
+                    $('#myFormSearchLog input[id=types_text]').show();
+                    break;
+                case 'created_at':
+                    $('#myFormSearchLog input[id=types_text]').attr('type','date').prop('disabled',false).show();
+                    break; 
+                case 'category':
+                    $('#myFormSearchLog select[id=types_category]').prop('disabled',false).show();
+                    break;
+                       
+                default:
+                    $('#myFormSearchLog input[id=types_text]').attr('type','text').val('Buscar').show();
+                    break;
+            }
+        });
+        
+        
+    $(".btnAddUserCase").on('click',function(e){
+        $("#myformCreateUser")[0].reset();
+        $("#myformCreateUser input[name=type_user_id]").val($(this).attr('data-type_user_id'));
+        $("#myformCreateUser #lbl_rol_status").text('');       
+        $("#myformCreateUser button[type=button]").hide();
+        $("#myformCreateUser button[type=submit]").show();
+        $("#cont_select_new_professional").hide();
+        $("#content_chk_sel_prof").hide();
+        $(".contentDefendant").hide();
+        $("#myformCreateUser select[name=type_defendant").prop('disabled',true);
+        $("#cont_form_new_professional").show();
+        $("#cont_select_new_professional select").prop('disabled',true);          
+        $("#cont_form_new_professional input").prop('disabled',false);
+        $("#cont_select_new_professional select").prop('disabled',true);
+        $("#cont_form_new_professional select").prop('disabled',false);
+        $("#myformCreateUser #lbl_rol_status").text('');
+        if($(this).attr('data-type_user_id')==8 || $(this).attr('data-type_user_id')==36){
+            //si el usuario que se va agregar es profesional
+            $("#cont_select_new_professional").show();
+            $("#content_chk_sel_prof").show();
+            $("#cont_form_new_professional").hide();
+            $("#cont_select_new_professional select").prop('disabled',false);
+            $("#myformCreateUser button[type=button]").show();
+            $("#myformCreateUser button[type=submit]").hide();
+            $("#cont_form_new_professional input").prop('disabled',true);
+            $("#cont_form_new_professional select").prop('disabled',true);
+            $("#cont_select_new_professional select").prop('disabled',false);
+            $("#myformCreateUser select[id=vo_role_id").prop('disabled',true).hide();
+            $("#myformCreateUser select[id=prof_role_id").prop('disabled',false).show();
+
+        }else if($(this).attr('data-type_user_id')==7){
+             //si el usuario que se va agregar es cliente            
+            $("#myformCreateUser select[id=vo_role_id").prop('disabled',false).show();
+            $("#myformCreateUser select[id=prof_role_id").prop('disabled',true).hide();
+        }else if($(this).attr('data-type_user_id')==21 || $(this).attr('data-type_user_id')==25){
+            //si el usuario que se va agregar es contraparte  
+            $("#myformCreateUser select[name=role_id").prop('disabled',true).hide();
+            $("#myformCreateUser select[name=type_defendant").prop('disabled',false);
+            if($(this).attr('data-type_user_id')==21)$("#lbl_type_user_defendant").text('Tipo contraparte');
+            if($(this).attr('data-type_user_id')==25)$("#lbl_type_user_defendant").text('Tipo interventor');
+            $(".contentDefendant").show();
+            
+            $("#myformCreateUser #lbl_rol_status").text('No se asignará rol');
+            //$("#myformCreateUser select[id=prof_role_id").prop('disabled',true).hide();
+        }
+        $("#myModal_create_user").modal('show');
+ 
+    });
+   
+
+    $("input[name=radio_change_revisor]").on("change",function() {
+        if($(this).val()=='select_user'){
+            $("#cont_select_new_professional").show();     
+            $("#cont_form_new_professional").hide();
+            $("#cont_form_new_professional input").prop('disabled',true);
+            $("#cont_form_new_professional select").prop('disabled',true);
+            $("#cont_select_new_professional select").prop('disabled',false);     
+           // $("#myFormCreateNewProfessional input[type=button]").hide();
+            //$("#myFormCreateNewProfessional input[type=submit]").show();
+            $("#myformCreateUser button[type=button]").show();
+            $("#myformCreateUser button[type=submit]").hide();
+    
+        }else{
+            $("#cont_select_new_professional").hide();
+            $("#cont_form_new_professional").show();
+            $("#cont_form_new_professional input").prop('disabled',false);
+            $("#cont_select_new_professional select").prop('disabled',true);
+            $("#cont_form_new_professional select").prop('disabled',false);
+           // $("#myFormCreateNewProfessional input[type=button]").show();
+           // $("#myFormCreateNewProfessional input[type=submit]").hide();
+           $("#myformCreateUser button[type=button]").hide();
+            $("#myformCreateUser button[type=submit]").show();
+        }
+    })
+
+  
+
+    $("#myformCreateUser input[name=type_identification_id]").on('change',function(){
+      var identification_number = $("#myformCreateUser input[name=identification_number]").val();
+      if(identification_number!=''){
+       var request = {
+         'identification_number' : identification_number,
+         'type_identification_id':this.value
+        }   
+        var fcase = new Case();
+        fcase.findUser(request);
+      }
+    })
+
+    $("#myformCreateUser input[name=identification_number]").on('blur',function(){
+      var type_identification = $("#myformCreateUser input[name=type_identification_id]:checked").val();
+     if(this.value!=''){
+       var request = {
+         'identification_number' : this.value,
+         'type_identification_id':type_identification
+        }           
+        var fcase = new Case();
+        fcase.findUser(request);
+      }
+    });
+
+     $("#myformCreateUser button[type=button]").on('click',function(e){
+        $("#myFormCreateCase input[name=user_id]").val($("#myformCreateUser input[name=id]").val());
+        $("#myFormCreateCase input[name=user_identification_number]").val($("#myformCreateUser input[name=identification_number]").val())
+        
+        var case_id = $("#myFormEditCase input[name=id]").val();         
+        if(case_id!==undefined){
+            var request = $("#myformCreateUser").serialize()+"&case_id="+case_id; 
+            var fcase = new Case();
+            fcase.insertUser(request);
+        } 
+
+        $("#myModal_create_user").modal('hide');
+     });
+
+    $("#myformCreateUser").on('submit',function(e){
+        var case_id = $("#myFormEditCase input[name=id]").val();
+        var request = $(this).serialize(); 
+        if(case_id!==undefined){
+            request = request+"&case_id="+case_id; 
+        }               
+        var fcase = new Case();
+       
+        fcase.storeUser(request);        
+        e.preventDefault();
+     });
+
+     $("#myFormCreateCase").on("submit",function(e){
+        var user_number = $("#myFormCreateCase input[name=user_identification_number]").val();
+        var user_id = $("#myFormCreateCase input[name=user_id]").val();
+        if(user_number!='' || user_id!=''){
+            var fcase = new Case();
+            var request = $(this).serialize(); 
+            fcase.store(request); 
+        }else{
+            Swal.fire({
+                title: 'Error!',
+                text: "El campo No Identificación no puede estar vacio.",
+                type: 'warning',              
+                confirmButtonColor: '#3085d6',               
+                confirmButtonText: 'Entendido',               
+              });
+        }
+        
+        e.preventDefault();
+     });
+
+     $("#myFormEditCase").on("submit",function(e){
+        var fcase = new Case();
+        fcase.id = $("#myFormEditCase input[name=id]").val()
+        var request = $(this).serialize(); 
+        fcase.update(request); 
+        e.preventDefault();
+     });
+
+     $(".input_case_data").on('blur',function(){
+        if(this.value!=$("#olderInputValue").val()){ 
+            var request = {
+            'section':'case_data',  
+            'value':this.value,
+            'type_data_id':$(this).attr('data-type_id'),
+            'case_id':$("#myFormEditCase input[name=id]").val()
+        
+            }     
+        var casef = new Case();
+        casef.insertData(request);
+       //console.log(request)
+        }
+     });
+
+     $(".input_change_case_data").on('change',function(){
+         
+            var request = {
+            'section':'case_data',  
+            'value':this.value,
+            'type_data_id':$(this).attr('data-type_id'),
+            'case_id':$("#myFormEditCase input[name=id]").val()
+        
+            }     
+        var casef = new Case();
+        casef.insertData(request);
+       //console.log(request)
+        
+     });
+
+     
+    $(".content_ajax_list_users").on("click",'.btn_user_data',function(e){
+        var request = {'user_id':$(this).attr('data-id')};
+        var casef = new Case();
+        casef.getUserData(request)
+    });
+
+    $(".content_ajax_list_users").on("click",'.btn_delete_user',function(e){
+        var request = {
+            'user_id':$(this).attr('data-id'),
+            'pivot_id':$(this).attr('data-pivot_id'),
+            'case_id':$("#case_id").val(),
+            'type_user_id':$(this).attr('data-type_user_id')
+            };
+    Swal.fire({
+        title: 'Esta seguro de eliminar el usuario del caso?',
+        text: "Los cambios no podrán ser revertidos!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+      }).then((result) => {
+        if (result.value) {
+            var casef = new Case();
+            casef.deleteUserCase(request)            
+        }
+      });         
+    });
+
+    $("#btn_user_data").on("click",function(e){
+        var request = {
+          'user_id':$(this).attr('data-id')
+        };
+        var casef = new Case();
+        casef.getUserData(request)
+    });
+
+
+     
+     $(".content_user_data").on('focus','.input_user_data',function(){
+     $("#olderInputValue").val(this.value);      
+     });
+
+     $(".set_old_value").on('focus',function(){
+        $("#olderInputValue").val(this.value);      
+    });
+
+    $(".content_user_data").on('blur','.input_user_data',function(){
+        if(this.value!=$("#olderInputValue").val()){ 
+            var request = {
+                'value':this.value,
+                'type_data_id':$(this).attr('data-type_id'),
+                'user_id':$("#user_id").val(),
+                'component':'case'
+            
+            }
+            var casef = new Case();
+            casef.insertUserData(request)
+        }
+    });
+
+    
+     
+     $("#btn_add_user_data").on('click',function(){
+     var request = {    
+          'value':'',
+          'type_data_id':$("#data_user").val(),
+          'user_id':$("#user_id").val(),
+          'component':'case'
+      }    
+       var casef = new Case();
+       casef.insertUserData(request)
+      
+     });
+
+     $(".btnAddLogCase").on("click",function(e){
+        $("#myformEditLog").attr('id','myformCreateLog');
+        $('#myModal_create_log').modal({backdrop: 'static', keyboard: false});
+        $("#myformCreateLog")[0].reset();
+        myDropzone_log.removeAllFiles(true);
+        myDropzone_log.options.autoQueue = false;
+        $("#actions_upload_logs .cancel").show();
+        $("#myformCreateLog #log_files").html('');
+        $("#myformCreateLog button[type=submit]").text('Agregar') 
+        .removeClass('btn-warning').addClass('btn-primary');
+
+        $("#myformCreateLog .custom-file-label").html('Seleccione un archivo');
+        $("#myformCreateLog input[name=fecha_c]").attr('type','date').prop('disabled',false)
+        $("#myformCreateLog input[name=shared]").prop('checked',false).change();
+        $("#myformCreateLog input[name=shared]").bootstrapToggle('enable');
+        $("#myformCreateLog input[name=support_docs]").prop('checked',false).change();
+        $("#myformCreateLog input[name=support_docs]").bootstrapToggle('enable');
+        
+        $("#myformCreateLog input[name=recordatory]").prop('checked',false).change();
+        $("#myformCreateLog input[name=recordatory]").bootstrapToggle('enable')
+        $("#myformCreateLog input[id=has_file]").val('0')  ;
+        
+
+       $("#myformCreateLog input[name=type_log_id]").val($(this).attr('data-type_log_id'));
+       $("#myformCreateLog #case_id").remove();      
+       $("#myformCreateLog").append($("#case_id").clone().attr('name','case_id'));
+       $("#lbl_modal_title").text('Nueva actuación');
+       $("#myformCreateLog #custom-tabs-four-home-tab").text('Datos');
+       //$("#myformCreateLog #shared").remove(); 
+
+       if($(this).attr('data-type_log_id')==23){
+        $(".log_r input").prop("disabled",true);
+        $(".log_r select").prop("disabled",true);
+        $(".log_r").hide();          
+        $("#lbl_modal_title").text('Nueva notificación');
+        $(".optionsnav").hide();        
+        $("#myformCreateLog #custom-tabs-four-home-tab").text('Notificación');
+        $("#myformCreateLog input[name=shared]").prop('checked',true).change().prop('disabled',false);
+       }else{       
+        $(".log_r input").prop("disabled",false);   
+        $(".log_r select").prop("disabled",false);       
+        $(".log_r").show();
+        $(".optionsnav").show();
+        $("#myformCreateLog input[name=shared]").prop('checked',false).change().prop('disabled',false);
+     
+       }
+       $("#myformCreateLog input[name=share_on_diary]").prop('checked',false).change();
+        $("#myformCreateLog input[name=share_on_diary]").bootstrapToggle('enable')
+
+       $("#myformCreateLog .recordatoryclass").hide();  
+       $("#myformCreateLog .recordatoryclass input").prop('disabled',true);
+       $("#myModal_create_log").modal('show');      
+     });
+
+     $(".btnAddLogClientCase").on("click",function(e){
+        $("#myformEditLog").attr('id','myformCreateClientLog');
+        $('#myModal_create_log').modal({backdrop: 'static', keyboard: false});
+        $("#myformCreateClientLog")[0].reset();        
+        $("#myformCreateClientLog button[type=submit]").text('Agregar') 
+        .removeClass('btn-warning').addClass('btn-primary');
+
+        $("#myformCreateClientLog .custom-file-label").html('Seleccione un archivo');
+        
+
+       $("#myformCreateClientLog input[name=type_log_id]").val($(this).attr('data-type_log_id'));
+       $("#myformCreateClientLog #case_id").remove();      
+       $("#myformCreateClientLog").append($("#case_id").clone().attr('name','case_id'));
+       $("#lbl_modal_title").text('Nueva actuación');
+       
+           
+        $(".log_r input").prop("disabled",false);   
+        $(".log_r select").prop("disabled",false);       
+        $(".log_r").show();
+        $(".optionsnav").show();
+        $("#myModal_create_log").modal('show');      
+     });
+
+     $("#content_cases").on("click",'.btn_delete_case',function(e){
+        var request = {            
+            'case_id':$(this).attr('data-id'),
+            
+            };
+        Swal.fire({
+                title: 'Esta seguro de eliminar el caso?',
+                text: "Los cambios no podrán ser revertidos!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Si, eliminar!',
+                cancelButtonText: 'Cancelar'
+            }).then((result) => {
+                if (result.value) {
+                    var casef = new Case();
+                    casef.delete(request)            
+                }
+            });         
+    });
+
+
+     $("#content_form_cl").on("submit",'#myformCreateLog',function (e) {
+        var casef = new Case();
+        var request = new FormData($(this)[0]);
+       // $("#myModal_create_log").modal('hide');
+       if (myDropzone_log.files.length == 0){            
+        } else if(myDropzone_log.getRejectedFiles().length > 0) {
+         
+        } else {
+            request.append("files", true);
+        }
+        casef.logStore(request);     
+        e.preventDefault();
+        return false;           
+     });
+
+     $("#content_form_cl").on("submit",'#myformCreateClientLog',function (e) {
+        var casef = new Case();
+        var request = new FormData($(this)[0]);
+       
+        casef.logStore(request);     
+        e.preventDefault();
+        return false;           
+     });
+
+
+     $("#content_form_cl").on("change",'#type_category_id',function (e) {
+        if($(this).val()=='other'){          
+            $("#content_form_cl #category_name").attr('type','text').prop('disabled',false);
+        }else{
+            $("#content_form_cl #category_name").attr('type','hidden').prop('disabled',true);
+        }
+       
+        e.preventDefault();
+        return false;
+        
+     });
+
+    $("#content_form_cl").on("change",'#support_docs',function (e) {
+       if(($(this).is(":checked"))){    
+           if($("#has_file").val()==0)$("#content_form_cl #logFile").prop('required',true);        
+        $("#content_form_cl #type_log_id").val(33);        
+       }else{
+        $("#content_form_cl #logFile").prop('required',false);
+        $("#content_form_cl #type_log_id").val(18);   
+       }   
+        e.preventDefault();
+        return false;
+    });
+
+     $("#content_form_cl").on("change",'#shared_log',function (e) {  
+        if(($(this).is(":checked") && $("#has_file").val()==0)){         
+         //$("#content_form_cl #logFile").prop('required',true);           
+        }else{
+         $("#content_form_cl #logFile").prop('required',false);   
+        }       
+         e.preventDefault();
+         return false;        
+      });
+
+     $("#content_form_cl").on("change",'#recordatory',function (e) {
+        if(($(this).is(":checked"))){
+            $("#content_form_cl .recordatoryclass").show();
+            $("#content_form_cl #share_on_diary").prop('disabled',false);
+            $("#content_form_cl #notification_date").prop('disabled',false);
+            
+          
+            
+        }else{
+            $("#content_form_cl .recordatoryclass").hide();
+            $("#content_form_cl #share_on_diary").prop('disabled',true);
+            $("#content_form_cl #notification_date").prop('disabled',true);
+        }
+            
+            
+           
+         e.preventDefault();
+         return false;
+         
+      });
+ 
+
+     $("#content_form_cl").on("submit",'#myformEditLog',function (e) {
+        var casef = new Case();
+        var request = new FormData($(this)[0]);
+        $("#myModal_create_log").modal('hide');
+        var id = $("#myformEditLog input[name=id]").val();
+        if (myDropzone_log.files.length == 0){
+            
+        } else if(myDropzone_log.getRejectedFiles().length > 0) {
+            //alert("The attached file is invalid");
+        } else {
+            request.append("files", true);
+        }
+        casef.logUpdate(id,request);      
+        e.preventDefault();
+        return false;
+        
+     });
+
+     $("#content_form_cl").on("submit",'#myformEditClientLog',function (e) {
+        var casef = new Case();
+        var request = new FormData($(this)[0]);
+        $("#myModal_create_log").modal('hide');
+        var id = $("#myformEditClientLog input[name=id]").val();
+        casef.logUpdate(id,request);      
+        e.preventDefault();
+        return false;
+        
+     });
+
+     $(".content_list_logs").on('click','.btn_edit_log',function(e) {
+        var casef = new Case();       
+        var request = {'id':$(this).attr('data-id')};
+        $(".log_r input").prop("disabled",false); 
+        $(".log_r select").prop("disabled",false); 
+        $(".log_r").show();
+        $(".optionsnav").show();
+        $("#lbl_modal_title").text('Actualizando actuación');
+        $("#actions_upload_logs .cancel").hide();
+        casef.logEdit(request);
+        e.preventDefault();
+     });
+
+     $(".content_list_logs").on('click','.btn_show_log',function(e) {
+        var casef = new Case();       
+        var request = {'id':$(this).attr('data-id')};
+        
+        $("#lbl_modal_title").text('Detalles');
+        casef.logShow(request);
+        e.preventDefault();
+     });
+
+     $(".content_list_logs").on('click','.btn_delete_log',function(e) {
+        var request = {'id':$(this).attr('data-id')};
+        Swal.fire({
+            title: 'Esta seguro de elimina el registro?',
+            text: "Los cambios no podrán ser revertidos!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.value) {
+                var casef = new Case();   
+                casef.logDelete(request);              
+            }
+          });       
+        e.preventDefault();
+     });
+
+     $(".content_list_logs").on('click','.btn_show_log_files',function(e) {
+        var files_val  = $("#input_show_log_files-"+$(this).attr('data-id')).val();
+        var files = JSON.parse(files_val);
+        var cadena =  `<table class="table">`;
+        files.forEach(file => {
+             cadena +=  `<tr>
+                            <td style="text-align:left"><a target="_blank" style="display:block" href="/oficina/descargar/documento/${file.id}">${file.original_name}</a></td>
+                            <td>${(file.size / 1024 / 1024).toFixed(2)} MB</td>
+                        </tr>`;
+        }); 
+        cadena +=  `</table>`;      
+        Swal.fire({
+            title: 'Archivos',
+            html: ""+cadena+"",
+            type: 'info',
+            showCancelButton: false,            
+          });       
+        e.preventDefault();
+     });
+ 
+ 
+     
+     $('#logFile').on('change',function(){	
+	    if( this.files || this.files.length > 1 ){
+            const size =    (this.files[0].size / 1024 / 1024).toFixed(2); 
+            const name =    (this.files[0].name); 
+            $(".custom-file-label").html('<small>'+name+' <i>('+size+'MB)</i></small>');                   
+	    }
+    });
+
+    $('#logFile_df').on('change',function(){	
+	    if( this.files || this.files.length > 1 ){
+            const size =    (this.files[0].size / 1024 / 1024).toFixed(2); 
+            const name =    (this.files[0].name); 
+            const type = (this.files[0].type);
+            $(".custom-file-label").html('<small>'+name+' <i>('+size+'MB)</i></small>');   
+            
+            if(type!='application/pdf'){
+                $("#lbl_validate_file").text('El formato no es admitido');
+                document.getElementById("logFile_df").value = null;
+                document.getElementById("logFile_df").required;                
+            }else{
+                $("#lbl_validate_file").text('');
+            }                       
+	    }
+    });
+   
+    $(".btn_get_logs").on('click',function(e) {
+        var casef = new Case();  
+        var request = {            
+            'type_log_id':$(this).attr('data-type_id'),
+            'case_id':$("#myFormEditCase input[name=id]").val()  
+        } 
+        casef.getLogs(request); 
+    });
+
+    $("#btn_edit_case").on('click',function(e) {
+        $("#myFormEditCase select").prop('disabled',false);
+        $("#myFormEditCase input[name=case_number]").prop('disabled',false);
+        
+        $(".btns_update_case").show();
+        $("#btn_edit_case").hide();
+    });
+    $("#btn_cancel_case").on("click",function (e) {
+        $("#myFormEditCase select").prop('disabled',true);
+        $("#myFormEditCase input[name=case_number]").prop('disabled',true);
+        $(".btns_update_case").hide();
+        $("#btn_edit_case").show();
+    });
+
+    $("#btnAddBillCase").on("click",function(e){
+        var casef = new Case();  
+       
+        var request = {            
+             'case_id':$("#myFormEditCase input[name=id]").val()  
+        } 
+        casef.storePayment(request);
+    });
+
+    $(".content_list_bills").on('click','.btn_edit_bill',function(e) {
+        var casef = new Case();       
+        var request = {'payment_id':$(this).attr('data-id')};
+       
+        $("#myModal_create_bill #lbl_modal_title").text('Actualizando cobro');
+        casef.editPayment(request);
+        e.preventDefault();
+     });
+     $(".content_list_bills").on('click','.btn_delete_bill',function(e) {
+        var request = {'payment_id':$(this).attr('data-id')};
+        Swal.fire({
+            title: 'Esta seguro de elimina el cobro?',
+            text: "Los cambios no podrán ser revertidos!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.value) {
+                var casef = new Case();   
+                casef.deletePayment(request);             
+            }
+          });  
+        e.preventDefault();
+     });
+     $("#myModal_create_bill").on("change",'#type_category_payment_id',function() {       
+        if(this.value!=''){
+            $("#content_list_support_file").hide();
+            $("#content_form_support_file").show();
+           // $("#myFormSupportFilesDropzone input[name=type_category_id]").val(this.value);
+        }        
+     });
+     $("#myModal_create_bill").on("click",'.btn_delete_file',function(e) {       
+        var request = {
+            'id':$(this).attr('data-pivot'),
+            "payment_id": $("#myformEditBill input[name=id]").val()
+        };
+        Swal.fire({
+            title: 'Esta seguro de elimina el archivo?',
+            text: "Los cambios no podrán ser revertidos!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.value) {
+                var casef = new Case();   
+                casef.deletePaymentSupport(request);              
+            }
+          });       
+        e.preventDefault();       
+     });
+
+     $("#content_list_support_file_log").on("click",'.btn_delete_file',function(e) {       
+        var request = {
+        'id':$(this).attr('data-pivot'),
+        "caseL_id": $("#myformEditLog input[name=id]").val()
+    };
+        Swal.fire({
+            title: 'Esta seguro de elimina el archivo?',
+            text: "Los cambios no podrán ser revertidos!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, eliminar!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.value) {
+                var casef = new Case();   
+                casef.deleteLogSupport(request);              
+            }
+          });       
+        e.preventDefault();       
+     });
+     
+
+     $("#myModal_create_bill").on("click",'#btn_end_import_support',function() {       
+        $("#myFormSupportFilesDropzone")[0].reset();
+        $('div.dz-success').remove();
+        $('div.dz-message').show();
+        $("#myModal_create_bill #type_category_id").val("").change();
+        $("#content_list_support_file").show();
+        $("#content_form_support_file").hide();
+
+     });
+
+     $("#myformEditBillCredits").on('submit',function(e){
+        var request = $(this).serialize()+ "&payment_id="+
+        $("#myformEditBill input[name=id]").val();
+        var casef = new Case();       
+        casef.insertPaymentCredits(request);
+        $("#myModal_create_bill").modal('hide');
+        e.preventDefault();
+    
+     });
+
+     $("#myformEditBill").on('submit',function(e){
+        var request =  $("#myformEditBill").serialize();       
+        var casef = new Case();       
+        casef.updatePayment(request);
+        e.preventDefault();    
+     });
+
+    $("#myformEditBillCredits select[name=type_payment_id]").on("change",function(){
+        if(this.value==40){
+            $("#myformEditBillCredits .credit_options").show();
+            $(".credit_options input").prop('disabled',false);
+            $(".credit_options select").prop('disabled',false);
+            $("#myformEditBillCredits .mp_options").hide();
+            $(".mp_options select").prop('disabled',true);
+            $(".mp_options textarea").prop('disabled',true);
+            $("#myformEditBillCredits .des_mp").hide();
+            $(".des_mp textarea").prop('disabled',true);
+ 
+        }else{
+            $("#myformEditBillCredits .credit_options").hide(); 
+            $(".credit_options input").prop('disabled',true);
+            $(".credit_options select").prop('disabled',true);
+            $("#myformEditBillCredits .mp_options").show();
+            $(".mp_options select").prop('disabled',false).val('');            
+        }
+    });
+
+    $("#myformEditBillCredits").on("blur",'.set_val_pcv',function(){
+        set_val_pcv();
+    });
+    
+    $(".payment_method_id").on("change",function(){
+        console.log(this.value)
+        if(this.value==114 && this.value!=''){
+            $("#myformEditBillCredits .des_mp").show();
+            $("#myformPayCredits .des_mp").show();
+            $(".des_mp textarea").prop('disabled',false).val('No cuenta: 88100013080 - Banco: BANCOLOMBIA'); 
+         //   $(".des_mp textarea").prop('disabled',false);
+            $(".des_url_pay").hide();
+            $(".des_url_pay input").prop('disabled',true); 
+        }else if(this.value==115 && this.value!=''){
+            $("#myformEditBillCredits .des_mp").hide();
+            $("#myformPayCredits .des_mp").hide();
+            $(".des_mp textarea").prop('disabled',true);
+            //$(".des_mp textarea").prop('disabled',true);
+
+            //$("#myformEditBillCredits .des_mp").show();
+            $(".des_url_pay").show();
+           // $(".des_mp textarea").prop('disabled',false); 
+            $(".des_url_pay input").prop('disabled',false);            
+        }else{
+            $("#myformEditBillCredits .des_mp").hide();
+            $("#myformPayCredits .des_mp").hide();
+            $(".des_mp textarea").prop('disabled',true);
+           // $(".des_mp textarea").prop('disabled',true); 
+            $(".des_url_pay").hide();
+            $(".des_url_pay input").prop('disabled',true);  
+        }
+    });
+
+
+    $(".content_list_bills").on('click','.btn_pay_credit',function(e) {
+        var casef = new Case();       
+        var request = {'credit_id':$(this).attr('data-id')};
+       
+        $("#myModal_pay_credit #lbl_modal_title").text('Actualizando pago');
+        
+        casef.payCredit(request);
+        e.preventDefault();
+     });
+
+
+
+     $(".content_list_bills").on('click','.btn_confirm_pay_credit',function(e) {
+        var casef = new Case();       
+        var request = {'credit_id':$(this).attr('data-id'),'type_status_id':110};
+        Swal.fire({
+            title: 'Esta seguro de confirmar el pago?',
+            text: "Los cambios no podrán ser revertidos!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, confirmar!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.value) {
+                var casef = new Case();   
+                casef.updateCredit(request,request.credit_id);              
+            }
+          });       
+        e.preventDefault();
+       
+        /* $("#myModal_pay_credit #lbl_modal_title").text('Actualizando pago');
+        
+        casef.payCredit(request);
+        e.preventDefault(); */
+     });
+
+     $("#myformPayCredits").on('submit',function(e) {
+        var casef = new Case();       
+        var request = $(this).serialize();
+        casef.updateCredit(request,$("#myformPayCredits input[name=id]").val());
+
+        e.preventDefault();
+     });
+
+     $("#btnDNotification").on("click",function() { 
+        var select = $("#myformCreateDNotification select[id=destinatarios_df]");
+        select.html("");
+        var options = '';    
+         $(".input_user_defdata").each((index,element)=>{
+            var user = JSON.parse(element.value);           
+             options +=  `<option value="${user.id}">${user.name}</option>`;            
+           console.log(select,user) 
+         });
+         select.html(options);
+        $("#myModal_log_defendant_notification").modal('show');
+     });
+
+     $("#content_form_dnotification").on("submit",'#myformCreateDNotification',function (e) {
+        var casef = new Case();
+        var request = new FormData($(this)[0]);
+        $("#myModal_log_defendant_notification").modal('hide');
+        request.append("case_id", $("#case_id").val());
+        casef.logStore(request)
+        e.preventDefault();
+
+        return false;   
+        
+     });
+
+     $("#myformCreateDNotification input[name=users_all_send]").on("change",function(e) {       
+        if($(this).is(":checked")){
+
+            $("#myformCreateDNotification select[id=destinatarios_df]").prop("disabled",true)
+        }else{
+            $("#myformCreateDNotification select[id=destinatarios_df]").prop("disabled",false)
+        }        
+     });
+
+     $("#table_list_defendant").on("click",'.btn_get_umnotificaton',function (e) {
+         var request = {
+             'notification_id': $(this).attr('data-notification_id'),
+             'case_id':$("#case_id").val()
+         }
+         var casef = new Case();
+         casef.findUserCase(request)
+         e.preventDefault();
+     });
+     $("#btnAsigReceptionCase").on("click", function(e) {           
+        var request = {
+            "case_id":$("#case_id").val()
+        }
+        Swal.fire({
+            title: 'Esta seguro de activar el chat?',
+            text: "Los cambios no podrán ser revertidos!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Si, confirmar!',
+            cancelButtonText: 'Cancelar'
+          }).then((result) => {
+            if (result.value) {
+                var casef = new Case();   
+                casef.asigReception(request);              
+            }
+          });     
+     });
+
+})();
+var usersLogin = [];
+//getUsersLogin();
+function getUsersLogin(){
+    $.ajax({
+        url: '/get/users/login',
+        type: 'POST',              
+        data: {},
+        cache       : false,
+        contentType : false,
+        processData : false,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+           
+        },
+        success: function(res)
+        {
+            try {
+               if(usersLogin.length!=res.length){
+               
+               /* $(".lbl_chatCountUsers").text(res.length);
+                var viewC = new ViewComponents();
+                var row = viewC.renderUsersLogin(res);
+                $("#list_users_login").html(row); 
+                 res.forEach(user => {
+                    usersLogin[user.id] = user; 
+                });*/
+                               
+               }
+               //$(".lbl_num_docs").text($(".num_doc").length);
+               
+
+            } catch (error) {
+                //console.log(error)
+            }
+
+           //| $("#wait").hide()
+        },
+        error: function(data)
+        {
+            //console.log(data);
+        }
+    });
+}
+
+function fillModalEditBill(res) {
+    
+    $("#my-form-support-files-dropzone input[name=payment_id]").val(res.payment.id);
+    $("#myformEditBill input[name=id]").val(res.payment.id);
+    $("#myformEditBill select[name=type_category_id]").val(res.payment.type_category_id);
+    $("#myformEditBill input[name=concept]").val(res.payment.concept);
+    $("#myformEditBill textarea[name=description]").val(res.payment.description);
+    $("#myformEditBillCredits input[name=value]").val(res.payment.value);
+    $("#myformEditBillCredits select[name=type_payment_id]").val(res.payment.type_payment_id);
+    $("#myformEditBillCredits input[name=num_payments]").val(res.payment.num_payments);                
+    $("#myformEditBillCredits select[name=type_periodpay_id]").val(res.payment.type_periodpay_id);
+    $("#myformEditBillCredits select[name=payment_method_id]").val(113);
+    $("#myformEditBill input[name=limit_payment_date]").val('');;
+    $(".des_url_pay").hide();
+    $("#myformEditBillCredits input[name=description_pmethod]").prop('disabled',true);
+            
+    if(res.payment.shared){
+        $("#myformEditBill input[name=shared]").prop('checked',true).change();    
+    }else{
+        $("#myformEditBill input[name=shared]").prop('checked',false).change().bootstrapToggle('enable');
+    }
+    $("#myformEditBillCredits .mp_options").show();
+    $("#myformEditBillCredits .des_mp").hide();
+    $("#myformEditBillCredits input").prop('disabled',true);
+    $("#myformEditBillCredits select").prop('disabled',true);
+    $("#myformEditBillCredits textarea").prop('disabled',true);
+    $("#myformEditBillCredits button[type=submit]").prop('disabled',true).hide();
+    
+
+    if(res.payment.credits && res.payment.credits.length > 0){
+        $("#myformEditBillCredits input[name=pay_credit_value]").val(res.payment.credits[0].value);
+        first_payment_date =  moment(res.payment.credits[0].limit_payment_date).format('YYYY-MM-DD');
+         $('#myformEditBillCredits input[name=limit_payment_date]').val(first_payment_date);
+         $("#myformEditBillCredits .credit_options").show();
+         $("#myformEditBillCredits .mp_options").hide();
+          $(".des_mp").hide();
+        if(res.payment.type_payment_id == 39){
+            $("#myformEditBillCredits .credit_options").hide(); 
+            $("#myformEditBillCredits select[name=payment_method_id]").val(res.payment.credits[0].payment_method_id);
+            $("#myformEditBillCredits .mp_options").show();
+            if(res.payment.credits[0].payment_method_id!=113){
+                $("#myformEditBillCredits .des_mp").show();
+                $("#myformEditBillCredits textarea[name=description_pmethod]").val(res.payment.credits[0].description_pmethod);
+            }            
+        }
+        if(res.payment.credits[0].payment_method_id==114){
+            $("#myformEditBillCredits .des_mp").show();
+            $("#myformEditBillCredits textarea[name=description_pmethod]").val((res.payment.credits[0].description_pmethod)).prop('disabled',true);
+        }
+        if(res.payment.credits[0].payment_method_id==115){
+            $("#myformEditBillCredits .des_mp").hide();
+            $(".des_url_pay").show();
+            $("#myformEditBillCredits input[name=description_pmethod]").val((res.payment.credits[0].description_pmethod)).prop('disabled',true).show();
+            
+        }
+    }else{
+        $("#myformEditBillCredits input[name=pay_credit_value]").val('');
+        $("#myformEditBillCredits .credit_options").hide();
+        $('#myformEditBillCredits input[name=limit_payment_date]').val(''); 
+        if(res.payment.can_edit){
+            $("#myformEditBillCredits input").prop('disabled',false);
+            $("#myformEditBillCredits select").prop('disabled',false);
+            $(".credit_options input").prop('disabled',true);
+            $(".credit_options select").prop('disabled',true);             
+            $("#myformEditBillCredits button[type=submit]").prop('disabled',false).show();
+        }
+        
+         
+    }
+    set_val_pcv()
+    //$("#myformEditBillCredits input[name=pay_credit_value]").val()
+}
+function set_val_pcv() {
+    if($("#myformEditBillCredits input[name=value]").val()!='' &&  $("#myformEditBillCredits input[name=num_payments]").val()!=''){
+        var pay_credit_value = parseInt($("#myformEditBillCredits input[name=value]").val()) / parseInt($("#myformEditBillCredits input[name=num_payments]").val())
+        $("#myformEditBillCredits input[name=pay_credit_value]").val(Math.ceil(pay_credit_value));
+     }
+}
+
+function fillModalPayCredit(res) {
+    //console.log(res)
+    $("#myformPayCredits input[name=id]").val(res.id);
+    $("#myformPayCredits input[name=value]").val(res.value);
+    limit_payment_date =  moment().format('YYYY-MM-DD');
+    $("#myformPayCredits button[type=submit]").prop('disabled',false).show();
+    $("#myformPayCredits .des_mp").hide();
+    $("#myformPayCredits textarea[name=description_pmethod]").val('').prop('disabled',true);
+    $("#myformPayCredits .des_url_pay").hide();
+   // $("#myformPayCredits input[name=description_pmethod]").val('').prop('disabled',true);
+   $("#myformPayCredits .des_button_pay").hide();
+    if(res.can_edit)  $("#myformPayCredits select[name=payment_method_id]").prop('disabled',false);;
+    $("#myformPayCredits select[name=payment_method_id]").val(res.payment_method_id);;
+    
+    if(res.type_status_id==110){
+        limit_payment_date =  moment(res.payment_date).format('YYYY-MM-DD');
+        $("#myformPayCredits select[name=payment_method_id]").val(res.payment_method_id).prop('disabled',true);;
+        $("#myformPayCredits .mp_options_pay").show();
+        $("#myformPayCredits button[type=submit]").prop('disabled',true).hide();      
+    }
+    if(res.payment_method_id==114){
+        $("#myformPayCredits .des_mp").show();
+        $("#myformPayCredits textarea[name=description_pmethod]").val((res.description_pmethod)).prop('disabled',true);
+        if(res.can_edit){
+            $("#myformPayCredits textarea[name=description_pmethod]").prop('disabled',false);       
+        }
+    }
+    if(res.payment_method_id==115){
+        $("#myformPayCredits .des_url_pay").show();
+        $("#myformPayCredits input[name=description_pmethod]").val((res.description_pmethod)).prop('disabled',true).show();
+        if(!res.can_edit){
+            $("#myformPayCredits input[name=description_pmethod]").val((res.description_pmethod)).prop('disabled',true).hide();
+            $("#myformPayCredits .des_url_pay").hide();
+            $("#myformPayCredits a[id=button_pay]").attr('href',res.description_pmethod)
+            $("#myformPayCredits .des_button_pay").show();
+        }else{
+            $("#myformPayCredits input[name=description_pmethod]").prop('disabled',false);
+           
+        }
+    }
+    $("#myformPayCredits input[name=payment_date]").val(limit_payment_date);
+    
+}
+
+function fillModalCaseLog(res,image_list) {
+                    $("#myformCreateLog").attr('id','myformEditLog');
+                    $("#myformEditLog")[0].reset();
+                    $("#myformEditLog input[name=id]").val(res.id);
+                    $("#myformEditLog input[name=category_name]").val('').prop('disabled',true).attr('type','hidden');
+                    $("#myformEditLog input[name=filing_date]").val(res.filing_date)
+                    $("#myformEditLog input[name=concept]").val(res.concept)
+                    $("#myformEditLog input[name=fecha_c]").attr('type','text').val(res.created_at).prop('disabled',true)
+                    $("#myformEditLog input[name=type_log_id]").val(res.type_log_id)
+                    $("#myformEditLog textarea[name=description]").val(res.description);
+                    $("#myformEditLog select[name=type_category_id]").val(res.type_category_id)
+                    $("#myformEditLog input[name=shared]").prop('checked',res.shared).change();
+                    $("#myformEditLog input[name=share_on_diary]").prop('checked',false).change();
+                    myDropzone_log.removeAllFiles(true);
+                    if(res.type_log_id==18){
+                        $("#myformEditLog input[name=support_docs]").prop('checked',false).change()
+                    }else if(res.type_log_id == 33){
+                        $("#myformEditLog input[name=support_docs]").prop('checked',true).change()
+                    }
+                    if(res.notification_date!=null){
+                        $("#myformEditLog input[name=recordatory]").prop('checked',true).change();
+                        $("#myformEditLog input[name=notification_date]").val(res.notification_date);
+                        if(res.share_on_diary){
+                            $("#myformEditLog input[name=share_on_diary]").prop('checked',true).change();
+                            $("#myformEditLog input[name=share_on_diary]").bootstrapToggle('disable')
+                        }else{
+                            $("#myformEditLog input[name=share_on_diary]").prop('checked',false).change();
+                            $("#myformEditLog input[name=share_on_diary]").bootstrapToggle('enable')
+                        }
+                    }else {
+                        $("#myformEditLog input[name=recordatory]").prop('checked',false).change();
+                        $("#myformEditLog input[name=notification_date]").prop('disabled',true);
+                    }
+                    //
+                if(res.files[0]){
+                    $("#myformEditLog .custom-file-label").html('<small><i>'+res.files[0].original_name+'</i></small>')
+                    $("#myformEditLog input[id=has_file]").val('1'); 
+                    $("#myformEditLog #log_files").html(image_list);
+                    $("#content_form_cl #logFile").prop('required',false); 
+                       
+                }else{
+                    $("#myformEditLog .custom-file-label").html('<small><i>Sin  Archivo</i></small>')
+                    $("#myformEditLog input[id=has_file]").val('0');
+                    if(res.type_log_id==33){                    
+                        $("#content_form_cl #logFile").prop('required',true);
+                    }                    
+                }
+                    $("#myformEditLog button[type=submit]").text('Actualizar') 
+                    .removeClass('btn-primary').addClass('btn-warning')
+                    $("#wait").hide();
+                    $("#myModal_create_log").modal('show')
+                
+}
+
+function fillModalCaseClientLog(res,image_list) {
+    $("#myformCreateClientLog").attr('id','myformEditClientLog');
+    $("#myformEditClientLog")[0].reset();
+    $("#myformEditClientLog input[name=id]").val(res.id);
+    $("#myformEditClientLog input[name=category_name]").val('').prop('disabled',true).attr('type','hidden');
+    $("#myformEditClientLog input[name=concept]").val(res.concept)
+    $("#myformEditClientLog input[name=fecha_c]").attr('type','text').val(res.created_at).prop('disabled',true)
+    $("#myformEditClientLog input[name=type_log_id]").val(res.type_log_id)
+    $("#myformEditClientLog textarea[name=description]").val(res.description);
+    $("#myformEditClientLog select[name=type_category_id]").val(res.type_category_id)
+    $("#myformEditClientLog input[name=shared]").prop('checked',res.shared).change();
+    $("#myformEditClientLog input[name=share_on_diary]").prop('checked',false).change();
+   
+     //
+        if(res.files[0]){
+            $("#myformEditClientLog .custom-file-label").html('<small><i>'+res.files[0].original_name+'</i></small>')
+            $("#myformEditClientLog input[id=has_file]").val('1'); 
+            $("#content_form_cl #logFile").prop('required',false); 
+            
+        }else{
+            $("#myformEditClientLog .custom-file-label").html('<small><i>Sin  Archivo</i></small>')
+            $("#myformEditClientLog input[id=has_file]").val('0');
+            if(res.type_log_id==33){                    
+                $("#content_form_cl #logFile").prop('required',true);
+            }                    
+        }
+    $("#myformEditClientLog button[type=submit]").text('Actualizar') 
+    .removeClass('btn-primary').addClass('btn-warning')
+    $("#wait").hide();
+    $("#myModal_create_log").modal('show')
+
+}
+
+function setUserDestSel(user){
+    var select = $("#myformCreateDNotification select[name=destinatarios]");
+    var option =  `<option value="${user.id}">${user.name}</option>`;
+    select.append(option);
+}
