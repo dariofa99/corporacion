@@ -93,7 +93,20 @@ Route::get('/prueba', function () {
 	dd($caseL);  
 	//return view('content.reports.index');
 });
+/*
+Route::get('/', function () {
 
+return view('mantenimiento');
+
+});
+
+Route::get('/login', function () {
+
+	\Auth::logout();
+	return view('mantenimiento');
+	
+	});
+*/
 Route::group(['middleware' => ['auth'
 //,'sadmin','vlogout'
 ],"namespace"=>'App\Http\Controllers'], function(){
@@ -247,8 +260,7 @@ Route::get('/notificaciones/view/log/{token}', 'UserMailNotificationController@c
 Route::get('/notificaciones/download/log/{id}', 'UserMailNotificationController@downloadFileLog');
 Route::get('/pruebas', 'UserMailNotificationController@pruebas');
 });
-
-
-
 Auth::routes();
+
+
 
