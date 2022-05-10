@@ -49,8 +49,7 @@ class UserRegisterDBNotification extends Notification
         ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
         ->view(
             'mail.admin_user_register_notification',
-             [              
-                'user' => $this->notification,
+             [                 'user' => $this->notification,
                 
                 
             ]);

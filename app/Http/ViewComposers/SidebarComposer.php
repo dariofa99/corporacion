@@ -7,6 +7,8 @@ use App\Models\CaseM;
 use App\Models\Directory;
 use App\Models\Library;
 use App\Models\Reception;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class SidebarComposer
 {
@@ -26,7 +28,7 @@ class SidebarComposer
     public function compose(View $view)
     {
  
-         if (\Auth::user()->can('ver_todos_casos')) {
+         if (Auth::user()->can('ver_todos_casos')) {
             $num_cases = CaseM::where('cases.type_status_id','<>','15')->count();
         } else {
             $num_cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
@@ -51,17 +53,17 @@ class SidebarComposer
 
          $num_diarys = count(auth()->user()->diarys()->where('inicio', '>=', date('Y-m-d H:i:s'))->get());
          
-         $clients_c = 0;
-         /* User::join('role_user', 'users.id','=', 'role_user.user_id')
+         $clients_c = 
+          User::join('model_has_roles as ru', 'users.id','=', 'ru.model_id')
          ->select('users.id as id','name', 'email', 'password','identification_number','phone_number','type_identification_id','address','image')
-         ->where('users.id','<>',\Auth::user()->id)
-         ->where('role_id','5')->count(); */
+         ->where('users.id','<>',Auth::user()->id)
+         ->where('role_id','5')->count(); 
 
-         $users_staff =0;
-         /*User::join('role_user', 'users.id','=', 'role_user.user_id')
+         $users_staff =
+         User::join('model_has_roles as ru', 'users.id','=', 'ru.model_id')
          ->select('users.id as id','name', 'email', 'password','identification_number','phone_number','type_identification_id','address','image')
-         ->where('users.id','<>',\Auth::user()->id)
-         ->where('role_id','<>','5')->where('role_id','<>','1')->count();*/
+         ->where('users.id','<>',Auth::user()->id)
+         ->where('role_id','<>','5')->where('role_id','<>','1')->count();
 
          $library_c = Library::select('id','name_file','size','user_id','created_at')
          ->count();
