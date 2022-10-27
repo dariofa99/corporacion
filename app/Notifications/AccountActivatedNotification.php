@@ -47,8 +47,8 @@ class AccountActivatedNotification extends Notification
     public function toMail($notifiable)
     {       
         return (new MailMessage)
-        ->subject('Activación de cuenta en el sistema Lybra -  '.env("MAIL_FROM_NAME"))      
-        ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
+        ->subject('Activación de cuenta en el sistema Lybra -  ')      
+      //  ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
         ->view(
             'mail.account_activated_notification',
              ['user' => $this->notification,

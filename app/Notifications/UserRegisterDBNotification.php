@@ -20,8 +20,7 @@ class UserRegisterDBNotification extends Notification
     public function __construct(User $notification)
     {  
        
-        $this->notification = $notification;
-        //$this->date = $date;
+        $this->notification = $notification;     
     }
 
     /**
@@ -44,14 +43,10 @@ class UserRegisterDBNotification extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-        ->subject('Novedad en el sistema Lybra -  '.env("MAIL_FROM_NAME"))
-        //->cc('luiscarcm@gmail.com')
-        ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
-        ->view(
-            'mail.admin_user_register_notification',
-             [                 'user' => $this->notification,
-                
-                
+        ->subject('Novedad en el sistema Lybra')
+         ->view(
+            'mail.admin_user_register_notification',[
+                'user' => $this->notification,               
             ]);
     }
 

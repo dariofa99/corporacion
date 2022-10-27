@@ -47,8 +47,8 @@ class UserRegisterNotificationMail extends Notification
     public function toMail($notifiable)
     {       
         return (new MailMessage)
-        ->subject('Registro de cuenta en el sistema Lybra - '.env("MAIL_FROM_NAME"))      
-        ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
+        ->subject('Registro de cuenta en el sistema Lybra - ')      
+       // ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
         ->view(
             'mail.user_register_notification',
              ['user' => $this->notification,

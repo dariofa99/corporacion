@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use \Facades\App\Facades\NewPush;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Redis;
@@ -33,7 +34,14 @@ class CasesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index(Request $request)
-    { $cases= $this->allcases($request);
+    { 
+        /* if(NewPush::isRedisReady()){
+                NewPush::channel("register")
+                ->message(["response" => "Register"])
+                ->publish();
+        }
+ */
+        $cases= $this->allcases($request);
       
         if (\Auth::user()->can('ver_todos_casos')) {
             $cases= $this->allcases($request);
@@ -158,7 +166,8 @@ class CasesController extends Controller
             $year_act= Date('Y');
             $mount= Date('m');       
             $indice=0;
-            $expediente =  CaseM::orderBy('id','desc')->first();        
+            $expediente =  CaseM::orderBy('id','desc')->first(); 
+            $id = $year_act.''.$mount.'-'.("01");       
             if($expediente){
               $indices = explode("-",$expediente->case_number);            
               if(isset($indices[0]) and  isset($indices[1])){

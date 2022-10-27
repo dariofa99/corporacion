@@ -55,7 +55,7 @@ class SendLoginClientNotificationEmail implements ShouldQueue
         $users_cases = collect($users_cases);
         $users_cases =  $users_cases->unique();
         $users = User::whereIn('id',$users_cases->values()->all())->get();
-        
+       
         if(count($users)>0){
             Notification::send($users, new LoginClientNotification($this->user,$this->date));    
         }

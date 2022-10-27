@@ -5,23 +5,8 @@
           <i class="far fa-user"></i>
           <span class="badge badge-danger navbar-badge lbl_chatCountUsers">0</span>
         </a> 
-        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="list_users_login">
-
-      {{--     <a href="#" class="dropdown-item">
-            <!-- Message Start -->
-            <div class="media">
-              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
-              <div class="media-body">
-                <h3 class="dropdown-item-title">
-                  Brad Diesel
-                  <span class="float-right text-sm text-danger"><i class="fas fa-star"></i></span>
-                </h3>
-                <p class="text-sm">Call me whenever you can...</p>
-                <p class="text-sm text-muted"><i class="far fa-clock mr-1"></i> 4 Hours Ago</p>
-              </div>
-            </div>
-            <!-- Message End -->
-          </a> --}}
+        @can('ver_conectados_chat')
+        <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="list_users_login">     
 
           <div class="dropdown-divider"></div>
 
@@ -29,13 +14,14 @@
           <div class="dropdown-divider"></div>
           {{-- <a href="#" class="dropdown-item dropdown-footer">Cargando usuarios...</a> --}}
         </div>
+        @endcan
       </li>
       <!-- Notifications Dropdown Menu -->
    <li class="nav-item dropdown">
-        <a class="nav-link" data-toggle="dropdown" href="#">
+        <a class="nav-link btn_unread_notifications" id="btn_unread_notifications" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
           <span class="badge badge-warning navbar-badge">
-            {{count(auth()->user()->notifications )}}
+            {{count(auth()->user()->unreadNotifications )}}
           </span>
         </a>
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
@@ -43,23 +29,22 @@
            Notificaciones</span>
 
             <div class="notification_content">
-              @foreach(auth()->user()->notifications as $key => $notification)
+              @foreach(auth()->user()->notifications()->limit(7)->get() as $key => $notification)
          
               <div class="dropdown-divider"></div>
-              <a @if(isset($notification->data['url']) and $notification->data['url'] and $notification->data['url']!='undefined') href="{{$notification->data['url']}}"  @endif class="dropdown-item">
+
+              <a class="{{$notification->read_at != null ? 'btn_read_noti':'btn_not_not'}} "  @if(isset($notification->data['url']) and $notification->data['url'] and $notification->data['url']!='undefined') href="{{$notification->data['url']}}"  @endif class="dropdown-item">
                 <i @if(isset($notification->data['icon']) and $notification->data['icon']
                  and $notification->data['icon']!='undefined')
-                   class="{{$notification->data['icon']}} mr-2" @else class="fas fa-bell" @endif>
-                  
+                   class="{{$notification->data['icon']}} mr-2 itemnot" @else class="fas fa-bell itemnot" @endif>                  
                   </i>
-                     <small class="itemnot">{{$notification->data['message']}}</small>
-               
-                
-                
+                     <small class="itemnot">{{$notification->data['message']}}</small>       
        
-                <span class="float-right text-muted text-sm">{{$notification->data['created_at']}}</span>
-              </a> -
+                <span class="itemnot float-right text-muted text-sm">{{$notification->data['created_at']}}</span>
               
+              </a> 
+         
+             
               @endforeach
             </div>
 
@@ -76,7 +61,7 @@
             <span class="float-right text-muted text-sm">2 days</span>
           </a> --}}
           <div class="dropdown-divider"></div>
-         {{--  <a href="#" class="dropdown-item dropdown-footer">See All Notifications</a> --}}
+            <a href="/admin/users/view/notifications" class="dropdown-item dropdown-footer">Ver todas</a> 
         </div>
       </li>
       <!-- 

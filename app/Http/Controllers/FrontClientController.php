@@ -139,7 +139,7 @@ class FrontClientController extends Controller
     {
 
         $user = User::find($id);
-         $roles = Role::pluck('display_name','id');
+         $roles = Role::pluck('name','id');
 //dd($user->roles);
         if($id != auth()->user()->id and !auth()->user()->can('edit_usuarios') and
          !auth()->user()->can('ver_perfil_usuario') and !auth()->user()->can('editar_perfil_cliente')){

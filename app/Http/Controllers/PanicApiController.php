@@ -124,7 +124,7 @@ class PanicApiController extends Controller
     {
         $directories = Directory::join('users','users.id','=','directory.user_id')
         ->select('directory.user_id','users.name as user_name','directory.name as dir_name','directory.email','directory.address',
-        'number_phone','directory.id as id')
+        'number_phone','directory.id as id','directory.is_trusted')
         ->where('directory.type_status_id','<>',15)
         ->where(function($query) use ($request) {
            if($request->user_id) $query->where('user_id',$request->user_id);

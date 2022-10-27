@@ -37,6 +37,6 @@ class SendEventDiaryEmail implements ShouldQueue
      */
     public function handle()
     {
-        Notification::send($this->users, new DiaryNotification($this->diary));
+        Notification::send($this->users, new DiaryNotification($this->diary)); 
     }
 }

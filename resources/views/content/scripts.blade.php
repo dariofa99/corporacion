@@ -6,7 +6,7 @@ class ViewComponents {
     }
 
     renderLogs(array){
-      console.log(array,'logs')
+   
       var row = '';          
                 row += `<ul class="products-list product-list-in-card pl-2 pr-2" style="overflow: auto;max-height:300px">`
                 array.forEach(log_f => { 

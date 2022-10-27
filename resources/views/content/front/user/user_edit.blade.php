@@ -76,9 +76,9 @@
                   </li>
                  
                 </ul> --}}
- @permission('asig_rol')
+ @can('asig_rol')
                 <a href="#" id="btn_asignar_rol" class="btn btn-warning btn-xs btn-block"><b>Cambiar rol</b></a>
-                @endpermission
+                @endcan
               </div>
               <!-- /.card-body -->
             </div>

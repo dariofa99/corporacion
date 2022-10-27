@@ -82,6 +82,8 @@
               </div> --}}
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0" id="content_list_users_table">
+            
+
                  @include('content.users.partials.ajax.index')
               </div>
               <!-- /.card-body -->

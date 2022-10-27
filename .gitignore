@@ -4,7 +4,7 @@
 /storage/*.key
 /vendor
 /database/corporacion.pem
-
+.env
 .env.backup
 .phpunit.result.cache
 docker-compose.override.yml
@@ -15,3 +15,5 @@ yarn-error.log
 /.idea
 /.vscode
 routes.zip
+corp.zip
+.env

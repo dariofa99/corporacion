@@ -48,7 +48,7 @@
                   
                 </div>
 
-              </div>
+              </div> 
               <div class="card-body p-0">
                 <!-- THE CALENDAR -->
                @include('content.audit.partials.index')

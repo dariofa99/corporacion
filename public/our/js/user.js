@@ -271,6 +271,8 @@ addStaticData(request){
 }
 
 
+
+
 }
 
 (function(){
@@ -542,6 +544,10 @@ addStaticData(request){
           }
         });
       });
+
+
+
+
   })();
   
   function openUpdateNotes(id){

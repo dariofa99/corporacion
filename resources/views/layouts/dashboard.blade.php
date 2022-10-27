@@ -77,11 +77,12 @@ $modo_nav="dark";
     
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
+      
       <!-- Content Header (Page header) -->  
        <input type="hidden" id="olderInputValue">
        <input type="hidden" id="inputHash" value="{{sha1(Auth::user()->id)}}">
-       <input type="hidden" id="connectedData" value='{"username":"{{Auth::user()->name}}","idusuario":"{{Auth::user()->id}}","correo":"{{ Auth::user()->email }}","imagen":"{{ asset(auth()->user()->image) }}"}'>
-       
+       <input type="hidden" id="connectedData" value='{"ver_conectados_chat":"{{Auth::user()->can("ver_conectados_chat") ? "true": "false"}}","role":"{{(Auth::user()->roles[0]->name)}}","username":"{{Auth::user()->name}}","idusuario":"{{Auth::user()->id}}","correo":"{{ Auth::user()->email }}","imagen":"{{ asset(auth()->user()->image) }}"}'>
+        
       
     @yield('content')
     
@@ -150,8 +151,8 @@ $modo_nav="dark";
 <!-- NewPush -->
 <script>var tokendefault = '';</script>
 <script src="{{ asset('plugins/new-push/io.js?v=1')}}"></script>
-<script src="{{asset('our/js/newpush.js?v=1')}}"></script>
-<script src="{{asset('our/js/pushconnected.js?v=1')}}"></script>
+
+
 
 <!-- OPTIONAL SCRIPTS -->
 <script src="{{asset('dist/js/demo.js')}}"></script>
@@ -168,8 +169,13 @@ $modo_nav="dark";
 
 
   <!-- our scripts -->
+  
+  <script src="{{asset('our/js/pusher.js')}}"></script>
+  <script src="{{asset('our/js/pushconnected.js?v=1')}}"></script>
+  <script src="{{asset('our/js/newpush.js?v=1')}}"></script>
   <script src="{{asset('our/js/app.js?v=1')}}"></script>
-  <script src="{{asset('our/js/AdminRoles.js?v=1')}}"></script>
+ {{--  <script src="{{asset('our/js/AdminRoles.js?v=1')}}"></script> --}}
+ 
   <script src="{{asset('our/js/scripts.js?v=1')}}"></script>
   <script src="{{asset('our/js/Case.js?v=1')}}"></script>
 

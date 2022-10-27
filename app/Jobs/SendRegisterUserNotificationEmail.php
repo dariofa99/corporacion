@@ -2,6 +2,7 @@
 
 namespace App\Jobs;
 
+
 use Illuminate\Bus\Queueable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Queue\InteractsWithQueue;
@@ -30,9 +31,7 @@ class SendRegisterUserNotificationEmail implements ShouldQueue
     public function __construct($users,User $user)
     {  
         $this->users = $users;
-        $this->user = $user;
-       // $this->password_send = $password_send;
-        //dd($this->user);
+        $this->user = $user;       
     }
 
     /**
@@ -42,7 +41,7 @@ class SendRegisterUserNotificationEmail implements ShouldQueue
      */
     public function handle()
     {
-        Notification::send($this->users, new UserRegisterDBNotification($this->user));
-        //$this->user->notify(new UserRegisterDBNotification($this->user,$this->password_send));
+        Notification::send($this->users, new UserRegisterDBNotification($this->user));       
+      
     }
 }

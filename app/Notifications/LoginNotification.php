@@ -47,9 +47,9 @@ class LoginNotification extends Notification
     public function toMail($notifiable)
     {       
         return (new MailMessage)
-        ->subject('Inicio de sesión en el sistema Lybra - '.env("MAIL_FROM_NAME"))
+        ->subject('Inicio de sesión en el sistema Lybra - ')
         //->cc('luiscarcm@gmail.com')
-        ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
+      //  ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
         ->view(
             'mail.login_notification',
              ['user' => $this->notification,'data' => $this->data,'session'=>$this->session]);

@@ -17,6 +17,11 @@
 
 
 //Clear route cache:
+
+use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Route;
+
 Route::get('/route-cache', function() {
 	$exitCode = Artisan::call('route:cache');
 	return 'Routes cache cleared';
@@ -90,7 +95,7 @@ Route::get('/prueba', function () {
 	//dd($caseL->notification_type);
   //  \Notification::send($users, new \App\Notifications\LogNotification($caseL,'documento'));
 
-	dd($caseL);  
+	//dd($caseL);  
 	//return view('content.reports.index');
 });
 /*
@@ -110,6 +115,12 @@ Route::get('/login', function () {
 Route::group(['middleware' => ['auth'
 //,'sadmin','vlogout'
 ],"namespace"=>'App\Http\Controllers'], function(){
+
+	Route::get('/', function(){
+		return redirect('/home');
+	});
+
+	
 	//control accesos
 	//Route::post('/verify/token','UsersController@verifyToken');
 	Route::get('/token/admin/session/{token}/{action}','SessionAdminController@adminSessionToken');
@@ -130,6 +141,9 @@ Route::group(['middleware' => ['auth'
 	Route::post('/admin/users/update/note','UsersController@updateNote');
 	Route::get('/admin/users/delete/note','UsersController@deleteNote');
 	Route::post('/add/static/data','UsersController@addStaticData');
+	Route::get('/admin/users/unread/notifications','NotificationsController@unreadNotifications');
+	Route::get('/admin/users/view/notifications','NotificationsController@index');
+	Route::get('/admin/users/delete/notifications/{id}','NotificationsController@destroy');
 	
 	
 

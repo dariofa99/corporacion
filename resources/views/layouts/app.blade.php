@@ -220,7 +220,7 @@ margin:5px;
             
             <div class="row" style="text-align: center; margin: 0px 30px 0px 30px;">
                 <div class="col-md-4" >
-                     <span class="text-muted">Lunes a Viernes - 8:00 AM a 6:00 PM</span>
+                     <span class="text-muted">Lunes a Viernes - 8:00 AM a 12:00 PM - 2:00 PM a 6:00 PM </span>
                  </div>
                     <div class="col-md-4">
                     <span class="text-muted">recepciondecasos@corporacionochodemarzo.org</span>

@@ -23,7 +23,7 @@ $nav_crl_modo="light";
     <!-- Brand Logo -->
     
       <a href="/oficina" class="brand-link" style="background-color:#ffffff; padding: .4125rem .5rem;text-align: center;" >    
-        <img src="https://recepciondecasos.corporacionochodemarzo.org/dist/img/logoliderezasheader.png" alt="Lybra" class="img-fluid"
+        <img src="{{asset('/dist/img/logoliderezasheader.png')}}" alt="Lybra" class="img-fluid"
             style="border-radius: 20px;">
         <span class="brand-text font-weight-{{ $sidebar_brand_modo }}"></span>   </span>     
       </a>

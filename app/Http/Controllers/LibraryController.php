@@ -45,7 +45,7 @@ class LibraryController extends Controller
 
         $library = Library::select('id','name_file','size','user_id','created_at')
         ->where($arrayconsul)->where('name_file','like',"%$Request->name%")
-        ->where('type_status_id','<>',15)
+        ->where('type_status_id','<>',15) 
         ->paginate(30);
         $branch_law = ReferenceTable::where('categories','type_branch_law_library')->get();
         $category = ReferenceTable::where('categories','category_id')->get();

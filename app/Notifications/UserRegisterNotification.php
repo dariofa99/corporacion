@@ -48,7 +48,7 @@ class UserRegisterNotification extends Notification
     {       
         return (new MailMessage)
         ->subject('Registro de cuenta en el sistema Lybra -  Corporación ocho de marzo')      
-        ->from('recepciondecasos@corporacionochodemarzo.org','Corporación ocho de marzo')
+        //->from('recepciondecasos@corporacionochodemarzo.org','Corporación ocho de marzo')
         //->from('recepciondecasos@corporacionochodemarzo.org','Corporación ocho de marzo')
         ->view(
             'mail.user_register_notification',

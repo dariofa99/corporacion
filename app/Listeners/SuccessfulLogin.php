@@ -53,7 +53,7 @@ class SuccessfulLogin
         $event->user->remember_token = $session->token_pc;
         $event->user->save();   
            
-       try {
+       try {  
             SendLoginClientNotificationEmail::dispatch($event->user,date('Y-m-d H:i:s'))->onQueue('diarys');
         // SendLoginNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('login'); //descomentar
            // SendLoginClientNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('login');

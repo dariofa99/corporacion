@@ -65,6 +65,7 @@ class DiaryController extends Controller
      */
     public function create(Request $request)
     {
+       // return response()->json($request->all());
         
         $diary = Diary::create([
             'title'=>$request['title'],
@@ -107,7 +108,7 @@ class DiaryController extends Controller
                 $asistencia = DB::table('diary_user')
                 ->insert($data);
             }
-        } 
+        }  
 
         $users = User::whereIn('id',$usersA)->get();
         SendEventDiaryEmail::dispatch($users,$diary)->onQueue('diarys'); 

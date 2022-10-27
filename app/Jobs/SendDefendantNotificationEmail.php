@@ -48,7 +48,7 @@ class SendDefendantNotificationEmail implements ShouldQueue
     public function handle()
     {
               
-            \Mail::to($this->user->email)->send(new LogMail($this->caseL,$this->token));
+            \Mail::to($this->user->email)->send(new LogMail($this->caseL,$this->token)); 
          
         
        

@@ -36,7 +36,7 @@ class DiaryNotification extends Notification
      */
     public function via($notifiable)
     {
-        return ['mail'];
+        return ['mail','database'];
     }
 
     /**
@@ -48,9 +48,9 @@ class DiaryNotification extends Notification
     public function toMail($notifiable)
     {   //  dd($this->notification->notification_type);
         return (new MailMessage)
-        ->subject('Nuevo evento en el sistema Lybra - '.env("MAIL_FROM_NAME"))
+        ->subject('Nuevo evento en el sistema Lybra')
         //->cc('luiscarcm@gmail.com')
-        ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
+       // ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
         ->view(
             'mail.diary_notification',
              [              
@@ -68,7 +68,11 @@ class DiaryNotification extends Notification
     public function toArray($notifiable)
     {
         return [
-            //
+            'type_notification'=>'Notificación de usuario',          
+            'message'=>($this->notification->users[0]->name)." te ha registrado en un evento",
+            'url'=>$this->notification->url,
+            'created_at'=>date("Y-m-d H:i:s"),
+            'icon'=>'far fa-calendar-alt'
         ];
     }
 }

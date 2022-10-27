@@ -48,9 +48,9 @@ class LogNotification extends Notification
     public function toMail($notifiable)
     {   //  dd($this->notification->notification_type);
         return (new MailMessage)
-        ->subject('Novedad en el sistema Lybra - '.env("MAIL_FROM_NAME"))
+        ->subject('Novedad en el sistema Lybra - ')
         //->cc('luiscarcm@gmail.com')
-        ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
+        //->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
         ->view(
             'mail.log_notification',
              [              

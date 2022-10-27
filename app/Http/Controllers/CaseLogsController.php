@@ -15,7 +15,7 @@ use App\Models\User;
 use Illuminate\Support\Facades\Mail;
 use App\Notifications\LogDefendantNotification;
 use App\Mail\LogMail;
-
+use App\Jobs\SendEventDiaryEmail;
 use App\Jobs\SendLogNotificationEmail;
 use App\Jobs\SendDefendantNotificationEmail;
 use App\Jobs\SendLogNotificationDatabase;
@@ -89,13 +89,8 @@ class CaseLogsController extends Controller
                 $users = $case->users()->where('type_user_id',7)->get();
                // SendLogNotificationDatabase::dispatch($caseL,$users)->onQueue('diarys'); 
                 if(count($users)>0){ 
-                   
-                
-                   // Notification::send($users, new LogDatabaseNotification($caseL,date("Y-m-d H:i:s")));
-                    try {
-                       
+                     try {                       
                        Notification::send($users, new LogDatabaseNotification($caseL,date("Y-m-d H:i:s")));
-                       //  SendLogNotificationDatabase::dispatch($caseL,$users)->onQueue('diarys'); 
                      } catch (\Throwable $th) {
                          request()
                          ->session()
@@ -104,11 +99,10 @@ class CaseLogsController extends Controller
                          $response['mail_error']='A ocurrido un error al enviar el email. Consulte con el administrador.';
                      }
                    } 
-
-
-            }
-            
+            }           
         }
+
+
         if($request->type_log_id == 22) $notification_message = 'cliente';        
         $caseL->files;
         if($request->has('share_on_diary')){
@@ -140,9 +134,9 @@ class CaseLogsController extends Controller
                           'owner'=>'0',
                           'inspected'=>'0'
                         ]); 
-                    }
-                    
-                }
+                    }  
+                    SendEventDiaryEmail::dispatch($case->users()->where('type_user_id',7)->get(),$diary)->onQueue('diarys');                   
+                } 
             }             
         }
       
@@ -187,8 +181,7 @@ class CaseLogsController extends Controller
                             'caselog_id'=>$caseL->id
                         ]); 
                         SendDefendantNotificationEmail::dispatch($users,$caseL,$user,$token)
-                        ->onQueue('diarys'); 
-             
+                        ->onQueue('diarys');              
                     }
                        } catch (\Throwable $th) {
                     request()
