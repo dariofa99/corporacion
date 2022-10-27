@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use \Facades\App\Facades\NewPush;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
-use Redis;
+use Illuminate\Support\Facades\Redis;
 use App\Models\CaseM; 
 use DB;
 use App\Models\User;
