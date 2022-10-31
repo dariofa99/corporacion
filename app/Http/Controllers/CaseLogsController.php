@@ -22,6 +22,7 @@ use App\Jobs\SendLogNotificationDatabase;
 use App\Models\UserMailNotification;
 use App\Notifications\LogDatabaseNotification;
 use App\Notifications\LogNotification;
+use App\Notifications\DiaryNotification;
 
 class CaseLogsController extends Controller
 {
@@ -135,7 +136,8 @@ class CaseLogsController extends Controller
                           'inspected'=>'0'
                         ]); 
                     }  
-                    SendEventDiaryEmail::dispatch($case->users()->where('type_user_id',7)->get(),$diary)->onQueue('diarys');                   
+                    Notification::send($users, new DiaryNotification($diary)); 
+                    //SendEventDiaryEmail::dispatch($case->users()->where('type_user_id',7)->get(),$diary)->onQueue('diarys');                   
                 } 
             }             
         }
@@ -152,7 +154,8 @@ class CaseLogsController extends Controller
                try {
                 //Notification::send($users, new LogNotification($caseL,$notification_message));
                // return $response['mail_error']=($users);
-                   SendLogNotificationEmail::dispatch($caseL,$notification_message,$users)->onQueue('diarys'); 
+               Notification::send($users, new LogNotification($caseL,$notification_message));
+            //SendLogNotificationEmail::dispatch($caseL,$notification_message,$users)->onQueue('diarys'); 
                 } catch (\Throwable $th) {
                     request()
                     ->session()
@@ -180,7 +183,8 @@ class CaseLogsController extends Controller
                             'user_id'=>$user->id,
                             'caselog_id'=>$caseL->id
                         ]); 
-                        SendDefendantNotificationEmail::dispatch($users,$caseL,$user,$token)
+                        \Mail::to($user->email)->send(new LogMail($caseL,$token)); 
+                        //SendDefendantNotificationEmail::dispatch($users,$caseL,$user,$token)
                         ->onQueue('diarys');              
                     }
                        } catch (\Throwable $th) {
@@ -325,7 +329,8 @@ class CaseLogsController extends Controller
                 if(count($case->users()->where('type_user_id',7)->get())>0){                    
                     $users = $case->users()->where('type_user_id',7)->get();
                     try {
-                        SendLogNotificationEmail::dispatch($caseL,$notification_message,$users)->onQueue('diarys'); 
+                        Notification::send($users, new LogNotification($caseL,$notification_message));
+                      //  SendLogNotificationEmail::dispatch($caseL,$notification_message,$users)->onQueue('diarys'); 
                      // Notification::send($users, new LogNotification($caseL,$notification_message));
                     } catch (\Throwable $th) {
                         request()

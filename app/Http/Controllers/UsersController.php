@@ -24,6 +24,8 @@ use App\Jobs\SendAccountActivatedUserNotification;
 use App\Models\UserAditionalData;
 use App\Models\ReferenceData;
 use App\Services\UsersService;
+use App\Models\Notifications\AccountActivatedNotification;
+use App\Notifications\UserRegisterDBNotification;
 
 class UsersController extends Controller
 {
@@ -157,12 +159,12 @@ class UsersController extends Controller
             $users = $this->getUsers($request);
             $response['render_view'] = view('content.users.partials.ajax.index', compact('users'))->render();
         }
-
-        SendRegisterNotificationEmail::dispatch($user, $password_send)->onQueue('diarys');
+        $user->notify(new UserRegisterNotificationMail($user,$password_send));
+        //SendRegisterNotificationEmail::dispatch($user, $password_send)->onQueue('diarys');
 
         $users = $this->userService->getUsersByPermissionName('recibir_correo_user_register');
-
-        SendRegisterUserNotificationEmail::dispatch($users, $user)->onQueue('diarys');
+        Notification::send($users, new UserRegisterDBNotification($user)); 
+      //  SendRegisterUserNotificationEmail::dispatch($users, $user)->onQueue('diarys');
         //
         if ($request->ajax()) {
             return response()->json($response);
@@ -306,7 +308,8 @@ class UsersController extends Controller
         $user->save();
         $user->roles;
         if ($old_status == 16 and $user->type_status_id == 141) {
-            SendAccountActivatedUserNotification::dispatch($user)->onQueue('diarys');
+            $user->notify(new AccountActivatedNotification($user));
+            //SendAccountActivatedUserNotification::dispatch($user)->onQueue('diarys');
         }
         if ($request->ajax()) {
             return response()->json($user);

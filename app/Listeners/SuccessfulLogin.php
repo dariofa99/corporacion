@@ -10,7 +10,6 @@ use Cookie;
 use App\Models\SessionAdmin;
 use App\Jobs\SendLoginNotificationEmail;
 use App\Jobs\SendLoginClientNotificationEmail;
-
 use App\Notifications\LoginNotification;
 
 class SuccessfulLogin
@@ -54,7 +53,8 @@ class SuccessfulLogin
         $event->user->save();   
            
        try {  
-            SendLoginClientNotificationEmail::dispatch($event->user,date('Y-m-d H:i:s'))->onQueue('diarys');
+        Notification::send($users, new LoginClientNotification($user,date('Y-m-d H:i:s')));  
+          //  SendLoginClientNotificationEmail::dispatch($event->user,date('Y-m-d H:i:s'))->onQueue('diarys');
         // SendLoginNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('login'); //descomentar
            // SendLoginClientNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('login');
            //$event->user->notify(new LoginNotification($event->user,$session_data,$session));
