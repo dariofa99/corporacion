@@ -18,5 +18,5 @@ yarn-error.log
 /.vscode
 routes.zip
 corp.zip
-.env
 vendor.zip
+vendor_old.zip

@@ -2,16 +2,19 @@
 
 namespace App\Listeners;
 
+use App\Events\LoginEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Auth\Events\Login;
 use Redis;
 use Cookie;
 use App\Models\SessionAdmin;
+use App\Models\User;;
 use App\Jobs\SendLoginNotificationEmail;
 use App\Jobs\SendLoginClientNotificationEmail;
 use App\Notifications\LoginNotification;
-
+use App\Notifications\LoginClientNotification;
+use Illuminate\Support\Facades\Notification;
 class SuccessfulLogin
 {
     /**
@@ -51,14 +54,35 @@ class SuccessfulLogin
         session(['tokenpc'=>$session->token_pc]);      
         $event->user->remember_token = $session->token_pc;
         $event->user->save();   
-           
+        broadcast(new LoginEvent($event->user))->toOthers();
+       
+      
        try {  
-        Notification::send($users, new LoginClientNotification($user,date('Y-m-d H:i:s')));  
+        $cases = $event->user->cases()->where('type_user_id',7)->get();      
+        $users_cases = [];
+        if(count($cases)>0){
+            foreach ($cases as $key => $case) {                
+                $users = $case->users()->where('type_user_id',8)->get();
+                if(count($users)>0){
+                    foreach ($users as $key => $user) {
+                        $users_cases[] = $user->id;
+                    }
+                }
+                //$users_cases[] = $users;
+            }
+        }
+        if (count($users_cases)>0) {
+            $users_cases = collect($users_cases);
+            $users_cases =  $users_cases->unique();
+            $users = User::whereIn('id',$users_cases->values()->all())->get();
+            Notification::send($users, new LoginClientNotification($event->user,date('Y-m-d H:i:s')));           
+        }
           //  SendLoginClientNotificationEmail::dispatch($event->user,date('Y-m-d H:i:s'))->onQueue('diarys');
         // SendLoginNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('login'); //descomentar
            // SendLoginClientNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('login');
            //$event->user->notify(new LoginNotification($event->user,$session_data,$session));
         } catch (\Throwable $th) { 
+            dd($th);
             request()
             ->session()  
             ->flash('mail_error',"A ocurrido un error al enviar el email de sesión. Consulte con el administrador.");

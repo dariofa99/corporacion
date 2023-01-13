@@ -43,7 +43,7 @@
             <div class="row">
               <div class="col-md-6">
                 <h3 class="card-title">
-                  <i class="fa fa-address-book"></i>
+                  <i class="fas fa-chart-line"></i>
                   Reportes
                 </h3>
               </div>        

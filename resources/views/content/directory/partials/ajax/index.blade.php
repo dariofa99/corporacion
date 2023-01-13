@@ -2,7 +2,7 @@
     
 
 <div class="col-12 col-sm-12 col-xs-12 col-md-4">
-    <div class="card bg-light size-text">
+    <div class="card bg-light size-text" style="min-height: 240px">
       <div class="card-header text-muted border-bottom-0">
         
       </div>

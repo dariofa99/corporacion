@@ -106,10 +106,10 @@
  @livewireScripts
 <!-- NewPush -->
   <script>var tokendefault = 'sfdsdf';</script>
-  <script src="{{ asset('plugins/new-push/io.js')}}"></script>
+  {{-- <script src="{{ asset('plugins/new-push/io.js')}}"></script>
   <script src="{{asset('our/js/pusher.js')}}"></script>
   <script src="{{asset('our/js/newpush.js')}}"></script>
-  <script src="{{asset('our/js/pushconnected.js')}}"></script>
+  <script src="{{asset('our/js/pushconnected.js')}}"></script> --}}
   
   <!-- our scripts -->
 {{--   <script src="{{asset('our/js/AdminRoles.js')}}"></script> --}}

@@ -8,6 +8,9 @@ use Illuminate\Pagination\Paginator;
 use App\Repositories\BaseRepository;
 use App\Repositories\UsersRepository;
 use App\Services\UsersService;
+use GuzzleHttp\Client;
+
+use function PHPUnit\Framework\returnSelf;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -18,7 +21,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->singleton('GuzzleHttp\Client',function(){
+            return new Client(
+                ['base_uri'=>'http://apichat.local/']
+            );
+        }); 
     }
 
     /**
@@ -35,5 +42,8 @@ class AppServiceProvider extends ServiceProvider
             UsersRepository::class,
             BaseRepository::class
         );
+        
+       // dd("#.,fñl");
+        //$this->app->singleton(Client::class);
     }
 }

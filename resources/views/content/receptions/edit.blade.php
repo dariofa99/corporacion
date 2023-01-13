@@ -45,7 +45,7 @@
               <div class="col-md-8">
                 @include('content.chat.chat',
                 [
-                    'token'=>$reception->token
+                    'token'=>$reception->number
                 ])
               </div>
                 <div class="col-md-4">

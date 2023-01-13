@@ -26,7 +26,7 @@
               <div class="card-header p-0 border-bottom-0">
                 <ul class="nav nav-tabs" id="custom-tabs-four-tab" role="tablist">
                   <li class="nav-item">
-                    <a class="nav-link active" id="custom-tabs-data-tab" data-toggle="pill" href="#custom-tabs-data" role="tab" aria-controls="custom-tabs-data" aria-selected="true">
+                    <a class="nav-link active btn_datos" id="custom-tabs-data-tab" data-toggle="pill" href="#custom-tabs-data" role="tab" aria-controls="custom-tabs-data" aria-selected="true">
                     Datos</a>
                   </li>
                   <li class="nav-item optionsnav">
@@ -184,33 +184,16 @@
 
                 <button type="submit" class="btn btn-primary btn-block add_log_button" >Agregar</button>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-         
-
-                            
-                </form>
+       </form>
          
 		</div>
 	</div>
 
-
+ 
 	@endslot
 
   	@slot('footer')  
-       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>       
+       <button type="button" class="btn btn-secondary btn_close_modal" data-modal="myModal_create_log" data-dismiss="modal">Cerrar</button>       
 	@endslot
   
 @endcomponent

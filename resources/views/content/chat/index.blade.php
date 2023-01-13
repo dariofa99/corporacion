@@ -43,7 +43,7 @@
                 
                 <div class="row">
               
-                  @include('content.chat.chat')
+                 {{--  @include('content.chat.chat') --}}
                 {{--    @livewire('chat.content-frame') @include('content.chat.chat_component') --}}
               
               
@@ -63,7 +63,7 @@
 <!-- aqui van los scripts de cada vista -->
 <script>
 (function(){
-    $(".chat_open").on("click",function(){
+  /*   $(".chat_open").on("click",function(){
         var user_ds_id = $(this).attr('data-id');
         var user_ds_name = $(this).text();
         var user_name = "{{Auth::user()->name}}";
@@ -79,7 +79,7 @@
         var src = "http://127.0.0.1:7000/chat?"+request;
         console.log(src)
          $("#chat_iframe").attr("src", src)
-    })
+    }) */
 
    
     

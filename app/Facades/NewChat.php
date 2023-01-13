@@ -34,7 +34,7 @@ class NewChat
             'imagen'=>url($this->imagen),
            // 'can_write'=>$this->can_write 
             ];
-       
+        
         
            // dd($data_chat); 
             $data_chat= json_encode($data_chat);

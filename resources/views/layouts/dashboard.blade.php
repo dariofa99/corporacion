@@ -150,7 +150,7 @@ $modo_nav="dark";
 <script src="{{ asset('plugins/moment/locale/es-us.js')}}"></script>
 <!-- NewPush -->
 <script>var tokendefault = '';</script>
-<script src="{{ asset('plugins/new-push/io.js?v=1')}}"></script>
+{{-- <script src="{{ asset('plugins/new-push/io.js?v=1')}}"></script> --}}
 
 
 
@@ -170,9 +170,9 @@ $modo_nav="dark";
 
   <!-- our scripts -->
   
-  <script src="{{asset('our/js/pusher.js')}}"></script>
+  {{-- <script src="{{asset('our/js/pusher.js')}}"></script>
   <script src="{{asset('our/js/pushconnected.js?v=1')}}"></script>
-  <script src="{{asset('our/js/newpush.js?v=1')}}"></script>
+  <script src="{{asset('our/js/newpush.js?v=1')}}"></script> --}}
   <script src="{{asset('our/js/app.js?v=1')}}"></script>
  {{--  <script src="{{asset('our/js/AdminRoles.js?v=1')}}"></script> --}}
  
@@ -185,7 +185,7 @@ $modo_nav="dark";
     });
   </script>
   <!-- PAGE PLUGINS -->
-    @stack('scripts')
+@stack('scripts')
 @include('content.scripts')
 
 

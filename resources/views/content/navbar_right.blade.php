@@ -8,6 +8,21 @@
         @can('ver_conectados_chat')
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="list_users_login">     
 
+      {{--     <a href="#" class="dropdown-item">
+            <!-- Message Start -->
+            <div class="media">
+              <img src="dist/img/user1-128x128.jpg" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+              <div class="media-body">
+                <h3 class="dropdown-item-title">
+                  Brad Diesel
+                  <span class="float-right text-sm text-green"><i class="fas fa-circle"></i></span>
+                </h3>
+                
+              </div>
+            </div>
+            <!-- Message End -->
+          </a> --}}
+
           <div class="dropdown-divider"></div>
 
 

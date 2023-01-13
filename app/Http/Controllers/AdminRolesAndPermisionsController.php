@@ -9,7 +9,7 @@ use Spatie\Permission\Models\Permission;
 class AdminRolesAndPermisionsController extends Controller
 {
     public function __construct(){
-        $this->middleware(['permission:crear_permisos']);
+        $this->middleware('permission:asig_rol_permisos',['only' => ['index']]);
     }
    
     public function index(Request $request){

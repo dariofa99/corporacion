@@ -1,6 +1,2 @@
 
-  {!! \Facades\App\Facades\NewChat::room($token)->render() !!} 
-   
-
-
-  
+{!! \Facades\App\Facades\ApiChat::room($token)->render() !!} 

@@ -38,7 +38,7 @@ class ReceptionsController extends Controller
     public function store(Request $request)
     {
         $reception = Reception::create([
-            'number'=>random_int(1000,99999),
+            'number'=>time(),
             'token'=>bcrypt(\Str::random(5)),
             'user_id'=>auth()->user()->id,
             'type_status_id'=>142

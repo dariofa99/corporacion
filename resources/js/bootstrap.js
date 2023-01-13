@@ -30,3 +30,22 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+import Echo from 'laravel-echo';
+
+window.Pusher = require('pusher-js');
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    forceTLS: false,
+    cluster: process.env.MIX_PUSHER_APP_CLUSTER,
+    encrypted: false,
+    disableStats: true, 
+    enabledTransports: ['ws','wss']  ,
+    wsHost:  window.location.hostname,
+    wsPort: 6001,  
+    //wssHost: window.location.hostname,
+   // wssPort: 6001, 
+});
+
+console.log(window.Echo);

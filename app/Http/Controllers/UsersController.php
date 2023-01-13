@@ -25,7 +25,9 @@ use App\Models\UserAditionalData;
 use App\Models\ReferenceData;
 use App\Services\UsersService;
 use App\Models\Notifications\AccountActivatedNotification;
+use App\Notifications\AccountActivatedNotification as NotificationsAccountActivatedNotification;
 use App\Notifications\UserRegisterDBNotification;
+use App\Notifications\UserRegisterNotificationMail;
 
 class UsersController extends Controller
 {
@@ -194,7 +196,7 @@ class UsersController extends Controller
     {
         $user = User::find($id);
         $roles = Role::pluck('name', 'id');
-        //dd($user->roles);
+        $room = auth()->user()->id;
         if (
             $id != auth()->user()->id and
             !auth()
@@ -244,9 +246,19 @@ class UsersController extends Controller
             ) {
                 $canedit = false;
             }
+           
+            if(auth()->user()->id != $user->id and auth()->user()->id < $user->id){
+                
+                $room = auth()->user()->id ."". $user->id;
+                
+
+            }else{
+                $room =  $user->id."".auth()->user()->id;
+            } 
+
         }
 
-        return view('content.users.user_edit', compact('user', 'canedit'));
+        return view('content.users.user_edit', compact('user', 'canedit','room'));
     }
 
     /**
@@ -308,7 +320,7 @@ class UsersController extends Controller
         $user->save();
         $user->roles;
         if ($old_status == 16 and $user->type_status_id == 141) {
-            $user->notify(new AccountActivatedNotification($user));
+            $user->notify(new NotificationsAccountActivatedNotification($user));
             //SendAccountActivatedUserNotification::dispatch($user)->onQueue('diarys');
         }
         if ($request->ajax()) {

@@ -25,7 +25,12 @@ class UsersComposer
      */
     public function compose(View $view)
     {
-         $roles = Role::where('id','<>',1)->where('id','<>',4)->pluck('name','id');
+        
+         $roles = Role::where(function($query){
+            if(!auth()->user()->hasRole('Root')){
+                $query->where('id','<>',1);
+            }           
+         })->where('id','<>',4)->pluck('name','id');
          $types_identification = ReferenceTable::where('categories','type_identification')->pluck('name','id');
          $types_status = ReferenceTable::where('categories','type_status')
          ->where('table','users')->pluck('name','id');

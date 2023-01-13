@@ -43,7 +43,7 @@ class LibraryController extends Controller
         }      
  
 
-        $library = Library::select('id','name_file','size','user_id','created_at')
+        $library = Library::select('id','description','name_file','size','user_id','created_at')
         ->where($arrayconsul)->where('name_file','like',"%$Request->name%")
         ->where('type_status_id','<>',15) 
         ->paginate(30);

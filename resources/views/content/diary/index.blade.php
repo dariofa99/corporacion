@@ -52,7 +52,7 @@
             @if($selecteduser == 0) 
               <div class="alert alert-info alert-dismissible" id ="alert_diary">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <h7><i class="icon fas fa-info"></i> Agregue un evento pulsando click en una fecha del calendario:</h7>
+                <h6><i class="icon fas fa-info"></i> Agregue un evento pulsando click en una fecha del calendario:</h6>
               </div>
             @endif  
           </div>

@@ -21,6 +21,9 @@
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Events\MyEvent;
+use Facades\App\Facades\ApiChat;
+use App\Jobs\SendAccountActivatedUserNotification;
 
 Route::get('/route-cache', function() {
 	$exitCode = Artisan::call('route:cache');
@@ -112,6 +115,13 @@ Route::get('/login', function () {
 	
 	});
 */
+Route::group(["namespace"=>'App\Http\Controllers'], function(){
+ Route::get('/listen/chat/message','ChatController@listenMessageEvent');
+
+ Route::get('/listen/chat','ChatController@listenMessageEvent');
+
+});
+
 Route::group(['middleware' => ['auth'
 //,'sadmin','vlogout'
 ],"namespace"=>'App\Http\Controllers'], function(){
@@ -158,7 +168,7 @@ Route::group(['middleware' => ['auth'
     Route::post('admin/sync/rol/permissions','AdminRolesAndPermisionsController@syncRolPermissions');
     Route::get('admin/create/role','AdminRolesAndPermisionsController@adminRoles');
     Route::post('admin/store/role','AdminRolesAndPermisionsController@storeRole');
-    Route::post('admin/update/role','AdminRolesAndPermisionsController@updateRole');
+    Route::post('admin/update/role','AdminRolesAndPermisionsController@updateRole'); 
     Route::get('admin/delete/role','AdminRolesAndPermisionsController@deleteRole');
 
     Route::get('admin/create/permission','AdminRolesAndPermisionsController@adminPermissions');
@@ -198,7 +208,8 @@ Route::group(['middleware' => ['auth'
 	//creditos
 	Route::resource('/creditos','PaymentsCreditsController');
 
-	Route::resource('/chat','ChatController');
+	//Route::resource('/chat','ChatController');
+	
 
 	//Agenda
 	Route::resource('/agenda','DiaryController');
@@ -273,6 +284,31 @@ Route::resource('/notificaciones', 'UserMailNotificationController');
 Route::get('/notificaciones/view/log/{token}', 'UserMailNotificationController@confirm_notification');
 Route::get('/notificaciones/download/log/{id}', 'UserMailNotificationController@downloadFileLog');
 Route::get('/pruebas', 'UserMailNotificationController@pruebas');
+
+Route::get('/prueba', function(){
+
+	//event( new MyEvent('hello world'));
+	return view("content.pruebas.index");
+});
+
+Route::get('/pruebas', function(){
+
+	//$chat = ApiChat::render("room");
+
+	//dd(config()->get('chat.connection.code'));
+	$token = 1234;
+	return view("content.chat.index",compact('token'));
+
+event( new MyEvent('hello world'));
+
+//SendAccountActivatedUserNotification::dispatch(auth()->user());
+
+//SendEventDiaryEmail::dispatch($case->users()->where('type_user_id',7)->get(),$diary)->onQueue('diarys');                   
+               
+
+return "Hi";
+});
+
 });
 Auth::routes();
 

@@ -183,9 +183,8 @@ class CaseLogsController extends Controller
                             'user_id'=>$user->id,
                             'caselog_id'=>$caseL->id
                         ]); 
-                        \Mail::to($user->email)->send(new LogMail($caseL,$token)); 
-                        //SendDefendantNotificationEmail::dispatch($users,$caseL,$user,$token)
-                        ->onQueue('diarys');              
+                        Mail::to($user->email)->send(new LogMail($caseL,$token)); 
+                        //SendDefendantNotificationEmail::dispatch($users,$caseL,$user,$token)->onQueue('diarys');              
                     }
                        } catch (\Throwable $th) {
                     request()

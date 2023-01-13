@@ -104,7 +104,7 @@
                         <i class="fas fa-check"></i> Activar 
                       </a> 
                       @endif
-                      <a href="{{ $user->getCasesUrl()}}" class="btn btn-sm bg-teal">
+                      <a href="/admin/users/{{$user->id}}/edit?chat=true" class="btn btn-sm bg-teal">
                         <i class="fas fa-comments"></i> Chat 
                       </a>
                       <a href="/admin/users/{{$user->id}}/edit" class="btn btn-sm btn-primary">

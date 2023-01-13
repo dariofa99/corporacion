@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotifyClientStreamEvent;
 use \Facades\App\Facades\NewPush;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
@@ -195,7 +196,7 @@ class CasesController extends Controller
        // return response()->json($request->all());
         if(!$request->has('reception_id')){
             $reception = Reception::create([
-                'number'=>random_int(1000,99999),
+                'number'=>time(),
                 'token'=>bcrypt(\Str::random(5)),
                 'user_id'=>$request->user_id,
                 'type_status_id'=>143
@@ -504,13 +505,17 @@ public function updatePayment(Request $request){
    public function notifyClientStream(Request $request){
     $case = CaseM::find($request->id);
     $hashid=null;
+
     foreach ($case->users()->where('type_user_id',7)->get() as $user ) {
-        $hashid =sha1($user->id);
+
+        event(new NotifyClientStreamEvent($user,'https://meet.jit.si/lybra_'.sha1($request->id)));
+
+        /* $hashid =sha1($user->id);
         $redis = Redis::connection();
         $redis -> publish('', json_encode(['channel' => 'stream'.$hashid,'message' =>  'https://meet.jit.si/lybra_'.sha1($request->id)]));
-    }
+    */ }
 
-    return response()->json(['id'=>$hashid]);
+    return response()->json(['id'=>$case->users()->where('type_user_id',7)->get()]);
 
    }
    

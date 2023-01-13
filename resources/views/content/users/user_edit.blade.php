@@ -118,6 +118,9 @@
                 @if($canedit)
                 <li class="nav-item "><a class="nav-link" href="#note" data-toggle="tab">Notas</a></li>
                @endif
+              @if($canedit and auth()->user()->id != $user->id)
+               <li class="nav-item "><a class="nav-link btn_chat" href="#chat" data-toggle="tab">Chat</a></li>
+              @endif
                 
                 </ul>
               </div><!-- /.card-header -->
@@ -181,6 +184,12 @@
                       </div>
                       
                     </div>
+
+                    <div class="tab-pane" id="chat">
+                      @include("content.users.partials.chat")
+                    </div>
+                    <!-- /.tab-pane -->
+
                                   <!-- /.tab-pane -->
                 
 
@@ -216,8 +225,10 @@
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
 <script type="text/javascript" src="{{asset('our/js/user.js')}}"></script>
+@if(Request::has("chat"))
 <script>
-
+  $(".btn_chat").click();
 </script>
+@endif
 @endpush
 

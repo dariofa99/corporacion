@@ -17,8 +17,7 @@ class Directory{
                 cache: false,
                 beforeSend: function (xhr) {
                     xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-                    $("#wait").show();
-                    
+                    $("#wait").show();                    
                 },
                 success: function (res) {
                     if(res.view || res.view==''){

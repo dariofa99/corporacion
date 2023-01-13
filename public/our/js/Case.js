@@ -1458,6 +1458,10 @@ const Toast = Swal.mixin({
       
      });
 
+     $(".btn_close_modal").on("click",function(e){
+        $("#"+$(this).attr("data-modal")).modal("hide");
+     });
+     
      $(".btnAddLogCase").on("click",function(e){
         $("#myformEditLog").attr('id','myformCreateLog');
         $('#myModal_create_log').modal({backdrop: 'static', keyboard: false});
@@ -1486,9 +1490,11 @@ const Toast = Swal.mixin({
        $("#myformCreateLog").append($("#case_id").clone().attr('name','case_id'));
        $("#lbl_modal_title").text('Nueva actuación');
        $("#myformCreateLog #custom-tabs-four-home-tab").text('Datos');
+      
        //$("#myformCreateLog #shared").remove(); 
 
        if($(this).attr('data-type_log_id')==23){
+
         $(".log_r input").prop("disabled",true);
         $(".log_r select").prop("disabled",true);
         $(".log_r").hide();          
@@ -1496,6 +1502,7 @@ const Toast = Swal.mixin({
         $(".optionsnav").hide();        
         $("#myformCreateLog #custom-tabs-four-home-tab").text('Notificación');
         $("#myformCreateLog input[name=shared]").prop('checked',true).change().prop('disabled',false);
+        $(".btn_datos").click();
        }else{       
         $(".log_r input").prop("disabled",false);   
         $(".log_r select").prop("disabled",false);       

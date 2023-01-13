@@ -1,4 +1,9 @@
+<script src="{{ asset('js/app.js') }}" ></script>
 <script>
+  
+    localStorage.setItem("token", "898");          
+    //Echo.connector.options.auth.headers['Authorization'] = 'Bearer '+localStorage.getItem("token");;
+
 class ViewComponents {
 
     constructor(component = ''){
@@ -139,6 +144,30 @@ class ViewComponents {
 
         }
 
+        rederUserLogin = (user) => {
+          var file = '';
+            file =    ` 
+                <a href="/admin/users/${user.id}/edit?chat=true" id="user_connect-${user.id}" class="dropdown-item">
+                  <!-- Message Start -->
+                  <div class="media">
+                    <img src="${user.profile_image}" alt="User Avatar" class="img-size-50 mr-3 img-circle">
+                    <div class="media-body">
+                      <h3 class="dropdown-item-title">
+                        ${user.name}
+                        <span class="float-right text-sm text-green"><i class="fas fa-circle"></i></span>
+                      </h3>
+                      
+                    </div>
+                  </div>
+                  <!-- Message End -->
+                </a>
+                `
+          $("#list_users_login").append(file);
+
+
+
+                  }
+
 }
 
 
@@ -159,8 +188,64 @@ $(document).ready(function(){
        // Código cuando Storage NO es compatible
     } 
     e.preventDefault();
-})
 });
+
+
+var channel = Echo.join('notify.stream.{{Auth::user()->id}}');
+                channel.listen('.notify-stream', function(data) {
+                  //console.log(data);
+                  Swal.fire({
+                  allowOutsideClick: false,
+                  title: 'Invitación a videollamada, aceptar?',
+                  text: data.room,
+                  type: 'info',
+                  showCancelButton: true,
+                  confirmButtonColor: '#3085d6',
+                  cancelButtonColor: '#d33',
+                  confirmButtonText: 'Si, aceptar!',
+                  cancelButtonText: 'Cancelar'
+                }).then((result) => {
+                  if (result.value) {
+                      $('#newtab-stream-cases-client').attr('href', data.room);
+                      //$('#copy-stream-cases-client').attr('data-frame', data);
+                      $('#text-stream-cases-client').val(data.room);
+                      $('#iframe-stream-cases-client').attr('src', data.room);
+                      $('#myModal_client_streaming_cases').modal({backdrop: 'static', keyboard: false});
+                      $('#myModal_client_streaming_cases').modal('show');
+                  }
+              });
+            });
+
+});
+let view = new ViewComponents();
+users_connect = [];
+var channel = Echo.join('login');
+    channel.listen('.event-login', function(data) {
+        
+    }).here(users => {
+      users.forEach(user => {
+        if(user.id != {{auth()->user()->id}}){
+          view.rederUserLogin(user);
+          users_connect.push(user);
+        }        
+      });
+     
+      $(".lbl_chatCountUsers").text(users_connect.length)
+     }).joining(user => {
+      users_connect.push(user)
+      view.rederUserLogin(user);
+      $(".lbl_chatCountUsers").text(users_connect.length)
+      
+    }).leaving(user => {
+        users_connect =  users_connect.filter(function(user_l){ 
+            return user_l.id != user.id; 
+        });
+
+        $("#user_connect-"+user.id).remove();
+        $(".lbl_chatCountUsers").text(users_connect.length)
+        
+    });
+
 //console.log(token)
 
 function setToken(){
@@ -177,6 +262,8 @@ function setToken(){
        // Código cuando Storage NO es compatible
     }
 }
+
+
 </script>
 
 @if (Cookie::get('tokenpc') !== null)

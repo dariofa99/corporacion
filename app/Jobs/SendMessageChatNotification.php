@@ -9,17 +9,17 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Support\Facades\Notification;
 use App\Models\User;
-
-
 use App\Models\SessionAdmin;
 use App\Notifications\AccountActivatedNotification;
+use App\Notifications\MessageChatNotification;
 
-class SendAccountActivatedUserNotification implements ShouldQueue
+class SendMessageChatNotification implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     
  
+    public $users;
     public $user;
 
     /**
@@ -27,9 +27,10 @@ class SendAccountActivatedUserNotification implements ShouldQueue
      *
      * @return void
      */
-    public function __construct(User $user)
+    public function __construct(User $users,$user)
     {  
       
+        $this->users = $users;
         $this->user = $user;
       
     }
@@ -41,6 +42,9 @@ class SendAccountActivatedUserNotification implements ShouldQueue
      */
     public function handle()
     {
-        $this->user->notify(new AccountActivatedNotification($this->user));
+        foreach ($this->users as $key => $user) {
+            
+        }
+        Notification::send($this->users,new MessageChatNotification($this->user));
     }
 }
