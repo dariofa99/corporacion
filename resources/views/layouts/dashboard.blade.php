@@ -186,7 +186,7 @@ $modo_nav="dark";
   </script>
   <!-- PAGE PLUGINS -->
 @stack('scripts')
-@include('content.scripts')
+@include('content.scripts') 
 
 
 

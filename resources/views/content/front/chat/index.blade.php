@@ -41,18 +41,25 @@
               <!-- /.card-header -->
               <div class="card-body">
                 
-                <div class="row">
+                <div class="row d-flex justify-content-center">
              
-              
-                @if(session('session_chat_token'))
-                @include('content.chat.chat',[
-                      'token'=>session('session_chat_token'),
-                  ])
-                  @else
-                  <div class="alert alert-info">
-                      Activar chat
+                  <div class="col-md-9">
+                    <div class="card">
+                      <div class="card-body">
+                        @if(session('session_chat_token'))
+                        @include('content.chat.chat',[
+                              'token'=>session('session_chat_token'),
+                          ]) 
+                          @else
+                          <div class="alert alert-info">
+                              Activar chat
+                          </div>
+                        @endif
+                      </div>
+                    </div>                  
                   </div>
-                @endif
+              
+             
             
                   
                 {{--    @livewire('chat.content-frame') @include('content.chat.chat_component') --}}

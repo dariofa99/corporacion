@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\LoginEvent;
 use App\Events\NotifyClientStreamEvent;
 use \Facades\App\Facades\NewPush;
 use Illuminate\Http\Request;
@@ -42,6 +43,7 @@ class CasesController extends Controller
                 ->publish();
         }
  */
+      
         $cases= $this->allcases($request);
       
         if (\Auth::user()->can('ver_todos_casos')) {

@@ -1,11 +1,13 @@
 <ul class="navbar-nav ml-auto">
-      <!-- Messages Dropdown Menu -->
+     
+  @can('ver_conectados_chat')
+  <!-- Messages Dropdown Menu -->
       <li class="nav-item dropdown">
         <a class="nav-link" data-toggle="dropdown" href="#">
           <i class="far fa-user"></i>
           <span class="badge badge-danger navbar-badge lbl_chatCountUsers">0</span>
         </a> 
-        @can('ver_conectados_chat')
+       
         <div class="dropdown-menu dropdown-menu-lg dropdown-menu-right" id="list_users_login">     
 
       {{--     <a href="#" class="dropdown-item">
@@ -28,9 +30,9 @@
 
           <div class="dropdown-divider"></div>
           {{-- <a href="#" class="dropdown-item dropdown-footer">Cargando usuarios...</a> --}}
-        </div>
-        @endcan
+        </div>        
       </li>
+      @endcan
       <!-- Notifications Dropdown Menu -->
    <li class="nav-item dropdown">
         <a class="nav-link btn_unread_notifications" id="btn_unread_notifications" data-toggle="dropdown" href="#">

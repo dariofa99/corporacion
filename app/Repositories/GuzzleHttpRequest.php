@@ -8,14 +8,18 @@ class GuzzleHttpRequest{
     public $client;
     function __construct(){
         $this->client = new Client(
-            ['base_uri'=>'http://apichat.amatai.net/']
+            ['base_uri'=>'https://apichat.alercom.org/',
+            'verify'=> false,'timeout' => 36000,
+            //'auth' => [ config('env'), config('env')],
+            ]
         );
+       
     }
 
     public function get($url,$request){
-        //dd($url);
+       //dd(openssl_get_cert_locations());
         $response = $this->client->request('GET', $url,['json' => $request]);
-        //
+       // dd($response);
         return json_decode($response->getBody()->getContents());
     }
  

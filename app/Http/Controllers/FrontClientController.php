@@ -38,9 +38,9 @@ class FrontClientController extends Controller
             $case = \Auth::user()->cases()
             ->where('type_status_id', '!=',15)
             ->where('case_id',$request->get('user_case_id'))->first();
-            session(['session_case'=>$case]);           
+            session(['session_case'=>$case]);            
             if($case->reception) {
-                session(['session_chat_token'=>$case->reception->token]);
+                session(['session_chat_token'=>$case->reception->number]);
             }   
              
             return redirect()->route('office.chat');
@@ -64,7 +64,7 @@ class FrontClientController extends Controller
                 return view("content.front.index",compact('cases','receptions'));
             }elseif(count($cases)==1){
                 session(['session_case'=>$cases[0]]);  
-                session(['session_chat_token'=>$cases[0]->reception->token]);             
+                session(['session_chat_token'=>$cases[0]->reception->number]);             
                 return redirect()->route('office.chat');                              
                 return view("content.chat.index");
             }elseif(count($receptions)==1){                
@@ -250,7 +250,7 @@ class FrontClientController extends Controller
             return redirect()->route('oficina.index'); 
         }
         session(['session_reception'=>$reception]); 
-        session(['session_chat_token'=>$reception->token]);
+        session(['session_chat_token'=>$reception->number]);
         return view("content.front.reception.index",compact("reception"));
     }
 

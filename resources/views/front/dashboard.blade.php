@@ -7,7 +7,7 @@
   
     <!-- CSRF Token -->
   <meta name="csrf-token" content="{{ csrf_token() }}" id="token"> 
-  <title>{{env('APP_NAME')}}</title>
+  <title>{{env('APP_NAME','Lybra')}}</title>
 
   <link rel="shortcut icon" href="{{ asset('dist/img/favicon.png') }}">
 
@@ -120,5 +120,5 @@
 
 
   <!-- PAGE PLUGINS -->
-    @stack('scripts')
+@stack('scripts')
 @include('content.scripts')

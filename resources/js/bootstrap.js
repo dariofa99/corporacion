@@ -42,10 +42,8 @@ window.Echo = new Echo({
     encrypted: false,
     disableStats: true, 
     enabledTransports: ['ws','wss']  ,
-    wsHost:  window.location.hostname,
+    wsHost:  'websockets.alercom.org',
     wsPort: 6001,  
-    //wssHost: window.location.hostname,
-   // wssPort: 6001, 
+    wssHost: 'websockets.alercom.org',
+    wssPort: 6001, 
 });
-
-console.log(window.Echo);

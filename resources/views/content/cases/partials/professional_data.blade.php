@@ -10,7 +10,7 @@
        <button class="btn btn-primary btn-block btn-sm btnAddUserCase" data-type_user_id="36" data-view="create"
               id="btnAddProfessional"><i class="fa fa-user"> </i> Agregar invitado 
         </button>
-    @elseif(auth()->user()->can('asig_profesinal_casos'))
+    @elseif(auth()->user()->can('asig_profesional_casos'))
        <button class="btn btn-primary btn-block btn-sm btnAddUserCase" data-type_user_id="8" data-view="create"
               id="btnAddProfessional"><i class="fa fa-user"> </i> Agregar profesional 
         </button>

@@ -27,7 +27,7 @@ class UsersComposer
     {
         
          $roles = Role::where(function($query){
-            if(!auth()->user()->hasRole('Root')){
+            if(auth()->user() and !auth()->user()->hasRole('Root')){
                 $query->where('id','<>',1);
             }           
          })->where('id','<>',4)->pluck('name','id');
