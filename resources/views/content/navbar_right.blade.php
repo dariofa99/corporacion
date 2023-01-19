@@ -37,7 +37,7 @@
    <li class="nav-item dropdown">
         <a class="nav-link btn_unread_notifications" id="btn_unread_notifications" data-toggle="dropdown" href="#">
           <i class="far fa-bell"></i>
-          <span class="badge badge-warning navbar-badge">
+          <span class="badge badge-warning navbar-badge" id="bgnumnotifications">
             {{count(auth()->user()->unreadNotifications )}}
           </span>
         </a>

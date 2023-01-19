@@ -2,24 +2,29 @@
 
 namespace App\Notifications;
 
+use App\Events\NotificationPushEvent;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\User;
+use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Notifications\Messages\BroadcastMessage;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Broadcasting\InteractsWithSockets;
+use Illuminate\Broadcasting\PresenceChannel;
+use Illuminate\Broadcasting\PrivateChannel;
+use Illuminate\Support\Facades\Log;
 
-class MessageChatNotification extends Notification  //implements ShouldBroadcast
+class MessageChatNotification extends Notification implements ShouldQueue //implements ShouldBroadcast
 {
     //use Dispatchable, InteractsWithSockets, SerializesModels;
     use Queueable;
     public $notification;     
     public $password_send;    
-
+ 
     /**
      * Create a new notification instance.
      *
@@ -41,7 +46,7 @@ class MessageChatNotification extends Notification  //implements ShouldBroadcast
      */
     public function via($notifiable)
     {
-        return ['database'];
+        return ['database','broadcast'];
     }
 
     /**
@@ -53,7 +58,7 @@ class MessageChatNotification extends Notification  //implements ShouldBroadcast
     public function toMail($notifiable)
     {       
         return (new MailMessage)
-        ->subject('Registro de cuenta en el sistema Lybra -  Corporación ocho de marzo')      
+        ->subject('Mensaje de chat -  Corporación ocho de marzo')      
         //->from('recepciondecasos@corporacionochodemarzo.org','Corporación ocho de marzo')
         //->from('recepciondecasos@corporacionochodemarzo.org','Corporación ocho de marzo')
         ->view(
@@ -90,10 +95,15 @@ class MessageChatNotification extends Notification  //implements ShouldBroadcast
  */
     public function toBroadcast($notifiable)
     {
-        return new BroadcastMessage([
-            'invoice_id' => "12",
+        /* $bra = (new BroadcastMessage([
+            'invoice_id' => $notifiable->id, 
             'amount' => "amount",
-        ]);
+        ])); */
+        Log::info("Notification fire: sisa");
+        return  (new BroadcastMessage([
+            'user' => $notifiable->notifications()->orderBy('created_at','desc')->first(),           
+        ]));
+        //->onQueue('database');
     }
 
     /**
@@ -105,5 +115,6 @@ class MessageChatNotification extends Notification  //implements ShouldBroadcast
     {
         return 'broadcast.message';
     }
+
 
 }

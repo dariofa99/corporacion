@@ -6,9 +6,9 @@ use GuzzleHttp\Client;
 class GuzzleHttpRequest{
 
     public $client;
-    function __construct(){
+    function __construct($url){
         $this->client = new Client(
-            ['base_uri'=>'https://apichat.alercom.org/',
+            ['base_uri'=>$url,
             'verify'=> false,'timeout' => 36000,
             //'auth' => [ config('env'), config('env')],
             ]

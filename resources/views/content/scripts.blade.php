@@ -193,7 +193,7 @@ $(document).ready(function(){
 
 var channel = Echo.join('notify.stream.{{Auth::user()->id}}');
                 channel.listen('.notify-stream', function(data) {
-                  //console.log(data);
+                  console.log(data);
                   Swal.fire({
                   allowOutsideClick: false,
                   title: 'Invitación a videollamada, aceptar?',
@@ -216,6 +216,8 @@ var channel = Echo.join('notify.stream.{{Auth::user()->id}}');
               });
             });
 
+           
+//fin document ready 
 });
 let view = new ViewComponents();
 users_connect = [];
@@ -246,9 +248,24 @@ var channel = Echo.join('login');
         
     });
 
-  Echo.private('App.Models.User.' + 2)
+    Echo.private('App.User.' + {{auth()->user()->id}})
     .notification((notification) => {
-        console.log(notification);
+        var view = `       
+            <a class="btn_not_not"  href="${(notification.user.data.url && notification.user.data.url!=undefined) ? notification.user.data.url : '#'}"   class="dropdown-item">
+              <i class="fas fa-bell itemnot" >                  
+                </i>
+                  <small class="itemnot">${notification.user.data.message}</small>       
+
+              <span class="itemnot float-right text-muted text-sm">${notification.user.data.created_at}</span>
+
+            </a>      
+            <div class="dropdown-divider"></div>   
+        `
+        $(".notification_content").prepend(view);
+        var not = parseInt($("#bgnumnotifications").text());       
+        not +=1;
+        $("#bgnumnotifications").text(not)
+       
     });
 
 //console.log(token)

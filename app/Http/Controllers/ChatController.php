@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotificationPushEvent;
 use App\Jobs\SendMessageChatNotification;
 use Illuminate\Http\Request;
 use App\Models\User;
@@ -56,8 +57,7 @@ class ChatController extends Controller
         //return response()->json($request->all());
         $user = User::where('email',$request->email)->first();
         $users = $this->userService->getUsersByPermissionName('recibir_correo_mensaje_chat');
-        $enviar = true;
-       
+        $enviar = true;       
         $users_notification = [] ;
         foreach($users as $key_ => $user_2){
         $enviar = true; 
@@ -68,22 +68,30 @@ class ChatController extends Controller
                     and $notification->data['notification_id'] == $user->name
                     and $notification->data['day_at']==date('Y-m-d')
                     )                    
-                   ){
+                   ){          
+                
                     $enviar = false;                  
                 }         
              }    
              if($user_2->id == $user->id)$enviar = false;        
              if($enviar){
-                $users_notification[] = User::where('email',$user_2->email)->first();
-             }
+                $notifi = User::where('email',$user_2->email)->first();
+                $users_notification[] =  $notifi;               
+            }
 
         }else{
-            if($user_2->id != $user->id) $users_notification[] = User::where('email',$user_2->email)->first();
+            if($user_2->id != $user->id) {
+                $notifi = User::where('email',$user_2->email)->first();
+                $users_notification[] =  $notifi;
+               
+            }
         }              
         } 
-        Notification::send($users,new MessageChatNotification($user)); 
 
-        return response()->json($users);
+        Notification::send($users_notification,new MessageChatNotification($user)); 
+        
+      
+        return response()->json($users_notification);
 
         $users_listen=[];
         if($user_2->id == $user->id)$enviar = false;

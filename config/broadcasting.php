@@ -37,16 +37,17 @@ return [
             'app_id' => env('PUSHER_APP_ID'),
             'options' => [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
-                'useTLS' => true,
+                'useTLS' => false,
                 'encrypted' => false,
-                'host' => 'websockets.alercom.org',
+                //'host' => 'websockets.alercom.org',
+                'host' => 'websockets.local',
                 'port' => 6001,
-                //'scheme' => 'http',
-               'scheme' => 'https',
-               'curl_options' => [
-                CURLOPT_SSL_VERIFYHOST => 0,
-                CURLOPT_SSL_VERIFYPEER => 0,
-            ]
+                'scheme' => 'http',
+               //'scheme' => 'https',
+              /*  'curl_options' => [
+                    CURLOPT_SSL_VERIFYHOST => 0,
+                    CURLOPT_SSL_VERIFYPEER => 0,
+                ] */
             ],
         ],
 

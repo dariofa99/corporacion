@@ -21,7 +21,7 @@ class Chat extends GuzzleHttpRequest
     protected $view ='content.resources.iframe_chat';
     
     public function __construct(){
-        parent::__construct();
+        parent::__construct(config()->get('chat.domain'));
         $this->key=config()->get('chat.connection.key');   ; 
         $this->code=config()->get('chat.connection.code');   ; 
         $this->password=config()->get('chat.connection.password');   ;

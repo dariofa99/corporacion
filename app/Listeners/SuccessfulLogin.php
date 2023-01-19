@@ -54,7 +54,7 @@ class SuccessfulLogin
         session(['tokenpc'=>$session->token_pc]);      
         $event->user->remember_token = $session->token_pc;
         $event->user->save();   
-        broadcast(new LoginEvent($event->user))->toOthers();
+        //broadcast(new LoginEvent($event->user))->toOthers();
        
       
        try {  

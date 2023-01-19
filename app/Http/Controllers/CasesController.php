@@ -15,6 +15,7 @@ use App\Models\Payment;
 use App\Models\PanicAlert;
 use App\Models\UserMailNotification;
 use App\Models\Reception;
+use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Facades\Auditor;
 
 class CasesController extends Controller
@@ -509,7 +510,7 @@ public function updatePayment(Request $request){
     $hashid=null;
 
     foreach ($case->users()->where('type_user_id',7)->get() as $user ) {
-
+Log::info("Si pasa");
         event(new NotifyClientStreamEvent($user,'https://meet.jit.si/lybra_'.sha1($request->id)));
 
         /* $hashid =sha1($user->id);

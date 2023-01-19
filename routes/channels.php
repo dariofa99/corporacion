@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Broadcast;
+use Illuminate\Support\Facades\Log;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,9 +26,12 @@ Broadcast::channel('notify.stream.{userId}', function ($user, $userId) {
 
 Broadcast::channel('login', function ($user) {
     $user->profile_image = url($user->image);
+   // Log::info("Notification fire channel login: ".$user->id);
     return (int) auth()->user()->id === (int) $user->id ? $user : false;
 });
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $classID) {
-    return true;
+Broadcast::channel('App.User.{id}', function ($user, $userId) {
+   // Log::info("Notification fire channel: user ".$user->id ." ". $userId);
+    return (int) $user->id === (int) $userId;
 });
+
