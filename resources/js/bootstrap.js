@@ -42,10 +42,10 @@ window.Echo = new Echo({
     encrypted: false,
     disableStats: true, 
     enabledTransports: ['ws','wss']  ,
-    //wsHost:  'websockets.alercom.org',
-    wsHost:  'websockets.local',
+    wsHost:  'websockets.alercom.org',
+    //wsHost:  'websockets.local',
     wsPort: 6001,  
-   // wssHost: 'websockets.alercom.org',
-    //wssPort: 6001, 
+    wssHost: 'websockets.alercom.org',
+    wssPort: 6001, 
 });
-console.log(window.Echo)
+//console.log(window.Echo)
