@@ -262,7 +262,7 @@ Route::group(['middleware' => ['auth'
 		Route::get('/panic/alerts','FrontClientController@panic_alerts')->name('office.alerts');
 		Route::get('/panic/directories','FrontClientController@panic_directories')->name('office.directories');
 		
-	}); 
+	});  
 
 	//notificaciones mail
 	//Route::get('/notificaciones/view/log/{token}', 'UserMailNotificationController@confirm_notification');

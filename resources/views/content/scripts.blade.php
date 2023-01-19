@@ -246,6 +246,11 @@ var channel = Echo.join('login');
         
     });
 
+  Echo.private('App.Models.User.' + 2)
+    .notification((notification) => {
+        console.log(notification);
+    });
+
 //console.log(token)
 
 function setToken(){
@@ -283,6 +288,15 @@ function setToken(){
             </script> 
         @endif
 @endforeach
+
+@if(Session::has('mail_error'))
+            
+            <script>
+                toastr.error('{{ Session::get("mail_error") }}','Error',
+                    {"positionClass": "toast-top-right","timeOut":"10000"});
+            </script> 
+@endif
+
 
 @if(Session::has('mail_error'))
             

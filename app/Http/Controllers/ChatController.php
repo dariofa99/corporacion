@@ -53,28 +53,47 @@ class ChatController extends Controller
     public function listenMessageEvent(Request $request)
     {
        
-       // return response()->json($request->all());
+        //return response()->json($request->all());
         $user = User::where('email',$request->email)->first();
-        $users = $this->userService->getUsersByPermissionName('recibir_correo_user_register');
+        $users = $this->userService->getUsersByPermissionName('recibir_correo_mensaje_chat');
         $enviar = true;
-      //  dd($users)    ;
-        $users_listen = [] ;
-        foreach($users as $key => $user_2){
-        foreach($user_2->notifications()->get() as $key => $notification){   
-            //dd($user_2->id, $user->id)    ;    
-            if($notification->data['user_send_id'] and $notification->data['user_send_id'] == $user->id and Carbon::parse($notification->created_at)->format('Y-m-d') == date('Y-m-d')){
-                $enviar = false;
-            }            
-         }   
-         if($user_2->id == $user->id)$enviar = false;
+       
+        $users_notification = [] ;
+        foreach($users as $key_ => $user_2){
+        $enviar = true; 
+        if(count($user_2->notifications()->get())>0)    {           
+            foreach($user_2->notifications()->get() as $key => $notification){
+                //return response()->json([($notification->data['created_at']==date('Y-m-d'))]);
+                if((isset($notification->data['user_send_id']) and isset($notification->data['notification_id']) and isset($notification->data['day_at'])                    
+                    and $notification->data['notification_id'] == $user->name
+                    and $notification->data['day_at']==date('Y-m-d')
+                    )                    
+                   ){
+                    $enviar = false;                  
+                }         
+             }    
+             if($user_2->id == $user->id)$enviar = false;        
+             if($enviar){
+                $users_notification[] = User::where('email',$user_2->email)->first();
+             }
+
+        }else{
+            if($user_2->id != $user->id) $users_notification[] = User::where('email',$user_2->email)->first();
+        }              
+        } 
+        Notification::send($users,new MessageChatNotification($user)); 
+
+        return response()->json($users);
+
+        $users_listen=[];
+        if($user_2->id == $user->id)$enviar = false;
        
          foreach ($request->users as $key => $user_r) {
             //return response()->json([$user_r['id']]);
-           if($user_2->id!=$user_r['id']){
+           if($user_2->id!=$user_r->id){
                 $users_listen[] = User::where('email',$user_r['email'])->first();;
            }
          }
-        } 
        
        // if($enviar)Notification::send($users,new MessageChatNotification($user)); 
        // return response()->json([$enviar,$user->id , auth()->user()->id]);

@@ -47,3 +47,4 @@ window.Echo = new Echo({
     wssHost: 'websockets.alercom.org',
     wssPort: 6001, 
 });
+console.log(window.Echo)

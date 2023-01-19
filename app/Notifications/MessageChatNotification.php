@@ -7,10 +7,16 @@ use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\User;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Notifications\Messages\BroadcastMessage;
+use Illuminate\Foundation\Events\Dispatchable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\InteractsWithSockets;
 
-class MessageChatNotification extends Notification 
+class MessageChatNotification extends Notification  //implements ShouldBroadcast
 {
-   // use Queueable;
+    //use Dispatchable, InteractsWithSockets, SerializesModels;
+    use Queueable;
     public $notification;     
     public $password_send;    
 
@@ -67,11 +73,37 @@ class MessageChatNotification extends Notification
         return [
             'type_notification'=>'Notificación de chat',          
             'message'=>($this->notification->name)." ha enviado un mensaje de chat",
-            'url'=>"/admin/users/".$this->notification->id."/edit",
+            'url'=>"/admin/users/".$this->notification->id."/edit?chat=true",
             'created_at'=>date("Y-m-d H:i:s"),
+            'day_at'=>date("Y-m-d"),
             'icon'=>'fas fa-user',
-            'notification_id'=>'notification_chat',
-            'user_send_id'=>$this->notification->id
+            'notification_id'=>$this->notification->name,
+            'user_send_id'=>$this->notification->id 
         ];
     }
+
+    /**
+ * Get the broadcastable representation of the notification.
+ *
+ * @param  mixed  $notifiable
+ * @return BroadcastMessage
+ */
+    public function toBroadcast($notifiable)
+    {
+        return new BroadcastMessage([
+            'invoice_id' => "12",
+            'amount' => "amount",
+        ]);
+    }
+
+    /**
+ * Get the type of the notification being broadcast.
+ *
+ * @return string
+ */
+    public function broadcastType()
+    {
+        return 'broadcast.message';
+    }
+
 }
