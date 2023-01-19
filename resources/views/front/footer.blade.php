@@ -1,11 +1,11 @@
-<footer class="main-footer" style="padding: 0rem 1rem 0rem 1rem !important;">
-<small>
- <strong>Copyright &copy; 2020 <a href="#">Amatai SAS</a>.</strong>
-    All rights reserved.
-    <div class="float-right d-none d-sm-inline-block">
-      <b>Version</b> 1
-      <small>with AdminLte v3.3</small>
-    </div>
-</small>   
-   
-  </footer>
+<footer class="main-footer" style="padding: 0rem 1rem 0rem 1rem !important;font-size:20px">
+  <small>
+   <strong><span class="d-none d-sm-inline-block">Copyright</span> &copy; 2023 <a href="https://amatai.co/" target="_blank" >Amatai <span class="d-none d-sm-inline-block">Ingeniería Informática</span> S.A.S.</a></strong>
+      All rights reserved.
+      <div class="d-none d-sm-inline-block" style="float: right;">
+        <b>Lybra</b> 
+        <small>v1.1</small>
+      </div>
+  </small>
+        
+    </footer>
