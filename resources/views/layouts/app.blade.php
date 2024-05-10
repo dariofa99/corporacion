@@ -130,7 +130,7 @@ margin:5px;
 <br>
 <div class="row" style="background-color: #ffffff; opacity: .9; margin-right: 0px;" >
     <div class="col-md-3 image" >
-        <img src="https://recepciondecasos.corporacionochodemarzo.org/dist/img/logoliderezasheader.png" class="img-header elevation-2" alt="App Image">
+        <img src="{{asset('/dist/img/logoliderezasheader.png')}}" class="img-header elevation-2" alt="App Image">
     </div>
     <div class="col-md-6 text-header" >
         “Garantías para lideresas y defensoras en el ejercicio de promoción y defensa de Derechos Humanos en el departamento de Nariño”

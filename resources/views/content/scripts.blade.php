@@ -193,8 +193,7 @@ $(document).ready(function(){
 
 var channel = Echo.join('notify.stream.{{Auth::user()->id}}');
                 channel.listen('.notify-stream', function(data) {
-                  console.log(data);
-                  Swal.fire({
+                   Swal.fire({
                   allowOutsideClick: false,
                   title: 'Invitación a videollamada, aceptar?',
                   text: data.room,
