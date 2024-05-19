@@ -39,15 +39,15 @@ return [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => false,
                 'encrypted' => false,
-                //'host' => 'websockets.alercom.org',
-                'host' => 'websockets.local',
+                'host' => 'sockets.plataformaochodemarzo.org',
+                //'host' => 'websockets.local',
                 'port' => 6001,
-                'scheme' => 'http',
-               //'scheme' => 'https',
-              /*  'curl_options' => [
+                //'scheme' => 'http',
+               'scheme' => 'https',
+                'curl_options' => [
                     CURLOPT_SSL_VERIFYHOST => 0,
                     CURLOPT_SSL_VERIFYPEER => 0,
-                ] */
+                ] 
             ],
         ],
 

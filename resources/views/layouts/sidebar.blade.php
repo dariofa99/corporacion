@@ -3,15 +3,15 @@
   <aside class="main-sidebar sidebar-{{ $sidebar_modo }}-primary elevation-4" style="background-color:#493d79">
     <!-- Brand Logo -->
     
-      <a href="/home" class="brand-link" style="background-color: #ffffff; padding: .4125rem .5rem;text-align: center;" >    
-        <img src="{{asset('/dist/img/logoliderezasheader.png')}}" alt="Lybra" class="img-fluid"
-            style="border-radius: 20px;">
+      <a href="/home" class="brand-link" style="background-color: #ffffff;text-align: center;" >    
+        <img src="{{asset('/dist/img/Logo_horizontal.png')}}" alt="Lybra" class="img-fluid"
+            style="width:80px">
         <span class="brand-text font-weight-{{ $sidebar_brand_modo }}"></span>   </span>     
       </a>
     
 
     <!-- Sidebar -->
-    <div class="sidebar">
+    <div class="sidebar" style="top:5px">
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">

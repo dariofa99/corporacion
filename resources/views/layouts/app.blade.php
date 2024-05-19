@@ -61,7 +61,7 @@ body {
 }
 
 .img-header {
-width: 100px;
+width: 200px;
 margin:10px;    
 }
 
@@ -91,7 +91,7 @@ margin:10px;
 }
 
 .img-brading-footer {
-    /*width: 70%;*/ 
+    width: 70%;
     max-width:1500px; 
     margin-bottom: -80px;
 }
@@ -116,10 +116,7 @@ width: 50px;
 margin:5px;    
 }
 
-.img-brading-footer {
-    width: 100%; 
-    margin-bottom: 10px;
-}  
+ 
 
 }
 
@@ -130,7 +127,7 @@ margin:5px;
 <br>
 <div class="row" style="background-color: #ffffff; opacity: .9; margin-right: 0px;" >
     <div class="col-md-3 image" >
-        <img src="{{asset('/dist/img/logoliderezasheader.png')}}" class="img-header elevation-2" alt="App Image">
+        <img src="{{asset('/dist/img/Logo_horizontal.png')}}" class="img-header elevation-2" alt="App Image">
     </div>
     <div class="col-md-6 text-header" >
         “Garantías para lideresas y defensoras en el ejercicio de promoción y defensa de Derechos Humanos en el departamento de Nariño”
@@ -229,7 +226,7 @@ margin:5px;
                          <span class="text-muted">Celular: 3145799374</span>
                  </div>
             </div>
-            <img src="{{ asset('dist/img/lg-herr.png') }}" class="img-brading-footer"  alt="User Image">
+            <img src="{{ asset('dist/img/cintilla_logos.png') }}" class="img-brading-footer"  alt="User Image">
       </div>
     </footer>
 
