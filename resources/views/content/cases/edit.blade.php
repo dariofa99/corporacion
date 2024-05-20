@@ -119,12 +119,12 @@
   <div class="tab-pane fade show active" id="chat_tab" role="tabpanel" aria-labelledby="chat-tab">
           <div class="row content_log_data" >   
                 <div class="col-md-8"> 
-                
+                 
                    @if($case->reception)
-                    {{-- @include('content.chat.chat',
+                    @include('content.chat.chat',
                     [
                       'token'=>$case->reception->number
-                    ]) --}}
+                    ]) 
                     @else
                     <a class="btn btn-success btn-sm" id="btnAsigReceptionCase">
                       <i class="fas fa-comment-alt"> </i> Activar chat </a>

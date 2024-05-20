@@ -222,7 +222,6 @@ let view = new ViewComponents();
 users_connect = [];
 var channel = Echo.join('login');
     channel.listen('.event-login', function(data) {
-        
     }).here(users => {
       users.forEach(user => {
         if(user.id != {{auth()->user()->id}}){

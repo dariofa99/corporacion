@@ -39,7 +39,7 @@ return [
                 'cluster' => env('PUSHER_APP_CLUSTER'),
                 'useTLS' => false,
                 'encrypted' => false,
-                'host' => 'sockets.plataformaochodemarzo.org',
+                'host' => 'sockets.alercom.org',
                 //'host' => 'websockets.local',
                 'port' => 6001,
                 //'scheme' => 'http',
