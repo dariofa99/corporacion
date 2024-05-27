@@ -53,6 +53,7 @@ class AccountRestorePasswordNotification extends Notification
                 'mail.account_restore_password',
                 [
                     'token' => $notifiable->remember_token,
+                    'email' => $notifiable->email,
                 ]
             );
     }

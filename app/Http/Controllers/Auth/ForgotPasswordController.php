@@ -31,10 +31,7 @@ class ForgotPasswordController extends Controller
         $user = User::where("email",$request->email)->first();
         $user->remember_token = Hash::make(Str::random(60));
         $user->notify(new AccountRestorePasswordNotification());
-        // We will send the password reset link to this user. Once we have attempted
-        // to send the link, we will examine the response then see the message we
-        // need to show to the user. Finally, we'll send out a proper response.
-       return back()->with('status', "Se envió el correo");
+        return back()->with('status', "Se envió un correo con el enlace de recuperación.");
 
     }
 
