@@ -179,7 +179,7 @@ return [
         App\Providers\EventServiceProvider::class,
 
         Spatie\Permission\PermissionServiceProvider::class,
-
+        Maatwebsite\Excel\ExcelServiceProvider::class,
     ],
 
     /*
@@ -235,6 +235,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'AuditLog'   => App\Facades\AuditLog::class,
         'Redis' => Illuminate\Support\Facades\Redis::class,
+        'Excel' => Maatwebsite\Excel\Facades\Excel::class,
     ],
 
 ];

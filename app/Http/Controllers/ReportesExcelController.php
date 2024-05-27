@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CasesExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Redis;
@@ -10,7 +11,7 @@ use App\Models\User;
 use App\Models\ReferenceTable; 
 use App\Models\ReferenceData; 
 use DB;
-use App\Models\Exports\CasesExport;
+
 use Maatwebsite\Excel\Facades\Excel;
 
 class ReportesExcelController extends Controller

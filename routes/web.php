@@ -85,9 +85,10 @@ Route::get('/terminosycondiciones', function () {
     //return \Auth::user()->notify(new LoginNotification(\Auth::user()));;  
 }); */
 
-Route::get('/prueba', function () {
+Route::get('/pruebas/app', function () {
 	//AuditLogFacade::create();
-
+	$token = "jsjsj";
+	return view('mail.account_restore_password',compact('token'));
 
 	dd('');  
 //	$caseL = \App\CaseLog::find(29);

@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Notification;
 use App\Models\CaseM;
-use DB;
-use Storage;
+
 use App\Models\CaseLog;
 use App\Models\LogFile;
 use App\Models\Diary;
@@ -23,6 +22,9 @@ use App\Models\UserMailNotification;
 use App\Notifications\LogDatabaseNotification;
 use App\Notifications\LogNotification;
 use App\Notifications\DiaryNotification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 
 class CaseLogsController extends Controller
 {
@@ -67,7 +69,7 @@ class CaseLogsController extends Controller
           $shared = ($request->shared && $request->shared == 'on' ) ? true : false;
           $share_on_diary = ($request->share_on_diary && $request->share_on_diary == 'on' ) ? true : false;
           $caseL = new CaseLog($request->except(['category_name']));
-          $caseL->user_id = \Auth::user()->id;
+          $caseL->user_id = Auth::user()->id;
           $caseL->type_category_id = $type_category_id;
           $caseL->shared = $shared;
           $caseL->share_on_diary = $share_on_diary;
@@ -117,7 +119,7 @@ class CaseLogsController extends Controller
             ]);
             $data = [
                 'diary_id'=>$diary->id,
-                'user_id'=>\Auth::user()->id,
+                'user_id'=>Auth::user()->id,
                 'owner'=>'1',
                 'inspected'=>'0'
               ];
@@ -125,9 +127,10 @@ class CaseLogsController extends Controller
               ->insert($data);
             $caseL->diarys()->attach($diary->id);
             if($shared){
-                $case = CaseM::find($caseL->case_id);                
-                if(count($case->users()->where('type_user_id',7)->get())>0){
-                    foreach ($case->users()->where('type_user_id',7)->get() as $key => $user) {
+                $case = CaseM::find($caseL->case_id);  
+                $users =  $case->users()->where('type_user_id',7)->get();             
+                if(count($users)>0){
+                    foreach ($users as $key => $user) {
                         $asistencia = DB::table('diary_user')
                         ->insert([
                           'diary_id'=>$diary->id,
@@ -352,7 +355,7 @@ class CaseLogsController extends Controller
            
             $data = [
                 'diary_id'=>$diary->id,
-                'user_id'=>\Auth::user()->id,
+                'user_id'=>Auth::user()->id,
                 'owner'=>'1',
                 'inspected'=>'1'
               ];
