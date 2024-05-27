@@ -91,16 +91,7 @@ Route::get('/pruebas/app', function () {
 	return view('mail.account_restore_password',compact('token'));
 
 	dd('');  
-//	$caseL = \App\CaseLog::find(29);
-//	$case = \App\CaseM::find($caseL->case_id);
-//	$users = $case->users()->where('type_user_id',7)->get();
-	
-//$caseL->save();
-	//dd($caseL->notification_type);
-  //  \Notification::send($users, new \App\Notifications\LogNotification($caseL,'documento'));
 
-	//dd($caseL);  
-	//return view('content.reports.index');
 });
 /*
 Route::get('/', function () {
@@ -300,7 +291,7 @@ Route::get('/pruebas', function(){
 	$token = 1234;
 	return view("content.chat.index",compact('token'));
 
-event( new MyEvent('hello world'));
+
 
 //SendAccountActivatedUserNotification::dispatch(auth()->user());
 

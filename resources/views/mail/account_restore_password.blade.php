@@ -144,7 +144,7 @@ a[x-apple-data-detectors] {
                     <tr style="border-collapse:collapse"> 
                       <td align="center" style="Margin:0;padding-bottom:5px;padding-left:30px;padding-right:30px;padding-top:35px">
                         <h3 style="Margin:0;line-height:58px;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;font-size:43px;font-style:normal;font-weight:normal;color:#111111">
-                        Atención! <br>
+                        ¡Atención! <br>
                       </h3></td> 
                      </tr> 
                      <tr style="border-collapse:collapse"> 
@@ -213,12 +213,18 @@ a[x-apple-data-detectors] {
                         </small></p>
                         </td> 
                      </tr> 
+                     <tr>
+                      <td style="padding: 5px">
+                        <img style="width: 100%;" src="{{asset('dist/img/cintilla_logos.png')}}" alt="">
+                      </td>
+                     </tr>
                    </table></td> 
                  </tr> 
                </table></td> 
              </tr> 
            </table></td> 
          </tr> 
+         
        </table> 
        <table class="es-content" cellspacing="0" cellpadding="0" align="center" style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:collapse;border-spacing:0px;table-layout:fixed !important;width:100%"> 
          <tr style="border-collapse:collapse"> 

@@ -8,23 +8,23 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use App\Models\User;
 
-class UserRegisterNotification extends Notification 
+class AccountRestorePasswordNotification extends Notification
 {
-   // use Queueable;
-    public $notification;     
-    public $password_send;    
+    // use Queueable;
+    public $notification;
+    //public $password_send;    
 
     /**
      * Create a new notification instance.
      *
      * @return void
      */
-    public function __construct(User $notification,$password_send)
+    public function __construct()
     {
-        $this->notification = $notification;
-        $this->password_send = $password_send;
-      
-       
+      //  $this->notification = $notification;
+        // $this->password_send = $password_send;
+
+
     }
 
     /**
@@ -45,15 +45,16 @@ class UserRegisterNotification extends Notification
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
     public function toMail($notifiable)
-    {       
+    {
         return (new MailMessage)
-        ->subject('Registro de cuenta en el sistema - '.env("APP_NAME"))      
-        //->from('recepciondecasos@corporacionochodemarzo.org','Corporación ocho de marzo')
-        //->from('recepciondecasos@corporacionochodemarzo.org','Corporación ocho de marzo')
-        ->view(
-            'mail.user_register_notification',
-             ['user' => $this->notification,
-             'password_send' => $this->password_send]);
+            ->subject('Recuperación de contraseña - ' . env("APP_NAME"))
+            //  ->from(env("MAIL_FROM_ADDRESS"),env("MAIL_FROM_NAME"))
+            ->view(
+                'mail.account_restore_password',
+                [
+                    'token' => $notifiable->remember_token,
+                ]
+            );
     }
 
     /**
