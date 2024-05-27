@@ -29,7 +29,7 @@ class ForgotPasswordController extends Controller
     {
         $this->validateEmail($request);
         $user = User::where("email",$request->email)->first();
-        $user->remember_token = Hash::make(Str::random(60));
+        $user->remember_token = str_replace("/","",Hash::make(Str::random(60))) ;
         $user->notify(new AccountRestorePasswordNotification());
         return back()->with('status', "Se envió un correo con el enlace de recuperación.");
 
