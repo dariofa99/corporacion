@@ -130,7 +130,8 @@ margin:5px;
         <img src="{{asset('/dist/img/Logo_horizontal.png')}}" class="img-header elevation-2" alt="App Image">
     </div>
     <div class="col-md-6 text-header" >
-        “Garantías para lideresas y defensoras en el ejercicio de promoción y defensa de Derechos Humanos en el departamento de Nariño”
+        Urgiendo y tejiendo paz <br>
+        Por la defensa de los derechos humanos en Nariño
     </div>
 </div>
    
@@ -223,7 +224,7 @@ margin:5px;
                     <span class="text-muted">recepciondecasos@corporacionochodemarzo.org</span>
                 </div>
                     <div class="col-md-4" >
-                         <span class="text-muted">Celular: 3145799374</span>
+                         <span class="text-muted">Celular: 315 6398 961</span>
                  </div>
             </div>
             <img src="{{ asset('dist/img/cintilla_logos.png') }}" class="img-brading-footer"  alt="User Image">

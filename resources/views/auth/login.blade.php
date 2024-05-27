@@ -27,7 +27,7 @@
 
             @else
             <div class="card" style="margin-bottom: 25px;">
-                <div class="card-header">{{ __('Login') }}</div>
+                <div class="card-header">Iniciar sesión</div>
 
                 <div class="card-body">
                     <form method="POST" action="{{ route('login') }}" id="myLoginForm">
