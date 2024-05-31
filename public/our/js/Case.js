@@ -11,8 +11,8 @@ const appService = new AppService();
 $("#content_cases").on('click', '.pagination a', function (e) {
     // alert("sss")
     e.preventDefault();
-    page = $(this).attr('href');
-    request = {};
+    var page = $(this).attr('href');
+    var request = {};
     window.history.pushState(null, '', page);
     casef.index(request, page);
 });

@@ -572,7 +572,7 @@ Log::info("Si pasa");
         $request->question_id => ['user_id' => $request->user_id]
     ]);
 
-    return response()->json($case);
+    return response()->json($request->all());
 
    }
 

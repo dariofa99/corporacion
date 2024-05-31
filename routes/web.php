@@ -89,6 +89,16 @@ Route::get('/terminosycondiciones', function () {
 
 Route::get('/pruebas/app', function () {
 	//AuditLogFacade::create();
+	$data = ReferenceDataOptions::all();
+	foreach ($data as $location) {
+		$shortName = sanear_string($location->value);
+		//dd($shortName);
+		$dt = ReferenceDataOptions::find($location->id);
+		$dt->value_db = $shortName;
+		$dt->save();
+	}
+	dd($data);
+
 	$data = ReferenceData::doesntHave('options')
 	->get();
 

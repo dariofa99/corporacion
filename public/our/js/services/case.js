@@ -18,6 +18,7 @@ export class CaseM {
             data: request,
             beforeSend: function (xhr) {
                 xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+                $("#wait").show()
             },
             success: function (res) {
 

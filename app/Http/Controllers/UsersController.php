@@ -339,10 +339,8 @@ class UsersController extends Controller
         $user->type_status_id = 15;
         $user->save();
         $response = [];
-
         $users = $this->getUsers($request);
         $response['render_view'] = view('content.users.partials.ajax.index', compact('users'))->render();
-
         return $response;
     }
 
@@ -387,13 +385,10 @@ class UsersController extends Controller
     public function insertData(Request $request)
     {
         //return response()->json("wee");
-        $data = $this->userService->insertData($request);
-        ///
-        return response()->json($request->all());
-       
-
+        $data = $this->userService->insertData($request);        ///
+       // return response()->json($request->all());
         $user = User::find($request->user_id);
-        $user->data = $user->getData($request->component);
+        //$user->data = $user->getData($request->component);
         //if($request->type_data_id)
         AuditLog::setEvent('create')
             ->setModelDescription(json_encode($user->data))
