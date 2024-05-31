@@ -1,69 +1,51 @@
-
 @component('components.modal_large')
+    @slot('trigger')
+        myModal_create_streaming_cases
+    @endslot
 
-	@slot('trigger')
-		myModal_create_streaming_cases
-        	@endslot
-
-	@slot('title')
-		<h5><label id="title_titular_modal">Video llamada</label></h5>
-	@endslot
-
-
-	@slot('body')
+    @slot('title')
+        <h5><label id="title_titular_modal">Video llamada</label></h5>
+    @endslot
 
 
+    @slot('body')
+        <div class="row">
+            <div class="col-md-4">
+                <button type="button" id="ask-stream-cases" data-id="{{ $case->id }}" class="btn btn-info">Invitar
+                    solicitante</button>
+            </div>
+            <div class="col-md-4 text-md-center">
+                <a id="newtab-stream-cases" href="" class="btn btn-info" target="_blank">Abrir en nueva pestaña</a>
+
+            </div>
+
+            <div class="col-md-4 text-md-right">
+                <button type="button" id="copy-stream-cases" data-frame="" class="btn btn-info">Copiar link</button>
+            </div>
 
 
-	<div class="row">
-		<div class="col-md-4">
-			<button type="button" id="ask-stream-cases"  data-id="{{ $case->id }}" class="btn btn-info">Invitar solicitante</button>
-		</div>
-		<div class="col-md-4 text-md-center" >
-		<a id="newtab-stream-cases" href="" class="btn btn-info" target="_blank">Abrir en nueva pestaña</a>
-		
-		</div>
+        </div>
+        <br>
+        <div class="row">
+            <div class="col-md-12" id="content-text-stream-cases">
+                <input type="text" class="form-control form-control-sm text-center" readonly id="text-stream-cases"
+                    value="">
+            </div>
+        </div>
 
-		<div class="col-md-4 text-md-right" >
-			<button type="button" id="copy-stream-cases"  data-frame="" class="btn btn-info">Copiar link</button>
-		</div>
+        <div class="row">
+            <div class="col-md-12">
+                <div class="embed-responsive embed-responsive-4by3" style=" height: 500px; ">
+                    <iframe id="iframe-stream-cases" class="embed-responsive-item" src="" frameborder="0"
+                        style="border:0" allow="camera; microphone"></iframe>
+                </div>
+            </div>
+        </div>
+    @endslot
 
-
-	</div>
-	<br>
-	<div class="row">
-		<div class="col-md-12" id="content-text-stream-cases" >
-			<input type="text" class="form-control form-control-sm text-center" readonly id="text-stream-cases" value="">
-		</div>
-	</div>
-
-	<div class="row">
-		<div class="col-md-12">
-			<div class="embed-responsive embed-responsive-4by3" style=" height: 500px; ">
-				<iframe id="iframe-stream-cases" class="embed-responsive-item" src="" frameborder="0" style="border:0" allow="camera; microphone" ></iframe> 
-			</div> 
-		</div>
-	</div>
-
-
-	@endslot
-
-	@slot('footer')
-
-	{{--  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+    @slot('footer')
+        {{--  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
      --}}
-	 <button type="button" id="btn_close" data-dismiss="modal" class="btn btn-default">Cancelar</button>
-@endslot
-
+           @endslot
 @endcomponent
 <!-- /modal -->
-
-
-
-
-
-
-
-
-
-

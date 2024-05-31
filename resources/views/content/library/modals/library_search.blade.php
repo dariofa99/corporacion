@@ -59,9 +59,9 @@
 
   	@slot('footer')  
         <button type="submit" class="btn btn-primary float-right" ><i class="fas fa-search"></i> Buscar</button>
-      </form>
+    
 	@endslot
-  
+</form>
 @endcomponent
 <!-- /modal -->
 

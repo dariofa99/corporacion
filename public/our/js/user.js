@@ -358,6 +358,7 @@ addStaticData(request){
                 request = {
                   'name':value,
                   'categories':'type_data_user',
+                  'type_data_id':'26',
                   'table':'users',
                   'section':section,
                   'user_id':$("#myformEditUser input[name=id]").val(),
@@ -512,7 +513,7 @@ addStaticData(request){
         if(this.value!=$("#olderInputValue").val()){ 
                   var request = {
                       'value':this.value,
-                      'type_data_id':$(this).attr('data-type_id'),
+                      'type_data_id':$(this).attr('data-question_id'),
                       'user_id':$("#myformEditUser input[name=id]").val(),
                       'component':'case' 
                   
@@ -626,6 +627,7 @@ addStaticData(request){
           },
           success:function(res){
            // $(".lbl_user_name").text(res.name)   
+           $("#wait").hide() 
                Toast.fire({
                   type: 'success',
                   title: 'Los datos se actualizaron con éxito.'

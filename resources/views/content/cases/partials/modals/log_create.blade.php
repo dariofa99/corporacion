@@ -218,9 +218,7 @@
     @endslot
 
     @slot('footer')
-        <button type="button" class="btn btn-secondary btn_close_modal" data-modal="myModal_create_log"
-            data-dismiss="modal">Cerrar</button>
-    @endslot
+           @endslot
 
 @endcomponent
 <!-- /modal -->

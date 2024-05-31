@@ -12,10 +12,15 @@ class UserAditionalData extends Model
     protected $table = 'user_aditional_data';
 
      protected $fillable = [
-        'value', 'value_is_other', 'reference_data_id','reference_data_option_id','user_id'
+        'value', 'value_is_other', 
+		'reference_data_id',
+		'reference_data_option_id',
+		'user_id'
     ];
 
-   
+    public function question(){
+        return $this->belongsTo(ReferenceData::class,'reference_data_id'); 
+     } 
 
     public static function boot() {
 	    parent::boot();

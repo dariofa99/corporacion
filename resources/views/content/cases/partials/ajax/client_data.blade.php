@@ -1,132 +1,117 @@
- <div class="row content_table_list_clients"
-   @if(count($case->users()->where('type_user_id',7)->get()) <= 1 ) style="display:none"  @endif>
+<div class="row content_table_list_clients" @if (count($users_) <= 1) style="display:none" @endif>
     <div class="col-md-12 table-responsive p-0">
-     <table class="table table-hover table_list_users_case table-striped" id="table_list_clients">
-              <thead>
-              <th> 
-              No. Identificación
-              </th>
-              <th>
-              Nombre
-              </th>
-              <th>Email</th>              
-              <th>Teléfono</th>
-              <th>Dirección</th>
-              <th>Acciones</th>
-              </thead>
-              <tbody>
-              @foreach ($case->users()->where('type_user_id',7)->get() as $user )
-            
-              <tr>
-              <td>{{$user->identification_number}}   </td>
-              <td>{{$user->name}}</td>
-              <td>{{$user->email}}</td>              
-              <td>{{$user->phone_number}}</td>
-              <td>{{$user->address}}</td>
-              <td>
-              {{--  <button class="btn btn-success btn-sm btn_user_data" data-id="{{$user->id}}">
+        <table class="table table-hover table_list_users_case table-striped" id="table_list_clients">
+            <thead>
+                <th>
+                    No. Identificación
+                </th>
+                <th>
+                    Nombre
+                </th>
+                <th>Email</th>
+                <th>Teléfono</th>
+                <th>Dirección</th>
+                <th>Acciones</th>
+            </thead>
+            <tbody>
+                @foreach ($users_ as $user)
+                    <tr>
+                        <td>{{ $user->identification_number }} </td>
+                        <td>{{ $user->name }}</td>
+                        <td>{{ $user->email }}</td>
+                        <td>{{ $user->phone_number }}</td>
+                        <td>{{ $user->address }}</td>
+                        <td>
+                            {{--  <button class="btn btn-success btn-sm btn_user_data" data-id="{{$user->id}}">
               Detalles</button> --}}
 
-              <button class="btn btn-danger btn-sm btn_delete_user" data-type_user_id="7" data-pivot_id="{{$user->pivot->id}}" data-id="{{$user->id}}">
-              Eliminar</button>
-              @if(auth()->user()->can('editar_perfil_cliente') OR auth()->user()->can('ver_perfil_usuario'))
-              <a target="_blank" href="/admin/users/{{$user->id}}/edit" class="btn btn-primary btn-sm" data-type_user_id="7" data-pivot_id="{{$user->pivot->id}}" data-id="{{$user->id}}">
-              Ver perfil</a>
-              @endif
+                            <button class="btn btn-danger btn-sm btn_delete_user" data-type_user_id="7"
+                                data-pivot_id="{{ $user->pivot->id }}" data-id="{{ $user->id }}">
+                                Eliminar</button>
+                            @if (auth()->user()->can('editar_perfil_cliente') or auth()->user()->can('ver_perfil_usuario'))
+                                <a target="_blank" href="/admin/users/{{ $user->id }}/edit"
+                                    class="btn btn-primary btn-sm" data-type_user_id="7"
+                                    data-pivot_id="{{ $user->pivot->id }}" data-id="{{ $user->id }}">
+                                    Ver perfil</a>
+                            @endif
 
-              </td>
-              </tr>
-              @endforeach              
-              </tbody>
-              
-          </table>
+                        </td>
+                    </tr>
+                @endforeach
+            </tbody>
+
+        </table>
     </div>
-  </div>
+</div>
 
-  <div class="row content_user_all_data" @if(count($case->users()->where('type_user_id',7)->get()) > 1 
-  || count($case->users()->where('type_user_id',7)->get()) < 1 ) style="display:none"  @endif>
-      <div class="col-md-3">
-          <div class="form-group">
+<div class="row content_user_all_data" @if (count($users_) > 1 || count($users_) < 1) style="display:none" @endif>
+   
+<input type="hidden" name="user_id" id="user_id"
+@if (count($users_) == 1) value="{{ $users_[0]->id }}" @endif>
+    <div class="col-md-3">
+        <div class="form-group">
             <label for="num_identificacion">Tipo documento</label>
-              <select disabled name="type_identification_id" id="type_identification_id" class="form-control form-control-sm" >
-                @foreach ($types_identification as $key => $tipo_doc )
-                  <option @if(count($case->users)== 1  and $case->users()->where('type_user_id',7)->first()->type_identification_id == $key) selected @endif value="{{$key}}">{{$tipo_doc}}</option>  
-              @endforeach
-              </select>
-          </div>
-      </div>
-      <div class="col-md-3">
-         <div class="form-group">
+            <select disabled name="type_identification_id" id="type_identification_id"
+                class="form-control form-control-sm">
+                @foreach ($types_identification as $key => $tipo_doc)
+                    <option @if (count($case->users) == 1 and count($users_) > 0 and $users_[0]->type_identification_id == $key) selected @endif value="{{ $key }}">
+                        {{ $tipo_doc }}</option>
+                @endforeach
+            </select>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="form-group">
             <label for="num_identificacion">No de identificación</label>
-            <input disabled @if(count($case->users()->where('type_user_id',7)->get())== 1) value="{{$case->users()->where('type_user_id',7)->first()->identification_number}}" @endif type="text" required class="form-control form-control-sm" name="identification_number" id="identification_number">
-          </div>
-      </div>
-      <div class="col-md-3">
+            <input disabled @if (count($users_) == 1) value="{{ $users_[0]->identification_number }}" @endif
+                type="text" required class="form-control form-control-sm" name="identification_number"
+                id="identification_number">
+        </div>
+    </div>
+    <div class="col-md-3">
         <div class="form-group">
-           <label for="name">Nombre</label>
-           <input type="text" disabled @if(count($case->users()->where('type_user_id',7)->get())== 1) value="{{$case->users()->where('type_user_id',7)->first()->name}}" @endif required class="form-control form-control-sm" id="name" name="name" value="">                               
+            <label for="name">Nombre</label>
+            <input type="text" disabled @if (count($users_) == 1) value="{{ $users_[0]->name }}" @endif
+                required class="form-control form-control-sm" id="name" name="name" value="">
         </div>
-      </div>
-      <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
         <div class="form-group">
-          <label for="email">Correo Electrónico</label>
-          <input type="email" disabled @if(count($case->users()->where('type_user_id',7)->get())== 1) value="{{$case->users()->where('type_user_id',7)->first()->email}}" @endif required class="form-control form-control-sm" id="email" name="email" value="">                               
+            <label for="email">Correo Electrónico</label>
+            <input type="email" disabled
+                @if (count($users_) == 1) value="{{ $users_[0]->first()->email }}" @endif required
+                class="form-control form-control-sm" id="email" name="email" value="">
         </div>
-      </div>
-      <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
         <div class="form-group">
-         <label for="telephone">Teléfono</label>
-          <input type="number" disabled @if(count($case->users()->where('type_user_id',7)->get())== 1) value="{{$case->users()->where('type_user_id',7)->first()->phone_number}}" @endif required class="form-control form-control-sm" id="phone_number" name="phone_number" value="">                               
+            <label for="telephone">Teléfono</label>
+            <input type="number" disabled
+                @if (count($users_) == 1) value="{{ $users_[0]->phone_number }}" @endif required
+                class="form-control form-control-sm" id="phone_number" name="phone_number" value="">
         </div>
-      </div>
-      <div class="col-md-3">
+    </div>
+    <div class="col-md-3">
         <div class="form-group">
-          <label for="address">Dirección</label>
-           <input type="text" disabled @if(count($case->users()->where('type_user_id',7)->get())== 1) value="{{$case->users()->where('type_user_id',7)->first()->address}}" @endif required class="form-control form-control-sm" id="phone_number" name="phone_number" value="">                               
+            <label for="address">Dirección</label>
+            <input type="text" disabled @if (count($users_) == 1) value="{{ $users_[0]->address }}" @endif
+                required class="form-control form-control-sm" id="phone_number" name="phone_number" value="">
         </div>
-      </div>
-     
-      @if(count($case->users()->where('type_user_id',7)->get())==1 and $case->users[0])
-       <div class="col-md-1">
-        <div class="form-group">
-        <br>
-        @if(auth()->user()->can('editar_perfil_cliente') OR auth()->user()->can('ver_perfil_usuario'))
-         <a href="/admin/users/{{$case->users()->where('type_user_id',7)->first()->id}}/edit" class="btn btn-block btn-primary btn-sm" >
-              Ver perfil</a>
-        @endif                          
-        </div>
-      </div>
-        <div class="col-md-2">
-          <div class="form-group">
-          <br>
-            <button id="btn_user_data" class="btn btn-success btn-block btn-sm btn_user_data" data-id="{{$case->users()->where('type_user_id',7)->first()->id}}">Agregar campo</button>
-        </div>
-        </div>
-
-        <div class="col-md-1">
-          <div class="form-group">
-          <br>
-               <button class="btn btn-danger btn-block btn-sm btn_delete_user" data-type_user_id="7" data-pivot_id="{{$case->users()->where('type_user_id',7)->first()->pivot->id}}" data-id="{{$case->users()->where('type_user_id',7)->first()->id}}">
-              Eliminar</button>   </div>
-        </div>
-
-      @endif
+    </div>
 
 
-  </div>
-
-  <input type="hidden" name="user_id" id="user_id" @if(count($case->users()->where('type_user_id',7)->get())==1) value="{{$case->users()->where('type_user_id',7)->first()->id}}"  @endif>
-  <div class="row content_user_all_data content_user_data" @if(count($case->users()->where('type_user_id',7)->get())>1) style="display:none"  @endif>
-   @if(count($case->users()->where('type_user_id',7)->get())==1)
-    @forelse($case->users()->where('type_user_id',7)->first()->getData('case') as $value)
-          <div class="col-md-3">
-            <div class="form-group">
-              <label for="data-{{$value->id}}">{{$value->name}}</label>
-              <input type="text" data-type_id="{{$value->type_data_id}}" 
-              value="{{$value->value}}" required class="form-control form-control-sm input_user_data" id="data-{{$value->id}}" name="data[]">                               
-            </div>
-          </div>
-          @empty
-    @endforelse
+    @if (count($users_) > 0 and count(
+            $case->inputsForUser()->where('user_id', $users_[0]->id)->get()) > 0)
+        @include('content.categories.partials.questions', [
+            'col' => 3,
+            'model' => $users_[0],
+            'data' => $case->inputsForUser()->where('user_id', $users_[0]->id)->get(),
+        ])
     @endif
-  </div>
+
+
+</div>
+
+
+
+

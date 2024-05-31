@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Event;
 class ReferenceDataOptions extends Model
 {
     protected $table="references_data_options"; //el modelo se va a relacionar con la tabla
-    protected $fillable=['value','status','active_other_input','references_data_id'];//que campos tiene la
+    protected $fillable=['value','value_db','status','active_other_input','references_data_id'];//que campos tiene la
 
      
     public static function boot() {

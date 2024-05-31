@@ -8,6 +8,6 @@
                               @if($canedit) id="data_us-{{$key}}" @else disabled @endif name="data[]">                               
                             </div>
                           </div> 
-                          @empty
+                          @empty 
                       @endforelse       
  

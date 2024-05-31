@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 use App\Events\MyEvent;
 use Facades\App\Facades\ApiChat;
 use App\Jobs\SendAccountActivatedUserNotification;
+use App\Models\ReferenceData;
+use App\Models\ReferenceDataOptions;
 
 Route::get('/route-cache', function() {
 	$exitCode = Artisan::call('route:cache');
@@ -87,6 +89,31 @@ Route::get('/terminosycondiciones', function () {
 
 Route::get('/pruebas/app', function () {
 	//AuditLogFacade::create();
+	$data = ReferenceData::doesntHave('options')
+	->get();
+
+
+	//dd($data);
+
+	foreach ($data as $location) {
+		$shortName = sanear_string($location->name);
+		//dd($shortName);
+		$dt = new ReferenceDataOptions();
+		$dt->references_data_id = $location->id;
+		$dt->value = $location->name;
+		$dt->value_db = $shortName;
+		$dt->save();
+	}
+	dd($data);
+	$data = ReferenceData::all();
+	foreach ($data as $location) {
+		$shortName = sanear_string($location->name);
+		//dd($shortName);
+		$dt = ReferenceData::find($location->id);
+		$dt->short_name = $shortName;
+		$dt->save();
+	}
+	dd($data);
 	$token = "jsjsj";
 	return view('mail.account_restore_password',compact('token'));
 
@@ -114,9 +141,7 @@ Route::group(["namespace"=>'App\Http\Controllers'], function(){
 
 });
 
-Route::group(['middleware' => ['auth'
-//,'sadmin','vlogout'
-],"namespace"=>'App\Http\Controllers'], function(){
+Route::group(['middleware' => ['auth','sadmin','vlogout'],"namespace"=>'App\Http\Controllers'], function(){
 
 	Route::get('/', function(){
 		return redirect('/home');
@@ -133,7 +158,7 @@ Route::group(['middleware' => ['auth'
     Route::resource('/admin/users','UsersController');
 	Route::post('/users/find','UsersController@find');
 	Route::post('/users/insert/data','UsersController@insertData');
-	Route::post('/users/get/data','UsersController@getData');
+	Route::get('/users/get/data','UsersController@getData');
 	Route::get('/get/data','UsersController@datachat');
 	Route::post('/get/users/login','UsersController@getLogin');
 	Route::post('/admin/users/photo/update','UsersController@updatePhoto');
@@ -182,7 +207,7 @@ Route::group(['middleware' => ['auth'
 	Route::post('/casos/delete/payment','CasesController@deletePayment');
 	Route::post('/casos/stream','CasesController@notifyClientStream');
 	Route::post('/casos/asig/reception','CasesController@asigReception');
-	
+	Route::post('/casos/insert/input/for/user','CasesController@asigInputForUsers');
 //case logs
 	Route::resource('/casos/logs','CaseLogsController');
 	Route::post('/casos/update/logs/{id}','CaseLogsController@update');

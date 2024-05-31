@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Traits\RefDataManage;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -12,7 +13,11 @@ use Illuminate\Support\Facades\Event;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,HasRoles;
+    use RefDataManage,
+     HasApiTokens, 
+     HasFactory, 
+     Notifiable,
+     HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -103,20 +108,20 @@ class User extends Authenticatable
             return $data;
    }
 
-   public function getAditionalDataValue($reference_data_id=null,$reference_data_option_id=null){
+   /* public function getAditionalDataValue($reference_data_id=null,$reference_data_option_id=null){
     $data = $this->aditional_data()
     ->where([
         'reference_data_id'=>$reference_data_id,
         'reference_data_option_id'=>$reference_data_option_id,
-    ])->first();
+    ])->first(); 
     
-    /* DB::table('user_aditional_data')        
+   DB::table('user_aditional_data')        
         ->where(['user_id'=>$this->id,'type_data_id'=>$type_data_id])
         ->select('user_static_data.id as id','user_static_data.value_is_other','rt.name','rt.id as type_data_id')->first();     
-     */
-    if(!$data) return false;   
+     
+   // if(!$data) return false;   
     return true;
-}
+}*/
 
 public function getAditionalDataValueById($reference_data_option_id=null){
     $data = $this->aditional_data()

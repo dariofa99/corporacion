@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Event;
 class ReferenceData extends Model
 {
     protected $table="references_data"; //el modelo se va a relacionar con la tabla
-    protected $fillable=['name','categories','table','section','is_visible','type_data_id'];//que campos tiene la
+    protected $fillable=['name','short_name','categories','table','section','is_visible','type_data_id'];//que campos tiene la
 
     
     

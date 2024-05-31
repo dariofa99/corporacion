@@ -293,7 +293,7 @@ class CaseLogsController extends Controller
     public function update(Request $request, $id)
     {
      
-      //  return $request->all();
+        //return $request->all();
         $response=[];
        if($request->has('category_name')){
         $type_category_id = $this->insertReferencesData($request);
@@ -350,7 +350,8 @@ class CaseLogsController extends Controller
                 'description'=>$request['description'],
                 'color'=>"#FF5733",
                 'inicio'=>$request['notification_date'],
-                'fin'=>$request['notification_date']
+                'fin'=>$request['notification_date'],
+                'type_status_id'=>16
                 ]);
            
             $data = [

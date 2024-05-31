@@ -6,13 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
-use Session;
-use Redirect;
-use Validator;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Hash;
-use Storage;
 use App\Models\CaseM;
 use App\Models\UserNote;
 use App\Models\SessionAdmin;
@@ -25,9 +21,14 @@ use App\Models\UserAditionalData;
 use App\Models\ReferenceData;
 use App\Services\UsersService;
 use App\Models\Notifications\AccountActivatedNotification;
+use App\Models\ReferenceDataOptions;
 use App\Notifications\AccountActivatedNotification as NotificationsAccountActivatedNotification;
 use App\Notifications\UserRegisterDBNotification;
 use App\Notifications\UserRegisterNotificationMail;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Validator;
 
 class UsersController extends Controller
 {
@@ -60,7 +61,7 @@ class UsersController extends Controller
     {
         $users = User::join('model_has_roles as ru', 'users.id', '=', 'ru.model_id')
             ->where('type_status_id', '<>', 15)
-            ->where('users.id', '<>', \Auth::user()->id)
+            ->where('users.id', '<>', Auth::user()->id)
             ->where('role_id', '<>', '1')
             ->paginate(10);
 
@@ -161,12 +162,12 @@ class UsersController extends Controller
             $users = $this->getUsers($request);
             $response['render_view'] = view('content.users.partials.ajax.index', compact('users'))->render();
         }
-        $user->notify(new UserRegisterNotificationMail($user,$password_send));
+        $user->notify(new UserRegisterNotificationMail($user, $password_send));
         //SendRegisterNotificationEmail::dispatch($user, $password_send)->onQueue('diarys');
 
         $users = $this->userService->getUsersByPermissionName('recibir_correo_user_register');
-        Notification::send($users, new UserRegisterDBNotification($user)); 
-      //  SendRegisterUserNotificationEmail::dispatch($users, $user)->onQueue('diarys');
+        Notification::send($users, new UserRegisterDBNotification($user));
+        //  SendRegisterUserNotificationEmail::dispatch($users, $user)->onQueue('diarys');
         //
         if ($request->ajax()) {
             return response()->json($response);
@@ -216,14 +217,14 @@ class UsersController extends Controller
             $canedit = false;
             if (
                 auth()
-                    ->user()
-                    ->can('edit_usuarios')
+                ->user()
+                ->can('edit_usuarios')
             ) {
                 $canedit = true;
             } elseif (
                 auth()
-                    ->user()
-                    ->can('editar_perfil_cliente')
+                ->user()
+                ->can('editar_perfil_cliente')
             ) {
                 if (count($user->roles) <= 0 || (count($user->roles) > 0 and $user->roles[0]->name == 'cliente')) {
                     $canedit = true;
@@ -241,24 +242,21 @@ class UsersController extends Controller
                 }
             } elseif (
                 auth()
-                    ->user()
-                    ->can('ver_perfil_usuario')
+                ->user()
+                ->can('ver_perfil_usuario')
             ) {
                 $canedit = false;
             }
-           
-            if(auth()->user()->id != $user->id and auth()->user()->id < $user->id){
-                
-                $room = auth()->user()->id ."". $user->id;
-                
 
-            }else{
-                $room =  $user->id."".auth()->user()->id;
-            } 
+            if (auth()->user()->id != $user->id and auth()->user()->id < $user->id) {
 
+                $room = auth()->user()->id . "" . $user->id;
+            } else {
+                $room =  $user->id . "" . auth()->user()->id;
+            }
         }
 
-        return view('content.users.user_edit', compact('user', 'canedit','room'));
+        return view('content.users.user_edit', compact('user', 'canedit', 'room'));
     }
 
     /**
@@ -274,7 +272,7 @@ class UsersController extends Controller
         $user = User::find($request->id);
         $old_status = $user->type_status_id;
         if ($request->get('password')) {
-            if (Hash::check($request->oldpassword, \Auth::user()->password)) {
+            if (Hash::check($request->oldpassword, Auth::user()->password)) {
                 if ($request->password == $request->confirpassword) {
                     $user->password = bcrypt($request->password);
                     $user->save();
@@ -388,23 +386,11 @@ class UsersController extends Controller
 
     public function insertData(Request $request)
     {
-        // return response()->json($request->all());
-
-        $data = \DB::table('user_data')
-            ->where(['type_data_id' => $request->type_data_id, 'user_id' => $request->user_id])
-            ->first();
-        if ($data) {
-            $data = \DB::table('user_data')
-                ->where(['type_data_id' => $request->type_data_id, 'user_id' => $request->user_id])
-                ->update($request->except('component'));
-        } else {
-            // $request['user_id'] = \Auth::user()->id;
-            $request['created_at'] = date('Y-m-d H:i:s');
-            $request['updated_at'] = date('Y-m-d H:i:s');
-            $data = \DB::table('user_data')
-                ->where(['type_data_id' => $request->type_data_id, 'user_id' => $request->user_id])
-                ->insert($request->except('component'));
-        }
+        //return response()->json("wee");
+        $data = $this->userService->insertData($request);
+        ///
+        return response()->json($request->all());
+       
 
         $user = User::find($request->user_id);
         $user->data = $user->getData($request->component);
@@ -415,7 +401,7 @@ class UsersController extends Controller
             ->store();
         return response()->json($user);
     }
-
+   
     public function insertNote(Request $request)
     {
         //  return response()->json($request->all());
@@ -486,7 +472,7 @@ class UsersController extends Controller
     {
         // return response()->json($request->all());
         $user = User::find($request->user_id);
-        $user->data = $user->getData('case');
+        //$user->data = $user->getData('case');
 
         return response()->json($user);
     }
@@ -495,7 +481,7 @@ class UsersController extends Controller
     {
         // return response()->json($request->all());
         $users = User::where('remember_token', '<>', '')
-            ->where('id', '<>', \Auth::user()->id)
+            ->where('id', '<>', Auth::user()->id)
             ->get();
         return response()->json($users);
     }
@@ -503,11 +489,13 @@ class UsersController extends Controller
     public function insertTypeData(Request $request)
     {
         //  return response()->json($request->all());
-        $request['created_at'] = date('Y-m-d H:i:s');
+        /* $request['created_at'] = date('Y-m-d H:i:s');
         $request['updated_at'] = date('Y-m-d H:i:s');
 
-        $insert = \DB::table('references_data')->insertGetId($request->except(['user_id']));
-
+        $insert = DB::table('references_data')
+            ->insertGetId($request->except(['user_id'])); */
+        $request['short_name'] = sanear_string($request->name);
+        $reference = ReferenceData::create($request->except(['user_id']));
         $user = User::find($request->user_id);
         $view = '';
         $canedit = true;
@@ -515,14 +503,14 @@ class UsersController extends Controller
             $canedit = false;
             if (
                 auth()
-                    ->user()
-                    ->can('edit_usuarios')
+                ->user()
+                ->can('edit_usuarios')
             ) {
                 $canedit = true;
             } elseif (
                 auth()
-                    ->user()
-                    ->can('editar_perfil_cliente')
+                ->user()
+                ->can('editar_perfil_cliente')
             ) {
                 if (count($user->roles) <= 0 || (count($user->roles) > 0 and $user->roles[0]->name == 'cliente')) {
                     $canedit = true;
@@ -540,8 +528,8 @@ class UsersController extends Controller
                 }
             } elseif (
                 auth()
-                    ->user()
-                    ->can('ver_perfil_usuario')
+                ->user()
+                ->can('ver_perfil_usuario')
             ) {
                 $canedit = false;
             }
@@ -616,6 +604,4 @@ class UsersController extends Controller
         $response['q_view'] = $q_view;
         return response()->json($response);
     }
-
-   
 }

@@ -15,7 +15,8 @@ class CreateReferencesDataOptionsTable extends Migration
     {
         Schema::create('references_data_options', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('value')->nullable(); 
+            $table->string('value'); 
+            $table->string('value_db'); 
             $table->boolean('status')->default(1);     
             $table->boolean('active_other_input')->default(0);                           
             $table->bigInteger('references_data_id')->unsigned();

@@ -43,7 +43,7 @@
 	@endslot
 
   	@slot('footer')  
-       <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>       
+      
 	@endslot
   
 @endcomponent

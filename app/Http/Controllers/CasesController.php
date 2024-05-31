@@ -9,12 +9,13 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redis;
 use App\Models\CaseM; 
-use DB;
+
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\PanicAlert;
 use App\Models\UserMailNotification;
 use App\Models\Reception;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Facades\Auditor;
 
@@ -330,7 +331,7 @@ class CasesController extends Controller
         $response=[];
         $response['type_user_id'] = $request->type_user_id;
         if($request->type_user_id==7){            
-            $response['render_view'] = view('content.cases.partials.ajax.client_data',compact('case'))->render();
+            //$response['render_view'] = view('content.cases.partials.ajax.client_data',compact('case'))->render();
         }
         if($request->type_user_id==8){            
             $response['render_view'] = view('content.cases.partials.ajax.professional_data',compact('case'))->render();
@@ -491,7 +492,7 @@ public function updatePayment(Request $request){
     $user = DB::table('user_cases')->where('id',$request->pivot_id)->delete();
     $response=[];
     if($request->type_user_id==7){
-        $response['render_view'] = view('content.cases.partials.ajax.client_data',compact('case'))->render();
+        //$response['render_view'] = view('content.cases.partials.ajax.client_data',compact('case'))->render();
     }
     if($request->type_user_id==8 OR $request->type_user_id==36){            
         $response['render_view'] = view('content.cases.partials.ajax.professional_data',compact('case'))->render();
@@ -561,6 +562,17 @@ Log::info("Si pasa");
     
 
     return response()->json($reception);
+
+   }
+
+   public function asigInputForUsers(Request $request){
+        
+    $case = CaseM::find($request->case_id);
+    $case->inputsForUser()->syncWithoutDetaching([
+        $request->question_id => ['user_id' => $request->user_id]
+    ]);
+
+    return response()->json($case);
 
    }
 

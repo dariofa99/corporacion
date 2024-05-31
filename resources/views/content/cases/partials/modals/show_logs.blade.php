@@ -57,8 +57,7 @@
 
 	{{--  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
      --}}
-	 <button type="button" id="btn_close" data-dismiss="modal" class="btn btn-default">Cancelar</button>
-@endslot
+	 @endslot
 
 @endcomponent
 <!-- /modal -->
