@@ -173,11 +173,11 @@ $modo_nav="dark";
   {{-- <script src="{{asset('our/js/pusher.js')}}"></script>
   <script src="{{asset('our/js/pushconnected.js?v=1')}}"></script>
   <script src="{{asset('our/js/newpush.js?v=1')}}"></script> --}}
-  <script src="{{asset('our/js/app.js?v=1')}}"></script>
+  <script src="{{asset('our/js/app.js?v=1.1')}}"></script>
  {{--  <script src="{{asset('our/js/AdminRoles.js?v=1')}}"></script> --}}
  
-  <script type="module" src="{{asset('our/js/scripts.js?v=1')}}"></script>
-  <script type="module" src="{{asset('our/js/Case.js?v=1')}}"></script>
+  <script type="module" src="{{asset('our/js/scripts.js?v=1.1')}}"></script>
+  <script type="module" src="{{asset('our/js/Case.js?v=1.1')}}"></script>
 
   <script>//para que funcionen los tooltip
     $(function () {
