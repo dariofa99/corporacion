@@ -36,6 +36,7 @@ $(document).ready(function () {
     let obj = $(this);
     var request = appService.getAditionalQuestion(obj)
     await httpService.post("users/insert/data", request, async function (data) {
+     
       toastr.success('Guardado con éxito!', '',
         { "positionClass": "toast-bottom-right", "timeOut": "1000" });
       if (obj.attr("id").split("-", -1)[0] == 'input_about_me') {
@@ -208,3 +209,4 @@ export function convertFormToJSON(form) {
       return json;
     }, {});
 }
+

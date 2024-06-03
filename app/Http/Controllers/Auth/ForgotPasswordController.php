@@ -28,11 +28,10 @@ class ForgotPasswordController extends Controller
     public function sendResetLinkEmail(Request $request)
     {
         $this->validateEmail($request);
-        $user = User::where("email",$request->email)->first();
-        $user->remember_token = str_replace("/","",Hash::make(Str::random(60))) ;
+        $user = User::where("email", $request->email)->first();
+        $user->remember_token = str_replace("/", "", Hash::make(Str::random(60)));
         $user->notify(new AccountRestorePasswordNotification());
+        $user->save();
         return back()->with('status', "Se envió un correo con el enlace de recuperación.");
-
     }
-
 }

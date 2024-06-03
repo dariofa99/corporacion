@@ -1,10 +1,11 @@
 import { User } from "./services/user.js";
 import { HttpService } from "./services/http.js";
+import { convertFormToJSON } from "./scripts.js";
 const user = new User();
 const httpService = new HttpService();
 (function () {
 
-
+ 
 
   $("#btn_asignar_rol").on('click', function (e) {
     $("#myModal_asignar_rol").modal('show');
@@ -27,10 +28,18 @@ const httpService = new HttpService();
 
   });
 
-  $("#myformEditUser").on("submit", function (e) {
-    var request = $(this).serialize();
-    user.update(request);
+  $("#myformEditUser").on("submit",async function (e) {
     e.preventDefault();
+    var request = convertFormToJSON("myformEditUser") // $(this).serialize();
+    //user.update(request);
+    await httpService.post("admin/users/update",request,function(data) {
+      console.log(data);      
+      Toast.fire({
+        type: 'success',
+        title: "Actualizado con éxito"
+    });
+    })
+    
   })
 
 

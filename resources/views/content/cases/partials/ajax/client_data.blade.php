@@ -1,3 +1,6 @@
+@php
+     $users_ = $case->getUsersByType(7);
+@endphp
 <div class="row content_table_list_clients" @if (count($users_) <= 1) style="display:none" @endif>
     <div class="col-md-12 table-responsive p-0">
         <table class="table table-hover table_list_users_case table-striped" id="table_list_clients">
@@ -72,15 +75,16 @@
         <div class="form-group">
             <label for="name">Nombre</label>
             <input type="text" disabled @if (count($users_) == 1) value="{{ $users_[0]->name }}" @endif
-                required class="form-control form-control-sm" id="name" name="name" value="">
+                required class="form-control form-control-sm" id="name" name="name" >
         </div>
     </div>
+    
     <div class="col-md-3">
         <div class="form-group">
             <label for="email">Correo Electrónico</label>
             <input type="email" disabled
-                @if (count($users_) == 1) value="{{ $users_[0]->first()->email }}" @endif required
-                class="form-control form-control-sm" id="email" name="email" value="">
+                @if (count($users_) == 1) value="{{ $users_[0]->email }}" @endif required
+                class="form-control form-control-sm" id="email" name="email">
         </div>
     </div>
     <div class="col-md-3">
@@ -88,14 +92,14 @@
             <label for="telephone">Teléfono</label>
             <input type="number" disabled
                 @if (count($users_) == 1) value="{{ $users_[0]->phone_number }}" @endif required
-                class="form-control form-control-sm" id="phone_number" name="phone_number" value="">
+                class="form-control form-control-sm" id="phone_number" name="phone_number" >
         </div>
     </div>
     <div class="col-md-3">
         <div class="form-group">
             <label for="address">Dirección</label>
             <input type="text" disabled @if (count($users_) == 1) value="{{ $users_[0]->address }}" @endif
-                required class="form-control form-control-sm" id="phone_number" name="phone_number" value="">
+                required class="form-control form-control-sm" id="phone_number" name="phone_number" >
         </div>
     </div>
 

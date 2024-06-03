@@ -1,10 +1,5 @@
 $(document).ready(function () {
-    const Toast = Swal.mixin({
-        toast: true,
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 3000
-    });
+ 
     $('.onlynumber').keyup(function () {
         this.value = (this.value + '').replace(/[^0-9]/g, '');
     });
@@ -21,7 +16,12 @@ $(document).ready(function () {
 
     // tokenController();
 });
-
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
 function tokenController() {
 
     if (typeof (Storage) !== 'undefined') {
