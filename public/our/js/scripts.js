@@ -3,12 +3,7 @@ import { HttpService } from "./services/http.js";
 const appService = new AppService();
 const httpService = new HttpService()
 
-const Toast = Swal.mixin({
-  toast: true,
-  position: 'top-end',
-  showConfirmButton: false,
-  timer: 3000
-});
+
 $(document).ready(function () {
   set_tab()
   $("body").on('focus', '.input_user_data', function () {
@@ -23,7 +18,11 @@ $(document).ready(function () {
   $("body").on('blur', '.input_other_rd', async function () {
     if (this.value != $("#olderInputValue").val()) {
       let id = $(this).attr('id').split("-", -1)[1]
-      let obj = document.querySelector('input[name="static_data-' + id + '"]:checked');
+      var obj = document.querySelector('input[name="static_data-' + id + '"]:checked');
+      if (obj == null) {
+        obj = document.querySelector('select[id="option_id-' + id + '"]');
+      }
+
       var request = appService.getAditionalQuestion(obj)
       await httpService.post("users/insert/data", request, async function (data) {
         toastr.success('Guardado con éxito!', '',
@@ -39,7 +38,11 @@ $(document).ready(function () {
     await httpService.post("users/insert/data", request, async function (data) {
       toastr.success('Guardado con éxito!', '',
         { "positionClass": "toast-bottom-right", "timeOut": "1000" });
-
+      if (obj.attr("id").split("-", -1)[0] == 'input_about_me') {
+        $("#content_user_data_about_me #lbl_btn_dedit-" + obj.attr('data-reference_id')).show();
+        $("#content_user_data_about_me #input_about_me-" + obj.attr('data-reference_id')).attr('type', 'hidden');
+        $("#content_user_data_about_me #lblTextQu-" + obj.attr('data-reference_id')).text(request.data[0].options[0].value);
+      }
     });
   });
 
@@ -100,20 +103,20 @@ function activeOtherInput(e) {
     active = $(this).attr("data-active_other");
     id = $(this).attr("data-reference_id");
   }
-  
-  
-    $("#lbl_other-" + id).hide();
-    $("#value_other_text-" + id).attr("type", "hidden").val("");
-    if (elementType === "select" || $(this).is(":checked")) {
-      if (active == 1) {
-        $("#lbl_other-" + id).show();
-        $("#value_other_text-" + id).attr("type", "text");        
-      } else {
-        $("#lbl_other-" + id).hide();
-        $("#value_other_text-" + id).attr("type", "hidden");
-      }
+
+
+  $("#lbl_other-" + id).hide();
+  $("#value_other_text-" + id).attr("type", "hidden").val("");
+  if (elementType === "select" || $(this).is(":checked")) {
+    if (active == 1) {
+      $("#lbl_other-" + id).show();
+      $("#value_other_text-" + id).attr("type", "text");
+    } else {
+      $("#lbl_other-" + id).hide();
+      $("#value_other_text-" + id).attr("type", "hidden");
     }
-  
+  }
+
 
 }
 function set_tab() {
@@ -189,4 +192,19 @@ let viewNotifications = function (limit) {
     error: function (xhr, textStatus, thrownError) {
     }
   });
+}
+
+export function convertFormToJSON(form) {
+  return $("#" + form)
+    .serializeArray()
+    .reduce(function (json, { name, value }) {
+      if (name.split('')[name.length - 2] == '[' && name.split('')[name.length - 1] == ']') {
+        let _name = name.replace('[]', '');
+        if (json[_name] == undefined) json[_name] = [];
+        json[_name].push(value);
+      } else {
+        json[name] = value;
+      }
+      return json;
+    }, {});
 }

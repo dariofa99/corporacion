@@ -77,7 +77,7 @@ $modo_nav="dark";
     
     <!-- Content Wrapper. Contains page content -->
     <div class="content-wrapper">
-      
+      @include('content.frm_modal_showmessage')
       <!-- Content Header (Page header) -->  
        <input type="hidden" id="olderInputValue">
        <input type="hidden" id="inputHash" value="{{sha1(Auth::user()->id)}}">
@@ -166,6 +166,7 @@ $modo_nav="dark";
 <script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
 <!-- ChartJS -->
 <!-- PAGE SCRIPTS -->
+<script src="{{ asset('js/app.js') }}" ></script>
 
 
   <!-- our scripts -->
@@ -185,8 +186,9 @@ $modo_nav="dark";
     });
   </script>
   <!-- PAGE PLUGINS -->
-@stack('scripts')
 @include('content.scripts') 
+@stack('scripts')
+
 
 
 

@@ -67,18 +67,23 @@ class CasesController extends Controller
     {
 
         if (\Auth::user()->can('ver_todos_casos')) {}
-        if((!$request->data and !$request->type) ||
-         ($request->type=='case_number' || $request->type=='type_case' || 
-         $request->type=='branch_law' || $request->type=='status' || $request->type=='view_all')){
-            $cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
+        $cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
             ->join('references_table as rtc','rtc.id','cases.type_case_id')
             ->join('references_table as rtr','rtr.id','cases.type_branch_law_id')
             ->getData($request)
             ->where('cases.type_status_id','<>','15')
-            ->select('cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law')
+            ->select('cases.created_at','cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law')
             ->orderBy('cases.created_at','desc')->paginate(15);
+        if((!$request->data and !$request->type)){
+           /*  $cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
+            ->join('references_table as rtc','rtc.id','cases.type_case_id')
+            ->join('references_table as rtr','rtr.id','cases.type_branch_law_id')
+            ->getData($request)
+            ->where('cases.type_status_id','<>','15')
+            ->select('cases.created_at','cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law')
+            ->orderBy('cases.created_at','desc')->paginate(15); */
             
-        }else{
+        }/* else{
             $cases=CaseM::join('user_cases as uc','uc.case_id','=','cases.id')
             ->join('users','users.id','=','uc.user_id')
             ->join('references_table as rt','rt.id','cases.type_status_id')
@@ -89,7 +94,7 @@ class CasesController extends Controller
             ->select('cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law')
             ->orderBy('cases.created_at','desc')->paginate(15); 
             
-        }
+        } */
 
         return $cases;
         

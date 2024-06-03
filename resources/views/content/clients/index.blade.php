@@ -143,6 +143,6 @@
 
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
-<script src="{{asset("/our/js/user.js")}}"></script>
+<script type="module" src="{{asset("/our/js/user.js")}}"></script>
 @endpush
 

@@ -5,7 +5,7 @@
             {{ $reference->name }}
         </label>
 
-        @if ($reference->type_data_id == 146)
+        @if ($reference->type_data_id == 147)
             @php
                 $is_active = false;
                 $option_id = 0;
@@ -93,12 +93,22 @@
             @endforeach
 
             @include('content.categories.partials.ajax.value_isotherquestion')
+        @elseif($reference->type_data_id == 146)
+        <input {{ isset($disabled) ? $disabled : '' }} data-reference_id="{{ $reference->id }}"
+                data-name="{{ $reference->name }}" data-option="{{ $reference->options[0]->id }}"
+                data-type="{{ $reference->type_data_id }}" name="static_data[]"
+                data-section="{{ $reference->section }}" type="date" 
+                @if (isset($model) and $reference->options[0] and $model->getDataVal($reference->id, $reference->options[0]->id)) value="{{ $model->getDataVal($reference->id, $reference->options[0]->id)->value }}" @endif
+                class="form-control form-control-sm input_user_data">
         @else
             <input {{ isset($disabled) ? $disabled : '' }} data-reference_id="{{ $reference->id }}"
                 data-name="{{ $reference->name }}" data-option="{{ $reference->options[0]->id }}"
                 data-type="{{ $reference->type_data_id }}" name="static_data[]"
                 data-section="{{ $reference->section }}" type="text" 
-                @if (isset($model) and $reference->options[0] and $model->getDataVal($reference->id, $reference->options[0]->id)) value="{{ $model->getDataVal($reference->id, $reference->options[0]->id)->value }}" @endif
+                @if (isset($model) and $reference->options[0] 
+                and $model->getDataVal($reference->id, $reference->options[0]->id)) 
+                value="{{ $model->getDataVal($reference->id, $reference->options[0]->id)->value }}" 
+                @endif
                 class="form-control form-control-sm input_user_data">
         @endif
 

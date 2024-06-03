@@ -76,15 +76,6 @@
                                                         {{ count($user->roles) > 0 ? $user->roles[0]->name : 'Asignar rol' }}
                                                     </p>
 
-                                                    {{--     <ul class="list-group list-group-unbordered mb-3">
-                  <li class="list-group-item">
-                    <b>Casos asistidos</b> <a class="float-right">122</a>
-                  </li>
-                  <li class="list-group-item">
-                    <b>Casos abiertos</b> <a class="float-right">53</a>
-                  </li>
-                 
-                </ul> --}}
                                                     @can('asig_rol')
                                                         <a href="#" id="btn_asignar_rol"
                                                             class="btn btn-warning btn-xs btn-block"><b>Cambiar rol</b></a>
@@ -125,21 +116,21 @@
                                                 <div class="card-header p-2">
                                                     <ul class="nav nav-pills">
                                                         <li class="nav-item">
-                                                            <a class="nav-link active" href="#settings"
+                                                            <a class="nav-link active urlactive" href="#settings"
                                                                 data-toggle="tab">Información</a>
                                                         </li>
-                                                        <li class="nav-item "><a class="nav-link" href="#timeline"
+                                                        <li class="nav-item"><a class="nav-link urlactive" href="#timeline"
                                                                 data-toggle="tab">Otros datos</a></li>
                                                         @if ($canedit)
-                                                            <li class="nav-item "><a class="nav-link" href="#password"
-                                                                    data-toggle="tab">Contraseña</a></li>
+                                                            <li class="nav-item"><a class="nav-link urlactive"
+                                                                    href="#password" data-toggle="tab">Contraseña</a></li>
                                                         @endif
                                                         @if ($canedit)
-                                                            <li class="nav-item "><a class="nav-link" href="#note"
-                                                                    data-toggle="tab">Notas</a></li>
+                                                            <li class="nav-item "><a class="nav-link urlactive"
+                                                                    href="#note" data-toggle="tab">Notas</a></li>
                                                         @endif
                                                         @if ($canedit and auth()->user()->id != $user->id)
-                                                            <li class="nav-item "><a class="nav-link btn_chat"
+                                                            <li class="nav-item "><a class="nav-link urlactive btn_chat"
                                                                     href="#chat" data-toggle="tab">Chat</a></li>
                                                         @endif
 
@@ -165,40 +156,35 @@
                                                             </div>
 
                                                             <div class="row setOlderValue" id="content_user_aditional_data">
-                                                               <div class="col-md-12">
-                                                                <h4>
-                                                                  Datos de caso
-                                                                </h4>
-                                                               </div>
+                                                                <div class="col-md-12">
+                                                                    <h4>
+                                                                        Datos de caso
+                                                                    </h4>
+                                                                </div>
                                                                 @include(
                                                                     'content.categories.partials.questions',
                                                                     [
                                                                         'col' => 4,
                                                                         'model' => $user,
-                                                                        'data' => $user->getReferences('case','type_data_user'),
+                                                                        'data' => $user->getReferences(
+                                                                            'case',
+                                                                            'type_data_user'),
                                                                     ]
                                                                 )
-
                                                                 @include(
                                                                     'content.categories.partials.questions',
                                                                     [
                                                                         'col' => 4,
                                                                         'model' => $user,
-                                                                        'data' => $user->getReferences('case','type_data_user'),
-                                                                    ]
-                                                                )
-                                                                   @include(
-                                                                    'content.categories.partials.questions',
-                                                                    [
-                                                                        'col' => 4,
-                                                                        'model' => $user,
-                                                                        'data' => $user->getReferences('aditional_info','type_data_user'),
+                                                                        'data' => $user->getReferences(
+                                                                            'aditional_info',
+                                                                            'type_data_user'),
                                                                     ]
                                                                 )
                                                             </div>
-                                                            
 
-                                                         {{--    <div id="content_user_static_data">
+
+                                                            {{--    <div id="content_user_static_data">
                                                                 @include('content.users.partials.ajax.static_data')
                                                             </div> --}}
 
@@ -278,7 +264,7 @@
 
     @push('scripts')
         <!-- aqui van los scripts de cada vista -->
-        <script type="text/javascript" src="{{ asset('our/js/user.js') }}"></script>
+        <script type="module" src="{{ asset('our/js/user.js') }}"></script>
         @if (Request::has('chat'))
             <script>
                 $(".btn_chat").click();

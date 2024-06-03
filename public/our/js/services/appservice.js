@@ -1,5 +1,5 @@
 export class AppService {
-    getQuestionValues(obj) {
+    getQuestionValues(obj) { 
         let data = {};
         if ((($(obj).attr("data-type") == 58
             || $(obj).attr("data-type") == 136) && $(obj).is(":checked"))
@@ -31,7 +31,7 @@ export class AppService {
         let data = this.getQuestionValues(obj);
         return {
             'user_id': $("#user_id").val(),
-            'component': 'case',
+            'component': data.section,
             "data": [{
                 "question_id": data.question_id,
                 "options": [

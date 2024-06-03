@@ -6,6 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
+
 class LoginController extends Controller
 {
     /*
@@ -42,21 +45,18 @@ class LoginController extends Controller
     {
         return view('auth.login');
     }
-    public function redirectTo(){
-        
+    public function redirectTo()
+    {
+
         // User role
-            $role = \Auth::user()->roles()->first(); 
-            $userlogin=\Auth::user();
-           
-            
+        $role = Auth::user()->roles()->first();
+        $userlogin = Auth::user();      
         // Check user role
-        if(auth()->user()->can('access_dashboard_cases')
-        ){          
+        if (auth()->user()->can('access_dashboard_cases')) {
             return '/casos';
         } elseif (auth()->user()->can('acceso_oficina_virtual')) {
             return '/oficina';
         }
-         
     }
 
     public function logout(Request $request)
@@ -64,9 +64,9 @@ class LoginController extends Controller
         if (auth()->guard()) {
             auth()->guard()->logout();
 
-        $request->session()->invalidate();
+            $request->session()->invalidate();
 
-        return redirect('/login');
+            return redirect('/login');
         } else {
             return  redirect('/login');
         }

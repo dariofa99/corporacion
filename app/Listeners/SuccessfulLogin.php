@@ -6,15 +6,16 @@ use App\Events\LoginEvent;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Auth\Events\Login;
-use Redis;
-use Cookie;
 use App\Models\SessionAdmin;
 use App\Models\User;;
 use App\Jobs\SendLoginNotificationEmail;
 use App\Jobs\SendLoginClientNotificationEmail;
 use App\Notifications\LoginNotification;
 use App\Notifications\LoginClientNotification;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Session;
+
 class SuccessfulLogin
 {
     /**
@@ -55,7 +56,9 @@ class SuccessfulLogin
         $event->user->remember_token = $session->token_pc;
         $event->user->save();   
         //broadcast(new LoginEvent($event->user))->toOthers();
-       
+        request()
+        ->session()  
+        ->flash('message-information',"Nota");
       
        try {  
         $cases = $event->user->cases()->where('type_user_id',7)->get();      

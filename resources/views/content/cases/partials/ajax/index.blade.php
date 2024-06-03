@@ -5,12 +5,15 @@
                     <th>Solicitante</th>
                     <th>Tipo de proceso</th>
                     <th>Rama del derecho</th>
+                    <th>Fecha de creación</th>
+                    
                     <th>Estado</th>
                     
                     <th>Acciones</th>
                   </tr>
                   </thead>
                   <tbody>
+                   
                   @foreach ($cases as $case )     
                     <tr id="row-case-{{$case->id}}">
                       <td>{{$case->case_number}}</td>
@@ -26,6 +29,7 @@
                       </td>
 
                        <td>{{$case->branch_law}}</td>
+                       <td>{{getSmallDateWithHour($case->created_at)}}</td>
 
                        <td> 
 

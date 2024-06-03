@@ -1,8 +1,11 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Reception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class ReceptionsController extends Controller
 {
@@ -11,14 +14,21 @@ class ReceptionsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        
-       $receptions = Reception::where('type_status_id',142)    
-       ->orderBy('created_at','desc')->get();
-       return view("content.receptions.index",compact('receptions'));
+
+        $receptions = Reception::where('type_status_id', 142)
+            ->GetData($request)
+            ->orderBy('created_at', 'desc')->get();
+        if ($request->ajax()) {
+            $response = [
+                'view' => view("content.receptions.partials.ajax.index", compact('receptions'))->render(),
+            ];
+            return response()->json($response);
+        }
+        return view("content.receptions.index", compact('receptions'));
     }
- 
+
     /**
      * Show the form for creating a new resource.
      *
@@ -37,11 +47,12 @@ class ReceptionsController extends Controller
      */
     public function store(Request $request)
     {
+        //return response()->json($request->all());
         $reception = Reception::create([
-            'number'=>time(),
-            'token'=>bcrypt(\Str::random(5)),
-            'user_id'=>auth()->user()->id,
-            'type_status_id'=>142
+            'number' => time(),
+            'token' => str_replace("/", "", Hash::make(Str::random(60))),
+            'user_id' => $request->id,
+            'type_status_id' => 142
         ]);
         return response()->json($reception);
     }
@@ -65,9 +76,9 @@ class ReceptionsController extends Controller
      */
     public function edit($id)
     {
-        
-       $reception = Reception::findOrFail($id);
-       return view("content.receptions.edit",compact('reception'));
+
+        $reception = Reception::findOrFail($id);
+        return view("content.receptions.edit", compact('reception'));
     }
 
     /**

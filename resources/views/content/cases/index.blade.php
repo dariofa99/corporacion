@@ -78,6 +78,7 @@
                           <option value="type_case">Tipo de proceso</option>
                           <option value="branch_law">Rama del derecho</option>
                           <option value="status">Estado caso</option>
+                          <option value="created_at">Fecha de creación</option>
                         </select>
                       </div>
                     </div>
@@ -132,6 +133,7 @@
 
     </section>
     <!-- /.content -->
+    
 
 @endsection
 

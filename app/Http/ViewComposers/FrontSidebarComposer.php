@@ -27,7 +27,9 @@ class FrontSidebarComposer
  
       
             $num_cases = auth()->user()->cases()
-            ->where('type_status_id', '!=',15)->where('type_user_id',7)->count();
+            ->where('type_status_id', '!=',15)
+            ->where('type_user_id',7)
+            ->count();
 
             $receptions = auth()->user()
             ->receptions()->where('receptions.type_status_id', '=',142)->count();

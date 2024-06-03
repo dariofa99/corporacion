@@ -87,7 +87,7 @@
 <!-- fullCalendar 2.2.5 -->
 <script type="text/javascript" src="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.js')}}"></script>
 
-<script type="text/javascript" src="{{asset('our/js/references_data.js')}}"></script> 
+<script type="module" src="{{asset('our/js/references_data.js')}}"></script> 
 
 
 

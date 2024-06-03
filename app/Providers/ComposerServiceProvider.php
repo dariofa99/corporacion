@@ -24,49 +24,51 @@ class ComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-       
+
 
         View::composer([
-                'content.users.user_edit',
-                'content.front.user.*',
-                'content.users.users_list',
-                'content.users.partials.modals.asignacion_rol',    
-                'content.users.partials.ajax.*',
-                'auth.register'       
-                 ],'App\Http\ViewComposers\UsersComposer');
+            'content.categories.*',            
+        ], 'App\Http\ViewComposers\CategoriesComposer');
 
         View::composer([
-                    'content.cases.create',
-                    'content.cases.edit',
-                    'content.cases.index',
-                    'content.cases.partials.ajax.*',
-                               
-                     ],'App\Http\ViewComposers\CasesComposer');
+            'content.users.user_edit',
+            'content.front.user.*',
+            'content.users.users_list',
+            'content.users.partials.modals.asignacion_rol',
+            'content.users.partials.ajax.*',
+            'auth.register'
+        ], 'App\Http\ViewComposers\UsersComposer');
 
         View::composer([
-                        'layouts.sidebar',           
-                                   
-                         ],'App\Http\ViewComposers\SidebarComposer'); 
-        View::composer([
-                        'front.sidebar',
-                        'content.front.navbar',                               
-            ],'App\Http\ViewComposers\FrontSidebarComposer'); 
-                         
-        View::composer([
-            'content.diary.index',   
-            'content.front.diary.index'       
-        ],'App\Http\ViewComposers\DiaryComposer'); 
-        View::composer([
-            'content.front.payments.*',   
-        ],'App\Http\ViewComposers\FrontComposer'); 
+            'content.cases.create',
+            'content.cases.edit',
+            'content.cases.index',
+            'content.cases.partials.ajax.*',
+
+        ], 'App\Http\ViewComposers\CasesComposer');
 
         View::composer([
-            'content.directory.*',   
-        ],'App\Http\ViewComposers\DirectoryComposer'); 
-        View::composer([
-            'content.panic_api.*',   
-        ],'App\Http\ViewComposers\PanicAlertComposer'); 
-           
+            'layouts.sidebar',
 
+        ], 'App\Http\ViewComposers\SidebarComposer');
+        View::composer([
+            'front.sidebar',
+            'content.front.navbar',
+        ], 'App\Http\ViewComposers\FrontSidebarComposer');
+
+        View::composer([
+            'content.diary.index',
+            'content.front.diary.index'
+        ], 'App\Http\ViewComposers\DiaryComposer');
+        View::composer([
+            'content.front.payments.*',
+        ], 'App\Http\ViewComposers\FrontComposer');
+
+        View::composer([
+            'content.directory.*',
+        ], 'App\Http\ViewComposers\DirectoryComposer');
+        View::composer([
+            'content.panic_api.*',
+        ], 'App\Http\ViewComposers\PanicAlertComposer');
     }
 }

@@ -51,6 +51,8 @@ $("#myFormSearchLog").on("submit", function (e) {
 
 $('#myFormSearchIndex select[name=type]').on('change', function (e) {
     $(".input_data").prop('disabled', true).hide().val('');
+    $('#myFormSearchIndex input[id=types_text]').attr("type","text");
+           
     switch (this.value) {
         case 'view_all':
             $('#myFormSearchIndex input[id=types_text]').show();
@@ -68,6 +70,9 @@ $('#myFormSearchIndex select[name=type]').on('change', function (e) {
             break;
         case 'status':
             $('#myFormSearchIndex select[id=types_status]').prop('disabled', false).show();
+            break;
+        case 'created_at':
+             $('#myFormSearchIndex input[id=types_text]').show().attr("type","date").prop('disabled', false);
             break;
 
         default:
@@ -180,7 +185,7 @@ $("#myformCreateUser input[name=type_identification_id]").on('change', function 
             'identification_number': identification_number,
             'type_identification_id': this.value
         }
-      
+
         casef.findUser(request);
     }
 })
@@ -192,7 +197,7 @@ $("#myformCreateUser input[name=identification_number]").on('blur', function () 
             'identification_number': this.value,
             'type_identification_id': type_identification
         }
-      
+
         casef.findUser(request);
     }
 });
@@ -204,7 +209,7 @@ $("#myformCreateUser button[type=button]").on('click', function (e) {
     var case_id = $("#myFormEditCase input[name=id]").val();
     if (case_id !== undefined) {
         var request = $("#myformCreateUser").serialize() + "&case_id=" + case_id;
-      
+
         casef.insertUser(request);
     }
 
@@ -217,7 +222,7 @@ $("#myformCreateUser").on('submit', function (e) {
     if (case_id !== undefined) {
         request = request + "&case_id=" + case_id;
     }
-  
+
 
     casef.storeUser(request);
     e.preventDefault();
@@ -227,7 +232,7 @@ $("#myFormCreateCase").on("submit", function (e) {
     var user_number = $("#myFormCreateCase input[name=user_identification_number]").val();
     var user_id = $("#myFormCreateCase input[name=user_id]").val();
     if (user_number != '' || user_id != '') {
-      
+
         var request = $(this).serialize();
         casef.store(request);
     } else {
@@ -244,7 +249,7 @@ $("#myFormCreateCase").on("submit", function (e) {
 });
 
 $("#myFormEditCase").on("submit", function (e) {
-  
+
     casef.id = $("#myFormEditCase input[name=id]").val()
     var request = $(this).serialize();
     casef.update(request);
@@ -308,7 +313,7 @@ $(".content_client_data").on("click", '.btn_delete_user', function (e) {
         if (result.value) {
 
             casef.deleteUserCase(request);
-            
+
         }
     });
 });
@@ -386,8 +391,8 @@ $("#btn_add_user_data").on('click', async function () {
     }
     $("#wait").show()
     await httpService.post("casos/insert/input/for/user", request, async function (data) {
-       
-       // $("#wait").hide()
+
+        // $("#wait").hide()
         toastr.success('Asignado con éxito!', '',
             { "positionClass": "toast-bottom-right", "timeOut": "1000" });
         location.reload(true)

@@ -178,7 +178,7 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('ver_categorias_')
+                            @can('ver_categorias')
                                 <li class="nav-item ml-3">
                                     <a href="{{ route('categorias.index') }}" class="nav-link">
                                         <i class="fas fa-bars nav-icon"></i>

@@ -1,19 +1,23 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\PaymentCredit;
 use App\Models\CaseM;
 use Illuminate\Http\Request;
 use App\Models\ReferenceData;
 use App\Models\ReferenceDataOptions;
 use DB;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Validator;
+
 class ReferencesDataController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');      
+        $this->middleware('auth');
         $this->middleware('permission:ver_categorias',   ['only' => ['index']]);
-        $this->middleware('permission:crear_categorias',   ['only' => ['create','store']]);
+        $this->middleware('permission:crear_categorias',   ['only' => ['create', 'store']]);
     }
 
     /**
@@ -24,13 +28,13 @@ class ReferencesDataController extends Controller
     public function index()
     {
         $categories = $this->getCategories();
-        return view('content.categories.index',compact('categories'));
+        return view('content.categories.index', compact('categories'));
     }
 
-    public function getCategories() 
-    { 
-      
-        return  ReferenceData::orderBy('categories','asc')->where('is_visible',1)->get();
+    public function getCategories()
+    {
+
+        return  ReferenceData::orderBy('categories', 'asc')->where('is_visible', 1)->get();
     }
 
 
@@ -52,31 +56,54 @@ class ReferencesDataController extends Controller
      */
     public function store(Request $request)
     {
-       // return response()->json($request->all());
-        if($request->categories == 'type_category_log'){
-            $request['table'] = 'case_log'; $request['section'] = null;
-        } 
-        if($request->categories == 'type_data_user') $request['table'] = 'users';
-        if($request->categories == 'type_data_directory'){
-            $request['table'] = 'directory';  $request['section'] = null; 
-        }    
+        // return response()->json($request->all());
+        $messages = [
+            'name.unique' => 'El nombre  ya existe.',
+            'name.required' => 'El nombre es requerido.',
+        ];
+        $validator = Validator::make(
+            $request->all(),
+            [
+                'name' => ['required', 'unique:references_data'],
+            ],
+            $messages,
+        );
+
+        if ($validator->fails()) {
+            if ($request->header('X-Requested-With') == 'XMLHttpRequest') {
+                //return response()->json(errors$validator);
+                return response()->json(['errors' => $validator->errors()->all()]);
+            }
+        }
+        if ($request->categories == 'type_category_log') {
+            $request['table'] = 'case_log';
+            $request['section'] = null;
+        }
+        if ($request->categories == 'type_data_user') $request['table'] = 'users';
+        if ($request->categories == 'type_data_directory') {
+            $request['table'] = 'directory';
+            $request['section'] = null;
+        }
+        $request["short_name"] = sanear_string($request->name);
+        $request["section"] = $request->has("section") ? $request->section : "general";
+        //        return response()->json($request->all());
         $referencia = new ReferenceData($request->all());
         $referencia->save();
-        if($request->chk_add_option == 'true' and $request->has('option_name')){
+        if ($request->has('option_name')) {
             foreach ($request->option_name as $key => $option) {
-                $insrefeop= ReferenceDataOptions::create([
-                    'value'=>$option, 
-                    'references_data_id'=>$referencia->id,
-                    'active_other_input'=>$request->active_other_input[$key]
+                $insrefeop = ReferenceDataOptions::create([
+                    'value' => $option,
+                    'value_db' => sanear_string($option),
+                    'references_data_id' => $referencia->id,
+                    'active_other_input' => $request->active_other_input[$key]
                 ]);
             }
         }
         $categories = $this->getCategories();
-        $view =  view('content.categories.partials.ajax.index',compact('categories'))->render();
-        $response=[];
+        $view =  view('content.categories.partials.ajax.index', compact('categories'))->render();
+        $response = [];
         $response['render_view'] = $view;
-        return response()->json( $response);
-
+        return response()->json($response);
     }
 
     /**
@@ -98,8 +125,8 @@ class ReferencesDataController extends Controller
      */
     public function edit($id)
     {
-        $referencia = ReferenceData::find($id);     
-        $referencia->options; 
+        $referencia = ReferenceData::find($id);
+        $referencia->options;
         return response()->json($referencia);
     }
 
@@ -114,34 +141,53 @@ class ReferencesDataController extends Controller
     {
         //return response()->json($request->all()); 
         $referencia = ReferenceData::find($id);
+        $request["short_name"] = sanear_string($request->name);
+
+        // $referencia->options;
+        //return response()->json([$request->all(),$referencia]);
+        if ($request->has('itemsDelete')) {
+            $option_o = ReferenceDataOptions::whereIn("id", $request->itemsDelete)
+                ->delete();
+        }
+        if ($referencia->type_data_id != $request->type_data_id) {
+            if ($request->type_data_id == 26 or $request->type_data_id == 146) {
+                $option_o = ReferenceDataOptions::where('references_data_id', $referencia->id)->delete();
+            }
+        }
         $referencia->fill($request->all());
         $referencia->save();
-        $referencia->options;           
-        if($request->chk_add_option == 'true' and $request->has('option_name')){
+        if ($request->has('option_name')) {
             foreach ($request->option_name as $key => $option) {
-                if($request->options_id[$key]!='null'){
-                    $option_o = ReferenceDataOptions::find($request->options_id[$key]);                   
-                    if($option_o){
+                if (isset($request->options_id[$key]) and $request->options_id[$key] != 'null') {
+                    $option_o = ReferenceDataOptions::find($request->options_id[$key]);
+                    if ($option_o) {
                         $option_o->value = $option;
+                        $option_o->value_db = sanear_string($option);
                         $option_o->active_other_input = $request->active_other_input[$key];
                         $option_o->save();
+                    } else {
+                        $insrefeop = ReferenceDataOptions::create([
+                            'value' => $option,
+                            'value_db' => sanear_string($option),
+                            'references_data_id' => $referencia->id,
+                            'active_other_input' => $request->active_other_input[$key]
+                        ]);
                     }
-                }else{ 
-                  $insrefeop= ReferenceDataOptions::create([
-                        'value'=>$option, 
-                        'references_data_id'=>$referencia->id,
-                        'active_other_input'=>$request->active_other_input[$key]
+                } else {
+                    $insrefeop = ReferenceDataOptions::create([
+                        'value' => $option,
+                        'value_db' => sanear_string($option),
+                        'references_data_id' => $referencia->id,
+                        'active_other_input' => $request->active_other_input[$key]
                     ]);
                 }
-               
-               
             }
-        }elseif(count($referencia->options) > 0 and !$request->has('option_name')){
+        } elseif (count($referencia->options) > 0 and !$request->has('option_name')) {
             $referencia->options()->delete();
         }
         $categories = $this->getCategories();
-        $view =  view('content.categories.partials.ajax.index',compact('categories'))->render();
-        $response=[];
+        $view =  view('content.categories.partials.ajax.index', compact('categories'))->render();
+        $response = [];
         $response['render_view'] = $view;
         return response()->json($response);
     }
@@ -154,19 +200,18 @@ class ReferencesDataController extends Controller
      */
     public function destroy($id)
     {
-        $referencia = ReferenceData::find($id);  
+        $referencia = ReferenceData::find($id);
         $exists_l = $referencia->logs()->where('case_log.type_category_id', $id)->exists();
-        $exists_u = $referencia->users()->where('user_data.type_data_id', $id)->exists();  
-        if(!$exists_l and !$exists_u){
-          
+        $exists_u = $referencia->users()->where('user_data.type_data_id', $id)->exists();
+        if (!$exists_l and !$exists_u) {
+
             $referencia->is_visible = 0;
             $referencia->save();
-            
         }
-        
+
         $categories = $this->getCategories();
-        $view =  view('content.categories.partials.ajax.index',compact('categories'))->render();
-        $response=[];
+        $view =  view('content.categories.partials.ajax.index', compact('categories'))->render();
+        $response = [];
         $response['render_view'] = $view;
         return response()->json($response);
     }
