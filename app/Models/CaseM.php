@@ -126,7 +126,8 @@ class CaseM extends Model // implements Auditable
     public function scopeGetData($query, $request)
     {
 
-        if (trim($request->data)) {
+        if (trim($request->data)) { 
+
             if ($request->type and $request->data and ($request->type == 'case_number' || $request->type == 'type_case' ||
                 $request->type == 'branch_law' || $request->type == 'status' || $request->type == 'created_at')) {
                 return $query->Where(function ($query) use ($request) {
@@ -137,7 +138,8 @@ class CaseM extends Model // implements Auditable
                     $query->orWhereDate('cases.created_at', '=', $request->data);
                 });
             }
-
+            $query->leftJoin('user_cases', 'user_cases.case_id', '=', 'cases.id')
+            ->join('users','users.id','=','user_cases.user_id');
             return $query->Where(function ($query) use ($request) {
                 $query->orWhere('users.name', 'like', '%' . $request->data . '%');
                 $query->orWhere('users.identification_number', $request->data);
