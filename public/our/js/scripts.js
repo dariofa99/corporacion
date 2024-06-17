@@ -36,13 +36,15 @@ $(document).ready(function () {
     let obj = $(this);
     var request = appService.getAditionalQuestion(obj)
     await httpService.post("users/insert/data", request, async function (data) {
-     
+
       toastr.success('Guardado con éxito!', '',
         { "positionClass": "toast-bottom-right", "timeOut": "1000" });
+
       if (obj.attr("id").split("-", -1)[0] == 'input_about_me') {
         $("#content_user_data_about_me #lbl_btn_dedit-" + obj.attr('data-reference_id')).show();
         $("#content_user_data_about_me #input_about_me-" + obj.attr('data-reference_id')).attr('type', 'hidden');
         $("#content_user_data_about_me #lblTextQu-" + obj.attr('data-reference_id')).text(request.data[0].options[0].value);
+
       }
     });
   });
