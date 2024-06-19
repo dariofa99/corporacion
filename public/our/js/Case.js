@@ -1176,7 +1176,7 @@ function fillModalPayCredit(res) {
     $("#myformPayCredits input[name=payment_date]").val(limit_payment_date);
 
 }
-
+ 
 function fillModalCaseLog(res, image_list) {
     $("#myformCreateLog").attr('id', 'myformEditLog');
     $("#myformEditLog")[0].reset();

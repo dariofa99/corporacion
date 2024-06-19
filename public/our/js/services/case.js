@@ -574,11 +574,11 @@ export class CaseM {
                 $("#wait").hide();
                 if (res.caseL.type_log_id != 22) {
                     $('#myModal_create_log').modal({ backdrop: 'static', keyboard: false })
-                    fillModalCaseLog(res.caseL, res.image_list);
+                    this.fillModalCaseLog(res.caseL, res.image_list);
                     myDropzone_log.options.autoQueue = true;
                 } else if (res.caseL.type_log_id == 22) {
                     //if($("#myformEditClientLog").length>0){
-                    fillModalCaseClientLog(res.caseL, res.image_list)
+                    this.fillModalCaseClientLog(res.caseL, res.image_list)
                     //}
 
                 }
@@ -589,7 +589,93 @@ export class CaseM {
             }
         });
     }
+    
+    fillModalCaseClientLog(res, image_list) {
+        $("#myformCreateClientLog").attr('id', 'myformEditClientLog');
+        $("#myformEditClientLog")[0].reset();
+        $("#myformEditClientLog input[name=id]").val(res.id);
+        $("#myformEditClientLog input[name=category_name]").val('').prop('disabled', true).attr('type', 'hidden');
+        $("#myformEditClientLog input[name=concept]").val(res.concept)
+        $("#myformEditClientLog input[name=fecha_c]").attr('type', 'text').val(res.created_at).prop('disabled', true)
+        $("#myformEditClientLog input[name=type_log_id]").val(res.type_log_id)
+        $("#myformEditClientLog textarea[name=description]").val(res.description);
+        $("#myformEditClientLog select[name=type_category_id]").val(res.type_category_id)
+        $("#myformEditClientLog input[name=shared]").prop('checked', res.shared).change();
+        $("#myformEditClientLog input[name=share_on_diary]").prop('checked', false).change();
+    
+        //
+        if (res.files[0]) {
+            $("#myformEditClientLog .custom-file-label").html('<small><i>' + res.files[0].original_name + '</i></small>')
+            $("#myformEditClientLog input[id=has_file]").val('1');
+            $("#content_form_cl #logFile").prop('required', false);
+    
+        } else {
+            $("#myformEditClientLog .custom-file-label").html('<small><i>Sin  Archivo</i></small>')
+            $("#myformEditClientLog input[id=has_file]").val('0');
+            if (res.type_log_id == 33) {
+                $("#content_form_cl #logFile").prop('required', true);
+            }
+        }
+        $("#myformEditClientLog button[type=submit]").text('Actualizar')
+            .removeClass('btn-primary').addClass('btn-warning')
+        $("#wait").hide();
+        $("#myModal_create_log").modal('show')
+    
+    }
 
+fillModalCaseLog(res, image_list) {
+    $("#myformCreateLog").attr('id', 'myformEditLog');
+    $("#myformEditLog")[0].reset();
+    $("#myformEditLog input[name=id]").val(res.id);
+    $("#myformEditLog input[name=category_name]").val('').prop('disabled', true).attr('type', 'hidden');
+    $("#myformEditLog input[name=filing_date]").val(res.filing_date)
+    $("#myformEditLog input[name=concept]").val(res.concept)
+    $("#myformEditLog input[name=fecha_c]").attr('type', 'text').val(res.created_at).prop('disabled', true)
+    $("#myformEditLog input[name=type_log_id]").val(res.type_log_id)
+    $("#myformEditLog textarea[name=description]").val(res.description);
+    $("#myformEditLog select[name=type_category_id]").val(res.type_category_id)
+    $("#myformEditLog input[name=shared]").prop('checked', res.shared).change();
+    $("#myformEditLog input[name=share_on_diary]").prop('checked', false).change();
+    myDropzone_log.removeAllFiles(true);
+    if (res.type_log_id == 18) {
+        $("#myformEditLog input[name=support_docs]").prop('checked', false).change()
+    } else if (res.type_log_id == 33) {
+        $("#myformEditLog input[name=support_docs]").prop('checked', true).change()
+    }
+    if (res.notification_date != null) {
+        $("#myformEditLog input[name=recordatory]").prop('checked', true).change();
+        $("#myformEditLog input[name=notification_date]").val(res.notification_date);
+        if (res.share_on_diary) {
+            $("#myformEditLog input[name=share_on_diary]").prop('checked', true).change();
+            $("#myformEditLog input[name=share_on_diary]").bootstrapToggle('disable')
+        } else {
+            $("#myformEditLog input[name=share_on_diary]").prop('checked', false).change();
+            $("#myformEditLog input[name=share_on_diary]").bootstrapToggle('enable')
+        }
+    } else {
+        $("#myformEditLog input[name=recordatory]").prop('checked', false).change();
+        $("#myformEditLog input[name=notification_date]").prop('disabled', true);
+    }
+    //
+    if (res.files[0]) {
+        $("#myformEditLog .custom-file-label").html('<small><i>' + res.files[0].original_name + '</i></small>')
+        $("#myformEditLog input[id=has_file]").val('1');
+        $("#myformEditLog #log_files").html(image_list);
+        $("#content_form_cl #logFile").prop('required', false);
+
+    } else {
+        $("#myformEditLog .custom-file-label").html('<small><i>Sin  Archivo</i></small>')
+        $("#myformEditLog input[id=has_file]").val('0');
+        if (res.type_log_id == 33) {
+            $("#content_form_cl #logFile").prop('required', true);
+        }
+    }
+    $("#myformEditLog button[type=submit]").text('Actualizar')
+        .removeClass('btn-primary').addClass('btn-warning')
+    $("#wait").hide();
+    $("#myModal_create_log").modal('show')
+
+}
     logShow(request) {
 
         $.ajax({
