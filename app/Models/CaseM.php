@@ -138,8 +138,8 @@ class CaseM extends Model // implements Auditable
                     $query->orWhereDate('cases.created_at', '=', $request->data);
                 });
             }
-            $query->leftJoin('user_cases', 'user_cases.case_id', '=', 'cases.id')
-            ->join('users','users.id','=','user_cases.user_id');
+           /*  $query->leftJoin('user_cases', 'user_cases.case_id', '=', 'cases.id')
+            ->join('users','users.id','=','user_cases.user_id'); */
             return $query->Where(function ($query) use ($request) {
                 $query->orWhere('users.name', 'like', '%' . $request->data . '%');
                 $query->orWhere('users.identification_number', $request->data);

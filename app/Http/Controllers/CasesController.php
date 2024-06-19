@@ -70,10 +70,12 @@ class CasesController extends Controller
         $cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
             ->join('references_table as rtc','rtc.id','cases.type_case_id')
             ->join('references_table as rtr','rtr.id','cases.type_branch_law_id')
+            ->leftJoin('user_cases', 'user_cases.case_id', '=', 'cases.id')
+            ->join('users','users.id','=','user_cases.user_id')
             ->getData($request)
             ->where('cases.type_status_id','<>','15')
             ->select('cases.created_at','cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law')
-            ->orderBy('cases.created_at','desc')->paginate(15);
+            ->orderBy('users.name','asc')->paginate(15);
         if((!$request->data and !$request->type)){
            /*  $cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
             ->join('references_table as rtc','rtc.id','cases.type_case_id')
