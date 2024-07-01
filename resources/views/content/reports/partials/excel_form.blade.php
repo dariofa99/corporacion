@@ -1,4 +1,4 @@
-<form action="/reportes/excel/generate" method="POST">
+<form id="MyFormDownloadExcel" action="/reportes/excel/generate" method="POST" target="downloadFrame">
     @csrf
  <div class="row">
   <div class="col-md-12">
@@ -154,3 +154,4 @@
 
   </div>
 </form>
+<iframe id="downloadFrame" name="downloadFrame" style="display: none;"></iframe>

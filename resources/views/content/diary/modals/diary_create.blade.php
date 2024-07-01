@@ -74,7 +74,7 @@
                     <div class="form-group">
 
                         <label for="concept">Url</label>
-                        <input type="text" name="url" required class="form-control form-control" id="title_url">
+                        <input type="text" name="url" class="form-control form-control" id="title_url">
                     </div>
                     <div class="form-group ">
                         <label for="cp2">Color</label>

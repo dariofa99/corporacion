@@ -108,7 +108,7 @@
 <script src="{{asset('plugins/amcharts/serial.js')}}"></script>
 <script src="{{asset('plugins/amcharts/pie.js')}}"></script>
 <script src="{{asset('our/js/charts.js')}}"></script>
-<script src="{{asset('our/js/excel.js')}}"></script>
+<script type="module" src="{{asset('our/js/excel.js')}}"></script>
 
 
 
