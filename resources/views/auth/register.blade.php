@@ -16,7 +16,7 @@
                             <div class="col-sm-6">
                              @foreach ($types_identification as $key => $tipo_doc )
                                 <div class="form-check form-check-inline">
-                                  <input  class="form-check-input" checked type="radio" name="type_identification_id" id="type_identification-{{$key}}" value="{{$key}}">
+                                  <input required  class="form-check-input" @if($tipo_doc=="CC") checked @endif type="radio" name="type_identification_id" id="type_identification-{{$key}}" value="{{$key}}">
                                   <label class="form-check-label" for="inlineRadio1">{{$tipo_doc}}</label>
                                 </div>
                             @endforeach
