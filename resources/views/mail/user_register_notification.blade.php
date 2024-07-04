@@ -1,62 +1,62 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-    table  {
-width:100%;
+@extends('mail.layout.main')
 
-}
+@section('content')
+    <table
+        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-radius:4px;background-color:#ffffff"
+        width="100%" cellspacing="0" cellpadding="0" bgcolor="#ffffff" role="presentation">
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" bgcolor="#ffffff" align="justify"
+                style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:30px;padding-right:30px">
+                <p
+                    style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">
+                    Se ha creado una cuenta en el sistema {{ config('app.name') }}.<br>
+                    Para ingresar da clic en el enlace: <a href="{{ url('/') }}">{{ url('/') }}</a>
 
-table thead {
-border:1px solid #000000; 
-text-align:center;
+                    <br>
+                    Nombre de usuario: <strong>{{ $user->email }}</strong> <br>
+                    Contraseña: <strong>{{ $password_send }}</strong> <br>
 
-}
-img{
-    width:auto;
-    height:80px;
-}
-    </style>
-</head>
-<body>
+                </p>
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:35px;padding-bottom:35px">
+                <span class="es-button-border"
+                    style="border-style:solid;border-color:#DA4A23;background:1px;border-width:1px;display:inline-block;border-radius:2px;width:auto">
 
-<table>
-<thead>
-<th colspan="2" align="center">
-<img src="{{asset('/dist/img/legalis.jpg')}}" alt="User Image">
-</th>
-</thead>
-<tbody>
-<tr>
-<td colspan="2">
-Se ha creado una cuenta en el sistema Lybra.<br>
-Para ingresar da clic en el enlace: <a href="{{url('/')}}">{{url('/')}}</a><br>   
-</td>
-</tr>
+                </span>
+                <small>Para mayor seguridad, recuerda que puedes cambiar la contraseña desde el perfil de
+                    usuario.</small>
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px;text-size:15px">
+                Ingresa al sistema para ver más sobre esta
+                novedad dondo clic
+                <a href="{{ url('/') }}">aquí</a>.
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px">
 
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px">
+                <p
+                    style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">
 
-<tr>
-<td colspan="2">Nombre de usuario: {{$user->email}}</td>
-</tr>
-<tr>
-<td colspan="2">Contraseña: {{$password_send}}</td>
-</tr>
-<tr>
-    <td colspan="2"><small>Para mayor seguridad, recuerda que puedes cambiar la contraseña desde el perfil de usuario.</small>   </td>
-    </tr>
+                </p>
+            </td>
+        </tr>
 
-</tbody>
-</table>
-<hr>
-<i> AMATAI, Ingeniería Informática SAS. </i>
-   {{--  <p> <strong>Fecha</strong> 
-     {!! \Carbon\Carbon::parse($fecha)->diffForHumans()!!}</p>
-   <p> <strong>Hora</strong> {!!$hora!!}</p>   
-   <p> <strong>Motivo</strong> {!!$motivo!!}</p> --}}
- 
-</body>
-</html>
+        <tr>
+            <td style="padding: 5px">
+                <img style="width: 100%;" src="{{ asset('dist/img/cintilla_logos.png') }}" alt="">
+            </td>
+        </tr>
+    </table>
+@endsection

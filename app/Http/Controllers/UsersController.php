@@ -53,7 +53,12 @@ class UsersController extends Controller
     public function index(Request $request)
     {
         $users = $this->getUsers($request);
-
+        if($request->ajax()){ 
+            $response = [
+                'view'=>view('content.users.partials.ajax.index',compact('users'))->render(),
+            ];
+            return response()->json($response);      
+        }
         return view('content.users.users_list', compact('users'));
     }
 
@@ -61,6 +66,7 @@ class UsersController extends Controller
     {
         $users = User::join('model_has_roles as ru', 'users.id', '=', 'ru.model_id')
             ->where('type_status_id', '<>', 15)
+            ->GetData($request)
             ->where('users.id', '<>', Auth::user()->id)
             ->where('role_id', '<>', '1')
             ->paginate(10);

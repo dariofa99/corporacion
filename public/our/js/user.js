@@ -5,7 +5,71 @@ const user = new User();
 const httpService = new HttpService();
 (function () {
 
- 
+  $("#btn_create_nwus").on('click', function (e) {
+    e.preventDefault();
+    $("#myModal_create_user").modal('show');
+  });
+
+  $("#myformCreateNewUser").on('submit', function (e) {
+    var request = $(this).serialize() + '&view=user';
+    user.store(request)
+    /* Swal.fire({
+  title: 'Creando...',
+  html: 'Espere por favor <strong></strong> .',
+  timer: 2000,
+  onBeforeOpen: () => {
+    Swal.showLoading()
+    timerInterval = setInterval(() => {      
+    }, 100)
+  }  
+}); */
+    e.preventDefault();
+  });
+
+  $("#myformCreateNewUser input[name=type_identification_id]").on('change', function () {
+    var identification_number = $("#myformCreateNewUser input[name=identification_number]").val();
+    if (identification_number != '') {
+      var request = {
+        'identification_number': identification_number,
+        'type_identification_id': this.value
+      }
+
+      user.findUser(request);
+    }
+  })
+
+  $("#myformCreateNewUser input[name=identification_number]").on('blur', function () {
+    var type_identification = $("#myformCreateNewUser input[name=type_identification_id]:checked")
+      .val();
+    if (this.value != '') {
+      var request = {
+        'identification_number': this.value,
+        'type_identification_id': type_identification
+      }
+      user.findUser(request);
+    }
+  });
+
+  $("#content_list_users_table").on('click', '.btn_delete_user', function (e) {
+    e.preventDefault();
+    var id = $(this).attr('id');
+    Swal.fire({
+      title: '¿Estas seguro de eliminar el registro?',
+      text: "Los cambios no pueden ser revertidos!",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'SI, eliminar!',
+      cancelButtonText: 'Cancelar',
+    }).then((result) => {
+      if (result.value) {
+        user.delete(id)
+      }
+    });
+
+  });
+
 
   $("#btn_asignar_rol").on('click', function (e) {
     $("#myModal_asignar_rol").modal('show');
@@ -28,18 +92,18 @@ const httpService = new HttpService();
 
   });
 
-  $("#myformEditUser").on("submit",async function (e) {
+  $("#myformEditUser").on("submit", async function (e) {
     e.preventDefault();
     var request = convertFormToJSON("myformEditUser") // $(this).serialize();
     //user.update(request);
-    await httpService.post("admin/users/update",request,function(data) {
-      console.log(data);      
+    await httpService.post("admin/users/update", request, function (data) {
+      console.log(data);
       Toast.fire({
         type: 'success',
         title: "Actualizado con éxito"
-    });
+      });
     })
-    
+
   })
 
 

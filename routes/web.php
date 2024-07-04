@@ -24,6 +24,8 @@ use Illuminate\Support\Facades\Route;
 use App\Events\MyEvent;
 use Facades\App\Facades\ApiChat;
 use App\Jobs\SendAccountActivatedUserNotification;
+use App\Models\CaseLog;
+use App\Models\Diary;
 use App\Models\ReferenceData;
 use App\Models\ReferenceDataOptions;
 
@@ -89,6 +91,13 @@ Route::get('/terminosycondiciones', function () {
 
 Route::get('/pruebas/app', function () {
 	//AuditLogFacade::create();
+	$token = "jsjsj";
+	$date = "06 julio 2024";
+	$user = auth()->user();
+	$password_send = "documento";
+	$caseL = CaseLog::first();
+	return view('mail.user_register_notification',compact('password_send','user'));
+
 	$data = ReferenceDataOptions::all();
 	foreach ($data as $location) {
 		$shortName = sanear_string($location->value);

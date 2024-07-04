@@ -1,98 +1,97 @@
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-    table  {
-width:100%;
+@extends('mail.layout.main')
 
-}
+@section('content')
+    <table
+        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-radius:4px;background-color:#ffffff"
+        width="100%" cellspacing="0" cellpadding="0" bgcolor="#ffffff" role="presentation">
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" bgcolor="#ffffff" align="justify"
+                style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:30px;padding-right:30px">
+                <p
+                    style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">
 
-table thead {
-border:1px solid #000000; 
-text-align:center;
+                    Se ha detectado un inicio de sesión desde un equipo
+                    @if ($session->locked)
+                        registrado como
+                        <strong> BLOQUEADO</strong>
+                        @if ($session->confirm)
+                            y <strong> CONFIRMADO</strong>
+                        @endif
+                    @elseif($session->confirm)
+                        registrado como <strong>SEGURO</strong>
+                        @if ($session->logout)
+                            y con la<strong> SESIÓN CERRADA</strong>
+                        @endif
+                    @else
+                        sin confirmar @if ($session->logout)
+                            y con la<strong> SESIÓN CERRADA</strong>
+                        @endif
+                    @endif
+                    en tu cuenta de {{ config('app.name') }}.<br>
 
-}
-img{
-    width:auto;
-    height:80px;
-}
-    </style>
-</head>
-<body>
+                    Fecha y hora: {{ $data['time'] }}<br>
+                    Lugar: {{ $data['city'] != '' ? $data['city'] . ',' : '' }} {{ $data['country'] }}<br>
+                    Navegador: {{ $data['browser'] }}<br>
+                    Sistema Operativo: {{ $data['os'] }}<br>
 
-<table>
-<thead>
-<th colspan="2" align="center">
-<img src="{{asset('/dist/img/legalis.jpg')}}" alt="User Image">
-</th>
-</thead>
-<tbody>
-<tr>
-<td colspan="2">
-    Se ha detectado un inicio de sesión desde un equipo 
-     @if($session->locked)   
-     registrado como
-    <strong> BLOQUEADO</strong>  @if($session->confirm) y <strong> CONFIRMADO</strong> @endif
-    @elseif($session->confirm)
-    registrado como <strong>SEGURO</strong> 
-    @if($session->logout)
-        y con la<strong> SESIÓN CERRADA</strong>
-    @endif
-    @else  
-
-   sin confirmar @if($session->logout)
-        y con la<strong> SESIÓN CERRADA</strong>
-    @endif
-
- 
-@endif
- en tu cuenta de {{ env("MAIL_FROM_NAME") }}.<br>   
-</td>
-</tr>
-
-<tr>
-<td width="10%">Fecha y hora</td><td>{{$data['time']}}</td>
-</tr>
-<tr>
-<td>Lugar</td><td>{{$data['city'] != '' ? $data['city'] ."," : '' }} {{$data['country']}}</td>
-</tr>
-<tr>
-<td>Navegador</td><td>{{$data['browser']}}</td>
-</tr>
-<tr>
-<td>Sistema Operativo</td><td>{{$data['os']}}</td>
-</tr>
-<tr>
-<td colspan="2">
-
-@if($session->locked)   
-   Si<strong> NO has sido tú</strong> y crees que hay problemas de seguridad, te recomedamos cambiar la contraseña.</strong>  
-   {{-- <strong> SI has sido tú</strong> y quieres <strong> DESBLOQUEAR EL EQUIPO</strong> , dar clic en el siguiente <a target="_blank" href="{{url('/token/admin/session/'.$session->token_confirm.'/unlocked')}}">enlace</a> para bloquear el equipo.<br>
+                    @if ($session->locked)
+                        Si<strong> NO has sido tú</strong> y crees que hay problemas de seguridad, te recomedamos cambiar la
+                        contraseña.</strong>
+                        {{-- <strong> SI has sido tú</strong> y quieres <strong> DESBLOQUEAR EL EQUIPO</strong> , dar clic en el siguiente <a target="_blank" href="{{url('/token/admin/session/'.$session->token_confirm.'/unlocked')}}">enlace</a> para bloquear el equipo.<br>
  --}}
- 
-@elseif(!$session->confirm and !$session->logout)   
-   Para confirmar como un equipo seguro, dar clic en el siguiente <a target="_blank" href=" {{url('/token/admin/session/'.$session->token_confirm.'/confirm')}}">enlace. </a> <br>
-   Si <strong>NO</strong> has sido tú, dar clic en el siguiente <a target="_blank" href="{{url('/token/admin/session/'.$session->token_confirm.'/locked')}}">enlace</a> para bloquear el equipo.<br>
-   Si solamente quieres <strong>CERRAR LA SESIÓN</strong>, da clic en el siguiente <a target="_blank" href="{{url('/token/admin/session/'.$session->token_confirm.'/logout')}}">enlace</a>.
-@elseif($session->logout)   
-   Para confirmar como un equipo seguro y habilitar nuevamente la sesión, dar clic en el siguiente <a target="_blank" href=" {{url('/token/admin/session/'.$session->token_confirm.'/unconfirmed')}}">enlace. </a> <br>
+                    @elseif(!$session->confirm and !$session->logout)
+                        Para confirmar como un equipo seguro, dar clic en el siguiente <a target="_blank"
+                            href=" {{ url('/token/admin/session/' . $session->token_confirm . '/confirm') }}">enlace. </a> <br>
+                        Si <strong>NO</strong> has sido tú, dar clic en el siguiente <a target="_blank"
+                            href="{{ url('/token/admin/session/' . $session->token_confirm . '/locked') }}">enlace</a> para
+                        bloquear el equipo.<br>
+                        Si solamente quieres <strong>CERRAR LA SESIÓN</strong>, da clic en el siguiente <a target="_blank"
+                            href="{{ url('/token/admin/session/' . $session->token_confirm . '/logout') }}">enlace</a>.
+                    @elseif($session->logout)
+                        Para confirmar como un equipo seguro y habilitar nuevamente la sesión, dar clic en el siguiente <a
+                            target="_blank"
+                            href=" {{ url('/token/admin/session/' . $session->token_confirm . '/unconfirmed') }}">enlace. </a>
+                        <br>
+                    @endif
+                </p>
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:35px;padding-bottom:35px">
+                <span class="es-button-border"
+                    style="border-style:solid;border-color:#DA4A23;background:1px;border-width:1px;display:inline-block;border-radius:2px;width:auto">
 
-@endif
-</td>
-</tr>
+                </span>
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px;text-size:15px">
+                Ingresa al sistema para ver más sobre esta
+                novedad dondo clic
+                <a href="{{ url('/') }}">aquí</a>.
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px">
 
-</tbody>
-</table>
-<hr>
-<i> AMATAI, Ingeniería Informática SAS. </i>
-   {{--  <p> <strong>Fecha</strong> 
-     {!! \Carbon\Carbon::parse($fecha)->diffForHumans()!!}</p>
-   <p> <strong>Hora</strong> {!!$hora!!}</p>   
-   <p> <strong>Motivo</strong> {!!$motivo!!}</p> --}}
- 
-</body>
-</html>
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px">
+                <p
+                    style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">
+
+                </p>
+            </td>
+        </tr>
+
+        <tr>
+            <td style="padding: 5px">
+                <img style="width: 100%;" src="{{ asset('dist/img/cintilla_logos.png') }}" alt="">
+            </td>
+        </tr>
+    </table>
+@endsection

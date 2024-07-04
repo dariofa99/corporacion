@@ -74,7 +74,21 @@ $('#myFormSearchIndex select[name=type]').on('change', function (e) {
         case 'created_at':
              $('#myFormSearchIndex input[id=types_text]').show().attr("type","date").prop('disabled', false);
             break;
-
+        case 'rol_type':
+                var data = JSON.parse($("#data_roles").val())
+                var option = ""
+                console.log(data);
+                Object.keys(data).forEach(key => {
+                    option+=`
+                    <option value="${key}"> ${data[key]} </option>
+                `
+                });
+               
+                
+                $('#myFormSearchIndex select[name=data]').html(option)
+                .prop('disabled', false).show();
+                //$('#myFormSearchIndex input[id=types_text]').show().attr("type","date").prop('disabled', false);
+               break;
         default:
             break;
     }

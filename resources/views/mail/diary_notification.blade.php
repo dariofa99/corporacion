@@ -1,75 +1,63 @@
- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-    table  {
-width:100%;
+@extends('mail.layout.main')
 
-}
+@section('content')
+    <table
+        style="mso-table-lspace:0pt;mso-table-rspace:0pt;border-collapse:separate;border-spacing:0px;border-radius:4px;background-color:#ffffff"
+        width="100%" cellspacing="0" cellpadding="0" bgcolor="#ffffff" role="presentation">
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" bgcolor="#ffffff" align="justify"
+                style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:30px;padding-right:30px">
+                <p
+                    style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">
+                    Invitación de nuevo evento.<br>
+                    Te informamos que se ha creado un nuevo evento en la agenda del sistema 
+                    {{config("app.name")}} 
+                    con la siguiente información:<br>
+                    <br>
+                    Título: <strong>{{ $diary->title }}</strong><br>
+                    Descripción:<strong> {{ $diary->description }}</strong><br>
+                    Fecha evento: <strong>{{ getDateHourForNotification($diary->inicio) }}</strong>
+                  
 
-table thead {
-border:1px solid #000000; 
-text-align:center;
+                </p>
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td align="center" style="Margin:0;padding-left:10px;padding-right:10px;padding-top:35px;padding-bottom:35px">
+                <span class="es-button-border"
+                    style="border-style:solid;border-color:#DA4A23;background:1px;border-width:1px;display:inline-block;border-radius:2px;width:auto">
+                   
+                </span>
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px;text-size:15px">
+                Si requiere más información ingrese a su <a target="_blank" href="{{url('login')}}">
+                    cuenta </a> en la opción agenda.<br>
+                Recuerda guardar esta invitación en tu agenda personal.
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px">
+                
+            </td>
+        </tr>
+        <tr style="border-collapse:collapse">
+            <td class="es-m-txt-l" align="left"
+                style="padding:0;Margin:0;padding-top:20px;padding-left:30px;padding-right:30px">
+                <p
+                    style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">
 
-}
-img{
-    width:auto;
-    height:80px;
-}
-    </style>
-</head>
-<body>
-
-<table>
-<thead>
-<th colspan="2" align="center">
-<img src="{{asset('/dist/img/legalis.jpg')}}" alt="User Image" >
-</th>
-</thead>
-<tbody>
-<tr>
-<td colspan="2">
-Invitación de nuevo evento, Te informamos que se ha creado un nuevo evento en la agenda del sistema Lybra con la siguiente información:
-</td>
-</tr>
-<tr>
-<td colspan="2">
-<b>Título:</b> {{ $diary->title }}
-</td>
-</tr>
-<tr>
-<td colspan="2">
-<b>Descripción:</b> {{ $diary->description }}
-</td>
-</tr>
-<tr>
-<td colspan="2">
-<b>Fecha evento:</b> {{ getDateHourForNotification($diary->inicio) }}
-</td>
-</tr>
-<tr>
-<td colspan="2">
-Si requiere más información ingrese a su cuenta en la opción agenda.
-</td>
-</tr>
-<tr>
-<td colspan="2">
-Recuerda guardar esta invitación en tu agenda personal.
-</td>
-</tr>
-
-</tbody>
-</table>
-<hr>
-<i> AMATAI, Ingeniería Informática SAS. </i>
-   {{--  <p> <strong>Fecha</strong> 
-     {!! \Carbon\Carbon::parse($fecha)->diffForHumans()!!}</p>
-   <p> <strong>Hora</strong> {!!$hora!!}</p>   
-   <p> <strong>Motivo</strong> {!!$motivo!!}</p> --}}
- 
-</body>
-</html>
+                </p>
+            </td>
+        </tr>
+        
+        <tr>
+            <td style="padding: 5px">
+                <img style="width: 100%;" src="{{ asset('dist/img/cintilla_logos.png') }}" alt="">
+            </td>
+        </tr>
+    </table>
+@endsection

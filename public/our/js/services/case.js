@@ -24,7 +24,7 @@ export class CaseM {
 
                 if (res.view) {
                     $("#content_cases").html(res.view);
-                    $("#content_cases").html(res.view);
+                    $("#content_list_users_table").html(res.view);
                     // $("[data-toggle='toggle']").bootstrapToggle();
                 }
                 $("#wait").hide();
