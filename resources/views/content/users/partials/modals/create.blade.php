@@ -21,7 +21,7 @@
             <div class="form-group">
                  @foreach ($types_identification as $key => $tipo_doc )
                      <div class="form-check form-check-inline">
-                      <input class="form-check-input" required checked type="radio" name="type_identification_id" id="type_identification-{{$key}}" value="{{$key}}">
+                      <input class="form-check-input" required {{$tipo_doc != "CC"?:"checked"}}  type="radio" name="type_identification_id" id="type_identification-{{$key}}" value="{{$key}}">
                       <label class="form-check-label" for="inlineRadio1">{{$tipo_doc}}</label>
                     </div>
                  @endforeach
@@ -63,7 +63,7 @@
                             <label for="password">Rol  <small id="lbl_rol_status"> </small></label>
                             <select class="form-control" required name="role_id" id="rol_asig_id">
                                 @foreach ($roles as $key => $rol)
-                                    <option value="{{$key}}">{{$rol}}</option>
+                                    <option  value="{{$key}}">{{$rol}}</option>
                                 @endforeach
                             </select>    
                             </div> 
