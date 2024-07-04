@@ -128,38 +128,11 @@ class User extends Authenticatable
                 return $query->Where(function ($query) use ($request) {
                     if ($request->type == 'identification_number') $query->orWhere('users.identification_number', $request->data);
                     if ($request->type == 'user_name') $query->orWhere('users.name', 'like', '%' . $request->data . '%');
+                    if ($request->type == 'rol_type') $query->where('role_id', $request->data);
                 });
             }
-            if (
-                $request->type and $request->data and
-                ($request->type == 'rol_type')
-            ) {
-                return $query->where('role_id', $request->data);
-            }
-            /*  $query->leftJoin('user_cases', 'user_cases.case_id', '=', 'cases.id')
-            ->join('users','users.id','=','user_cases.user_id'); */
-            /* return $query->Where(function ($query) use ($request) {
-                $query->orWhere('users.name', 'like', '%' . $request->data . '%');
-                $query->orWhere('users.identification_number', $request->data);
-            }); */
         }
-        // return false;
     }
-
-    /* public function getAditionalDataValue($reference_data_id=null,$reference_data_option_id=null){
-    $data = $this->aditional_data()
-    ->where([
-        'reference_data_id'=>$reference_data_id,
-        'reference_data_option_id'=>$reference_data_option_id,
-    ])->first(); 
-    
-   DB::table('user_aditional_data')        
-        ->where(['user_id'=>$this->id,'type_data_id'=>$type_data_id])
-        ->select('user_static_data.id as id','user_static_data.value_is_other','rt.name','rt.id as type_data_id')->first();     
-     
-   // if(!$data) return false;   
-    return true;
-}*/
 
     public function getAditionalDataValueById($reference_data_option_id = null)
     {
