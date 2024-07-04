@@ -327,8 +327,8 @@
 
 @if (Session::has('message-information'))
     <script>
-         localStorage.removeItem("keyCircCierreCaso1");
-        var version = 2;
+         localStorage.removeItem("keyCircCierreCaso2");
+        var version = 3;
        
         $(function() {
             $("#myModal_show_message").on("click", '#btnNotFalse', function(e) {
@@ -359,7 +359,7 @@
 
             function getGeneralMessage() {
                 var message = '';
-                message += '<div class="alert alert-info" style="font-size:19px">';
+                message += '<div class="alert alert-danger" style="font-size:19px">';
                 message += `<h4>
                       <strong style="border-bottom:1px solid white">
                         Bienvendida/o a {{ Str::upper(config('app.name')) }}</strong> <br>
@@ -367,7 +367,7 @@
                       con las teclas CTRL+F5 <i>o</i> CTRL+fn+F5 (portátiles). Tener en cuenta para conexión desde dispositivos móviles. <br>
                       
                     </h4> </div>`;
-                message += `<span> Últ. Actualización: 15 de junio de 2024. <br>
+                message += `<span> Últ. Actualización: 04 de julio de 2024. <br>
                         Si el problema persiste comuníquese al 3106038006. 
                       </span>`;
 
