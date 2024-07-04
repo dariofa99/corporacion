@@ -362,7 +362,7 @@
                 message += '<div class="alert alert-danger" style="font-size:19px">';
                 message += `<h4>
                       <strong style="border-bottom:1px solid white">
-                        Bienvendida/o a {{ Str::upper(config('app.name')) }}</strong> <br>
+                        Bienvenida/o a {{ Str::upper(config('app.name')) }}</strong> <br>
                       Recuerde que estamos actualizando la plataforma, si presenta algún problema refresque el navegador
                       con las teclas CTRL+F5 <i>o</i> CTRL+fn+F5 (portátiles). Tener en cuenta para conexión desde dispositivos móviles. <br>
                       
