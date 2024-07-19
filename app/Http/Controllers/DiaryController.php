@@ -111,8 +111,8 @@ class DiaryController extends Controller
         }  
 
         $users = User::whereIn('id',$usersA)->get();
-        Notification::send($users, new DiaryNotification($diary)); 
-        //SendEventDiaryEmail::dispatch($users,$diary)->onQueue('diarys'); 
+        //Notification::send($users, new DiaryNotification($diary)); 
+        SendEventDiaryEmail::dispatch($users,$diary)->onQueue('diarys'); 
         return response()->json($diary);
     }
 
