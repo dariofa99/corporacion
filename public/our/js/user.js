@@ -200,7 +200,7 @@ const httpService = new HttpService();
         if (!value) {
           return 'No puede estar vacio!'
         } else {
-          request = {
+          var request = {
             'note': value,
             'type_status_id': 16,
             'user_id': $("#myformEditUser input[name=id]").val(),
