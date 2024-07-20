@@ -141,7 +141,7 @@
             </a>
         </div>
         <div class="col-md-6 text-header">
-            Urgiendo y tejiendo paz <br>
+            Urdiendo y Tejiendo Paz <br>
             Por la defensa de los derechos humanos en Nariño
         </div>
     </div>
