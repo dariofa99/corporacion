@@ -90,10 +90,11 @@ class CaseLogsController extends Controller
                 $caseL->save();  
                 $notification_message = 'notificacion';
                 $users = $case->users()->where('type_user_id',7)->get();
-               // SendLogNotificationDatabase::dispatch($caseL,$users)->onQueue('diarys'); 
+                
                 if(count($users)>0){ 
-                     try {                       
-                       Notification::send($users, new LogDatabaseNotification($caseL,date("Y-m-d H:i:s")));
+                     try {     
+                        SendLogNotificationDatabase::dispatch($caseL,$users)->onQueue('diarys');                   
+                      // Notification::send($users, new LogDatabaseNotification($caseL,date("Y-m-d H:i:s")));
                      } catch (\Throwable $th) {
                          request()
                          ->session()
@@ -139,8 +140,8 @@ class CaseLogsController extends Controller
                           'inspected'=>'0'
                         ]); 
                     }  
-                    Notification::send($users, new DiaryNotification($diary)); 
-                    //SendEventDiaryEmail::dispatch($case->users()->where('type_user_id',7)->get(),$diary)->onQueue('diarys');                   
+                   // Notification::send($users, new DiaryNotification($diary)); 
+                    SendEventDiaryEmail::dispatch($case->users()->where('type_user_id',7)->get(),$diary)->onQueue('diarys');                   
                 } 
             }             
         }
@@ -157,8 +158,8 @@ class CaseLogsController extends Controller
                try {
                 //Notification::send($users, new LogNotification($caseL,$notification_message));
                // return $response['mail_error']=($users);
-               Notification::send($users, new LogNotification($caseL,$notification_message));
-            //SendLogNotificationEmail::dispatch($caseL,$notification_message,$users)->onQueue('diarys'); 
+             //  Notification::send($users, new LogNotification($caseL,$notification_message));
+            SendLogNotificationEmail::dispatch($caseL,$notification_message,$users)->onQueue('diarys'); 
                 } catch (\Throwable $th) {
                     request()
                     ->session()
@@ -186,8 +187,8 @@ class CaseLogsController extends Controller
                             'user_id'=>$user->id,
                             'caselog_id'=>$caseL->id
                         ]); 
-                        Mail::to($user->email)->send(new LogMail($caseL,$token)); 
-                        //SendDefendantNotificationEmail::dispatch($users,$caseL,$user,$token)->onQueue('diarys');              
+                        //Mail::to($user->email)->send(new LogMail($caseL,$token)); 
+                        SendDefendantNotificationEmail::dispatch($users,$caseL,$user,$token)->onQueue('diarys');              
                     }
                        } catch (\Throwable $th) {
                     request()
@@ -331,8 +332,8 @@ class CaseLogsController extends Controller
                 if(count($case->users()->where('type_user_id',7)->get())>0){                    
                     $users = $case->users()->where('type_user_id',7)->get();
                     try {
-                        Notification::send($users, new LogNotification($caseL,$notification_message));
-                      //  SendLogNotificationEmail::dispatch($caseL,$notification_message,$users)->onQueue('diarys'); 
+                        //Notification::send($users, new LogNotification($caseL,$notification_message));
+                        SendLogNotificationEmail::dispatch($caseL,$notification_message,$users)->onQueue('diarys'); 
                      // Notification::send($users, new LogNotification($caseL,$notification_message));
                     } catch (\Throwable $th) {
                         request()

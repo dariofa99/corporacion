@@ -78,10 +78,10 @@ class SuccessfulLogin
             $users_cases = collect($users_cases);
             $users_cases =  $users_cases->unique();
             $users = User::whereIn('id',$users_cases->values()->all())->get();
-            Notification::send($users, new LoginClientNotification($event->user,date('Y-m-d H:i:s')));           
+           // Notification::send($users, new LoginClientNotification($event->user,date('Y-m-d H:i:s')));           
         }
-          //  SendLoginClientNotificationEmail::dispatch($event->user,date('Y-m-d H:i:s'))->onQueue('diarys');
-        // SendLoginNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('login'); //descomentar
+            SendLoginClientNotificationEmail::dispatch($event->user,date('Y-m-d H:i:s'))->onQueue('diarys');
+            //SendLoginNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('diarys'); //descomentar
            // SendLoginClientNotificationEmail::dispatch($event->user,$session,$session_data)->onQueue('login');
            //$event->user->notify(new LoginNotification($event->user,$session_data,$session));
         } catch (\Throwable $th) { 

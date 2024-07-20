@@ -89,8 +89,8 @@ class RegisterController extends Controller
             'password' => Hash::make($data['password']),
         ]); 
          $user->roles()->attach(5);
-         Notification::send($users, new UserRegisterDBNotification($user));
-         //SendRegisterUserNotificationEmail::dispatch($users,$user)->onQueue('diarys');
+         //Notification::send($users, new UserRegisterDBNotification($user));
+         SendRegisterUserNotificationEmail::dispatch($users,$user)->onQueue('diarys');
          return   $user ;
          
     }
