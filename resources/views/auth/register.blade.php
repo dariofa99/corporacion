@@ -14,17 +14,14 @@
                             <label for="inputName" class="col-md-4 col-form-label text-md-right">Tipo identificación</label>
      
                             <div class="col-sm-6">
-                             @foreach ($types_identification as $key => $tipo_doc )
-                                <div class="form-check form-check-inline">
-                                  <input required  class="form-check-input" @if($tipo_doc=="CC") checked @endif type="radio" name="type_identification_id" id="type_identification-{{$key}}" value="{{$key}}">
-                                  <label class="form-check-label" for="inlineRadio1">{{$tipo_doc}}</label>
-                                </div>
+                            <select name="type_identification_id" id="type_identification" class="form-select" required>
+                            @foreach ($types_identification as $key => $tipo_doc)
+                                <option value="{{ $key }}" @if($tipo_doc == "CC") selected @endif>{{ $tipo_doc }}</option>
                             @endforeach
+                            </select>
                             </div>
      
                           </div> 
-                          <input id="type_identification_id" type="hidden" value="6"  name="type_identification_id" value="{{ old('type_identification_id') }}" required autocomplete="type_identification_id" autofocus>
-
                               
                           <div class="form-group row">
                             <label for="identification_number" class="col-md-4 col-form-label text-md-right">
