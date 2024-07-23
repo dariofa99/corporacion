@@ -7,12 +7,11 @@
                        <label for="inputName" class="col-sm-10 control-label">Tipo identificación</label>
 
                        <div class="col-sm-10">
-                        @foreach ($types_identification as $key => $tipo_doc )
-                           <div class="form-check form-check-inline">
-                             <input disabled class="form-check-input" required checked type="radio" name="type_identification_id" id="type_identification-{{$key}}" value="{{$key}}">
-                             <label class="form-check-label" for="inlineRadio1">{{$tipo_doc}}</label>
-                           </div>
-                       @endforeach
+                            <select disabled name="type_identification_id" id="type_identification" class="form-select" required>
+                              @foreach ($types_identification as $key => $tipo_doc)
+                                  <option value="{{ $key }}" {{ $key == $user->type_identification_id ? 'selected' : '' }}>{{ $tipo_doc }}</option>
+                              @endforeach
+                            </select>
                        </div>
 
                      </div>
