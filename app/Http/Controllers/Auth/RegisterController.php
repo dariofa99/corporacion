@@ -84,7 +84,7 @@ class RegisterController extends Controller
             'address' => "Sin direccion",
             'image' => 'dist/img/user-default-min.jpg',
             'identification_number'=>$data['identification_number'],
-            'type_identification_id'=>6,
+            'type_identification_id'=>$data['type_identification_id'],
             'type_status_id'=>16,
             'password' => Hash::make($data['password']),
         ]); 
