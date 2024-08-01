@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 use OwenIt\Auditing\Facades\Auditor;
 
+
 class CasesController extends Controller
 {
 
@@ -273,7 +274,8 @@ class CasesController extends Controller
             $case->reception_id = $reception->id;
             $case->save();
         }  */
-           
+
+
 
         return view('content.cases.edit',compact('case'));
 
