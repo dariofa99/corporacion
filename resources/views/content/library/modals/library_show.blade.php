@@ -29,7 +29,7 @@
             </div>
             <div class="row">
                 <div class="col-md-12">
-                    <label>Rama del derecho: </label><p id="library_law_show"></p>
+                    <label>Tipo de Caso: </label><p id="library_law_show"></p>
                 </div>
             </div>
             <div class="row">

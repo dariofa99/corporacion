@@ -107,6 +107,6 @@
 
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
-<script src="{{asset('js/AdminRoles.js')}}"></script>
+<script src="{{asset('js/AdminRoles.js')}}?v={{ config('app.asset_version') }}"></script>
 
 @endpush

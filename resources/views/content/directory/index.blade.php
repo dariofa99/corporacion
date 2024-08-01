@@ -89,7 +89,7 @@
 
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
-<script src="{{asset('our/js/directory.js?v=1')}}"></script>
+<script src="{{asset('our/js/directory.js')}}?v={{ config('app.asset_version') }}"></script>
 
 
 

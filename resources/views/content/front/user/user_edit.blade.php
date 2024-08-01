@@ -215,7 +215,7 @@
 
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
-<script type="text/javascript" src="{{asset('our/js/user.js')}}"></script>
+<script type="text/javascript" src="{{asset('our/js/user.js')}}?v={{ config('app.asset_version') }}"></script>
 <script>
 
 </script>

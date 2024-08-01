@@ -104,11 +104,11 @@
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
 <!-- ChartJS --> 
-<script src="{{asset('plugins/amcharts/amcharts.js')}}"></script>
-<script src="{{asset('plugins/amcharts/serial.js')}}"></script>
-<script src="{{asset('plugins/amcharts/pie.js')}}"></script>
-<script src="{{asset('our/js/charts.js')}}"></script>
-<script type="module" src="{{asset('our/js/excel.js')}}"></script>
+<script src="{{asset('plugins/amcharts/amcharts.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{asset('plugins/amcharts/serial.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{asset('plugins/amcharts/pie.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{asset('our/js/charts.js')}}?v={{ config('app.asset_version') }}"></script>
+<script type="module" src="{{asset('our/js/excel.js')}}?v={{ config('app.asset_version') }}"></script>
 
 
 

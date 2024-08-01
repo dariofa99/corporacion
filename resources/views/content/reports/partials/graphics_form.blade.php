@@ -46,7 +46,7 @@
             <select class="form-control form-control-sm generate_graf" id="select_filter_graphic" name="select_filter_graphic">
                 <option value="type_status">Estado</option>
                 <option value="type_case">Tipo de proceso</option>
-                <option value="type_branch_law">Rama del derecho</option>
+                <option value="type_branch_law">Tipo de Caso</option>
                 @foreach($ref_users as $key => $ref_user)
                 <option value="{{$key}}">{{$ref_user}}</option>
                 @endforeach

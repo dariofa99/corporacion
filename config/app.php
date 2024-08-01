@@ -125,6 +125,22 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Asset Version
+    |--------------------------------------------------------------------------
+    |
+    | This version number is used by the asset manager to manage and version
+    | the static assets such as JavaScript, CSS, and images. Incrementing 
+    | this version will force the browser to load the latest versions of 
+    | these assets, ensuring users always see the most up-to-date content.
+    | It's recommended to update this version when deploying new changes 
+    | to the static assets.
+    |
+    */
+
+    'asset_version' => env('ASSET_VERSION', '1.0.0'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Autoloaded Service Providers
     |--------------------------------------------------------------------------
     |

@@ -2,11 +2,11 @@
 
 @push('styles')
     <!-- aqui van los estilos de cada vista -->
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('plugins/client-chat/plyr.css') }}">
-    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('plugins/client-chat/style-chat.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/dropzone57/dist/min/dropzone.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('plugins/client-chat/plyr.css') }}?v={{ config('app.asset_version') }}">
+    <link media="all" type="text/css" rel="stylesheet" href="{{ asset('plugins/client-chat/style-chat.css') }}?v={{ config('app.asset_version') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.css') }}?v={{ config('app.asset_version') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/dropzone57/dist/min/dropzone.min.css') }}?v={{ config('app.asset_version') }}">
+    <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css') }}?v={{ config('app.asset_version') }}">
 @endpush
 
 @section('navbar')
@@ -200,11 +200,11 @@
 
 @push('scripts')
     <!-- aqui van los scripts de cada vista -->
-    <script type="text/javascript" src="{{ asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('plugins/dropzone57/dist/min/dropzone.min.js') }}"></script>
-    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('our/js/dropzone_log.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('our/js/dropzone_bill.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.js') }}?v={{ config('app.asset_version') }}"></script>
+    <script type="text/javascript" src="{{ asset('plugins/dropzone57/dist/min/dropzone.min.js') }}?v={{ config('app.asset_version') }}"></script>
+    <script src="{{ asset('plugins/select2/js/select2.full.min.js') }}?v={{ config('app.asset_version') }}"></script>
+    <script type="text/javascript" src="{{ asset('our/js/dropzone_log.js') }}?v={{ config('app.asset_version') }}"></script>
+    <script type="text/javascript" src="{{ asset('our/js/dropzone_bill.js') }}?v={{ config('app.asset_version') }}"></script>
 
 
     <script>
