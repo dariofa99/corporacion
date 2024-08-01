@@ -12,7 +12,7 @@
     <link rel="shortcut icon" href="{{ asset('dist/img/favicon.png') }}">
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
@@ -20,7 +20,7 @@
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v={{ config('app.asset_version') }}" rel="stylesheet">
 
     <style>
     html {
@@ -177,7 +177,7 @@ a {
 
 </body>
 <!-- jQuery -->
-<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('plugins/jquery/jquery.min.js')}}?v={{ config('app.asset_version') }}"></script>
 
 <script type="text/javascript">
 var token = localStorage.getItem('tokensessionpc');

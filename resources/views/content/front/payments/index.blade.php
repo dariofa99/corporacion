@@ -2,7 +2,7 @@
 
 @push('styles')
 <!-- aqui van los estilos de cada vista -->
-<link rel="stylesheet" href="{{asset('plugins/dropzone57/dist/min/dropzone.min.css')}}">
+<link rel="stylesheet" href="{{asset('plugins/dropzone57/dist/min/dropzone.min.css')}}?v={{ config('app.asset_version') }}">
 
 @endpush
 
@@ -92,7 +92,7 @@
 
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
-<script type="text/javascript" src="{{asset('plugins/dropzone57/dist/min/dropzone.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('plugins/dropzone57/dist/min/dropzone.min.js')}}?v={{ config('app.asset_version') }}"></script>
 
 <script>
 

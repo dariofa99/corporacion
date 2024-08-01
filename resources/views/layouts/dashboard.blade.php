@@ -35,18 +35,18 @@ $modo_nav="dark";
   <link rel="shortcut icon" href="{{ asset('dist/img/favicon.png') }}">
 
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/fontawesome-free/css/all.min.css') }}?v={{ config('app.asset_version') }}">
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- overlayScrollbars -->
-  <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/overlayScrollbars/css/OverlayScrollbars.min.css') }}?v={{ config('app.asset_version') }}">
  
-  <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}">
- <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/sweetalert2/sweetalert2.min.css') }}?v={{ config('app.asset_version') }}">
+ <link rel="stylesheet" href="{{ asset('plugins/toastr/toastr.min.css') }}?v={{ config('app.asset_version') }}">
  
  
   <!-- Theme style -->
-  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('dist/css/adminlte.min.css') }}?v={{ config('app.asset_version') }}">
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 
@@ -60,7 +60,7 @@ $modo_nav="dark";
   <!-- our styles -->
   
     <!-- Our Styles -->
-    <link href="{{ asset('our/css/app.css?v=1') }}" rel="stylesheet">
+    <link href="{{ asset('our/css/app.css') }}?v={{ config('app.asset_version') }}" rel="stylesheet">
 
 
 </head>
@@ -136,49 +136,49 @@ $modo_nav="dark";
 
 <!-- REQUIRED SCRIPTS -->
 <!-- jQuery -->
-<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('plugins/jquery/jquery.min.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- jQuery UI -->
-<script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}"></script>
+<script src="{{asset('plugins/jquery-ui/jquery-ui.min.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- Bootstrap -->
-<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+<script src="{{asset('plugins/bootstrap/js/bootstrap.bundle.min.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- overlayScrollbars -->
-<script src="{{asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}"></script>
+<script src="{{asset('plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- AdminLTE App -->
-<script src="{{asset('dist/js/adminlte.js')}}"></script>
+<script src="{{asset('dist/js/adminlte.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- moment -->
-<script src="{{ asset('plugins/moment/moment.min.js')}}"></script>
-<script src="{{ asset('plugins/moment/locale/es-us.js')}}"></script>
+<script src="{{ asset('plugins/moment/moment.min.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('plugins/moment/locale/es-us.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- NewPush -->
 <script>var tokendefault = '';</script>
-{{-- <script src="{{ asset('plugins/new-push/io.js?v=1')}}"></script> --}}
+{{-- <script src="{{ asset('plugins/new-push/io.js?v=1')}}?v={{ config('app.asset_version') }}"></script> --}}
 
 
 
 <!-- OPTIONAL SCRIPTS -->
-<script src="{{asset('dist/js/demo.js')}}"></script>
+<script src="{{asset('dist/js/demo.js')}}?v={{ config('app.asset_version') }}"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 
 
 <!-- PAGE PLUGINS -->
 
 
-<script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}"></script>
-<script src="{{asset('plugins/toastr/toastr.min.js')}}"></script>
+<script src="{{asset('plugins/sweetalert2/sweetalert2.min.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{asset('plugins/toastr/toastr.min.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- ChartJS -->
 <!-- PAGE SCRIPTS -->
-<script src="{{ asset('js/app.js') }}" ></script>
+<script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" ></script>
 
 
   <!-- our scripts -->
   
-  {{-- <script src="{{asset('our/js/pusher.js')}}"></script>
-  <script src="{{asset('our/js/pushconnected.js?v=1')}}"></script>
-  <script src="{{asset('our/js/newpush.js?v=1')}}"></script> --}}
-  <script src="{{asset('our/js/app.js')}}"></script>
- {{--  <script src="{{asset('our/js/AdminRoles.js?v=1')}}"></script> --}}
+  {{-- <script src="{{asset('our/js/pusher.js')}}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{asset('our/js/pushconnected.js')}}?v={{ config('app.asset_version') }}"></script>
+  <script src="{{asset('our/js/newpush.js')}}?v={{ config('app.asset_version') }}"></script> --}}
+  <script src="{{asset('our/js/app.js')}}?v={{ config('app.asset_version') }}"></script>
+ {{--  <script src="{{asset('our/js/AdminRoles.js')}}?v={{ config('app.asset_version') }}"></script> --}}
  
-  <script type="module" src="{{asset('our/js/scripts.js')}}"></script>
-  <script type="module" src="{{asset('our/js/Case.js')}}"></script>
+  <script type="module" src="{{asset('our/js/scripts.js')}}?v={{ config('app.asset_version') }}"></script>
+  <script type="module" src="{{asset('our/js/Case.js')}}?v={{ config('app.asset_version') }}"></script>
 
   <script>//para que funcionen los tooltip
     $(function () {

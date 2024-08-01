@@ -157,10 +157,10 @@
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
 <!-- ChartJS --> 
-<script src="{{asset('plugins/amcharts4/core.js')}}"></script>
-<script src="{{asset('plugins/amcharts4/charts.js')}}"></script>
-<script src="{{asset('plugins/amcharts4/themes/material.js')}}"></script>
-<script src="{{asset('our/js/charts.js')}}"></script>
+<script src="{{asset('plugins/amcharts4/core.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{asset('plugins/amcharts4/charts.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{asset('plugins/amcharts4/themes/material.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{asset('our/js/charts.js')}}?v={{ config('app.asset_version') }}"></script>
 
 
 

@@ -21,7 +21,7 @@
         </style>
 
 
-<link href="{{ asset('css/app.css') }}" rel="stylesheet">
+<link href="{{ asset('css/app.css') }}?v={{ config('app.asset_version') }}" rel="stylesheet">
 
     </head>
     <body class="antialiased">
@@ -133,7 +133,7 @@
             </div>
         </div>
     </body>
-    <script src="{{ asset('js/app.js') }}" ></script>
+    <script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" ></script>
     <script >
 //Pusher.logToConsole = true;
       /*  Echo.channel(`my-channel`)

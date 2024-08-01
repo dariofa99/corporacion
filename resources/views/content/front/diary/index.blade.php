@@ -5,17 +5,17 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- fullCalendar -->
-  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar/main.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar-daygrid/main.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar-timegrid/main.min.css')}}">
-  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar-bootstrap/main.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar/main.min.css')}}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar-daygrid/main.min.css')}}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar-timegrid/main.min.css')}}?v={{ config('app.asset_version') }}">
+  <link rel="stylesheet" href="{{ asset('plugins/fullcalendar-bootstrap/main.min.css')}}?v={{ config('app.asset_version') }}">
 
   <!-- Bootstrap Color Picker -->
-  <link rel="stylesheet" href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}?v={{ config('app.asset_version') }}">
    <!-- Tempusdominus Bbootstrap 4 timepiker datepiker-->
-  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}?v={{ config('app.asset_version') }}">
     <!-- Select2 -->
-  <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}?v={{ config('app.asset_version') }}">
 
   <style>
     #calendar .fc-today {
@@ -96,23 +96,23 @@
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
 <!-- fullCalendar 2.2.5 -->
-<script src="{{ asset('plugins/moment/moment.min.js')}}"></script>
-<script src="{{ asset('plugins/fullcalendar/main.min.js')}}"></script>
-<script src="{{ asset('plugins/fullcalendar-daygrid/main.min.js')}}"></script>
-<script src="{{ asset('plugins/fullcalendar-timegrid/main.min.js')}}"></script>
-<script src="{{ asset('plugins/fullcalendar-interaction/main.min.js')}}"></script>
-<script src="{{ asset('plugins/fullcalendar-bootstrap/main.min.js')}}"></script>
-<script src="{{ asset('plugins/fullcalendar/locales/es-us.js')}}"></script>
+<script src="{{ asset('plugins/moment/moment.min.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('plugins/fullcalendar/main.min.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('plugins/fullcalendar-daygrid/main.min.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('plugins/fullcalendar-timegrid/main.min.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('plugins/fullcalendar-interaction/main.min.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('plugins/fullcalendar-bootstrap/main.min.js')}}?v={{ config('app.asset_version') }}"></script>
+<script src="{{ asset('plugins/fullcalendar/locales/es-us.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- Page specific script -->
 
 <!-- bootstrap color picker -->
-<script src="{{ asset('plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}"></script>
+<script src="{{ asset('plugins/bootstrap-colorpicker/js/bootstrap-colorpicker.min.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- Tempusdominus Bootstrap 4 -->
-<script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}"></script>
+<script src="{{ asset('plugins/tempusdominus-bootstrap-4/js/tempusdominus-bootstrap-4.min.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- Select2 -->
-<script src="{{ asset('plugins/select2/js/select2.full.min.js')}}"></script>
+<script src="{{ asset('plugins/select2/js/select2.full.min.js')}}?v={{ config('app.asset_version') }}"></script>
 <!-- moment -->
-<script src="{{ asset('plugins/moment/moment.min.js')}}"></script>
+<script src="{{ asset('plugins/moment/moment.min.js')}}?v={{ config('app.asset_version') }}"></script>
 
 
 

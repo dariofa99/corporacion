@@ -5,14 +5,14 @@
   <!-- Ionicons -->
   <link rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
   <!-- fullCalendar -->
-  <link rel="stylesheet" href="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.css')}}">
+  <link rel="stylesheet" href="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.css')}}?v={{ config('app.asset_version') }}">
 
   <!-- Bootstrap Color Picker -->
-  <link rel="stylesheet" href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css')}}?v={{ config('app.asset_version') }}">
    <!-- Tempusdominus Bbootstrap 4 timepiker datepiker-->
-  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}">
+  <link rel="stylesheet" href="{{ asset('plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css')}}?v={{ config('app.asset_version') }}">
     <!-- Select2 -->
-  <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}"> 
+  <link rel="stylesheet" href="{{ asset('plugins/select2/css/select2.min.css')}}?v={{ config('app.asset_version') }}?v={{ config('app.asset_version') }}"> 
 
 @endpush
 
@@ -85,9 +85,9 @@
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
 <!-- fullCalendar 2.2.5 -->
-<script type="text/javascript" src="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.js')}}?v={{ config('app.asset_version') }}"></script>
 
-<script type="module" src="{{asset('our/js/references_data.js')}}"></script> 
+<script type="module" src="{{asset('our/js/references_data.js')}}?v={{ config('app.asset_version') }}"></script> 
 
 
 

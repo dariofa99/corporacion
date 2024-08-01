@@ -12,14 +12,14 @@
     <link rel="shortcut icon" href="{{ asset('dist/img/favicon.png') }}">
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" defer></script>
 
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v={{ config('app.asset_version') }}" rel="stylesheet">
     
 </head>
 <body class="content-wrapper" style="background-color: #191d36;">
@@ -96,7 +96,7 @@
     </div>
 </body>
 <!-- jQuery -->
-<script src="{{asset('plugins/jquery/jquery.min.js')}}"></script>
+<script src="{{asset('plugins/jquery/jquery.min.js')}}?v={{ config('app.asset_version') }}"></script>
 
 <script type="text/javascript">
 var token = localStorage.getItem('tokensessionpc');
