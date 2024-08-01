@@ -189,7 +189,7 @@ const httpService = new HttpService();
   $("#bt_add_user_note").on("click", function (e) {
 
     Swal.fire({
-      title: 'Ingrese una nota al usuario',
+      title: 'Ingrese una nota',
       input: 'text',
       inputValue: '',
       showCancelButton: true,
