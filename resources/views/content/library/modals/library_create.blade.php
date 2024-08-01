@@ -40,7 +40,7 @@
             
 
                 <div class="form-group">
-                    <label>Rama del derecho</label>
+                    <label>Tipo de Caso</label>
                     <select class="form-control" required id="branch_lawLibrary" name="branch_law">
                         <option value="">Seleccione...</option>
                         @foreach($branch_law as $law)

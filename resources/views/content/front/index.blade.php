@@ -55,7 +55,7 @@
                   <tr class="text-center">
                     <th>No. Caso</th>
                     <th>Tipo de proceso</th>
-                    <th>Rama del derecho</th>
+                    <th>Tipo de Caso</th>
                     <th>Estado</th>                    
                     <th>Acciones</th>
                   </tr>

@@ -40,7 +40,7 @@
        <option value="all">Todo</option>
        <option value="type_status">Estado</option>
        <option value="type_case">Tipo de proceso</option>
-       <option value="type_branch_law">Rama del derecho</option>
+       <option value="type_branch_law">Tipo de Caso</option>
         @foreach($ref_users as $key => $ref_user)
          <option value="{{$key}}">{{$ref_user}}</option>
        @endforeach
@@ -101,7 +101,7 @@
            
           <div class="form-check form-check-inlin">
              <input class="form-check-input hih" checked name="values[]" type="checkbox" id="inlineCheckbox-cbl" value="rama_derecho">
-            <label class="form-check-label" for="inlineCheckbox-cbl">Rama del derecho</label>
+            <label class="form-check-label" for="inlineCheckbox-cbl">Tipo de Caso</label>
           </div>
         </div> 
 

@@ -28,7 +28,7 @@
 
             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="Rama del Derecho: ">Rama Del Derecho: </label>
+                                    <label for="Tipo de Caso: ">Tipo de Caso: </label>
                                     <select disabled class="form-control form-control-sm" name="type_branch_law_id" id="type_branch_law_id">
                       @foreach ($types_branch_law as $key => $type_branch_law)
                           <option value="{{$key}}" {{$key==$case->type_branch_law_id ? 'selected' : ''}}>{{$type_branch_law}}</option>

@@ -4,7 +4,7 @@
                     <th>No. Caso</th>
                     <th>Solicitante</th>
                     <th>Tipo de proceso</th>
-                    <th>Rama del derecho</th>
+                    <th>Tipo de Caso</th>
                     <th>Fecha de creación</th>
                     
                     <th>Estado</th>
