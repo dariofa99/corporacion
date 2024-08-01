@@ -96,6 +96,6 @@
 
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
-<script src="{{asset("/our/js/panic_api.js")}}"></script>
+<script src="{{asset('/our/js/panic_api.js')}}?v={{ config('app.asset_version') }}"></script>
 @endpush
 

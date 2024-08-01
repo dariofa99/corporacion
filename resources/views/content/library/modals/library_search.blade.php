@@ -24,7 +24,7 @@
                     <input type="text"  id="namearchive" class="form-control input_data" name="name"  >            
                 </div>
                 <div class="form-group">
-                    <label>Rama del derecho</label>
+                    <label>Tipo de Caso</label>
                     <select class="form-control"  id="branch_lawsearch" name="branch_law">
                         <option value="">Seleccione...</option>
                         @foreach($branch_law as $law)

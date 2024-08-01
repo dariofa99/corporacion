@@ -118,7 +118,7 @@
 
     @push('scripts')
         <!-- aqui van los scripts de cada vista -->
-        <script type="module" src="{{ asset('our/js/user.js') }}"></script>
+        <script type="module" src="{{ asset('our/js/user.js') }}?v={{ config('app.asset_version') }}"></script>
 
         <script>
             //const user = new User();

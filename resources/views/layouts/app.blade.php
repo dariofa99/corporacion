@@ -13,7 +13,7 @@
     <link rel="shortcut icon" href="{{ asset('dist/img/favicon.png') }}">
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="{{ asset('js/app.js') }}?v={{ config('app.asset_version') }}" defer></script>
 
     <!-- Bootstrap core CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.1/css/bootstrap.min.css"
@@ -24,7 +24,7 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet" type="text/css">
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/app.css') }}?v={{ config('app.asset_version') }}" rel="stylesheet">
 
     <style>
         /* Sticky footer styles
@@ -203,7 +203,7 @@
     integrity="sha384-XEerZL0cuoUbHE4nZReLT7nx9gQrQreJekYhJD9WNWhH8nEW+0c5qq7aIo2Wl30J" crossorigin="anonymous">
 </script>
 <!-- jQuery -->
-<script src="{{ asset('plugins/jquery/jquery.min.js') }}"></script>
+<script src="{{ asset('plugins/jquery/jquery.min.js') }}?v={{ config('app.asset_version') }}"></script>
 
 <script type="text/javascript">
     var token = localStorage.getItem('tokensessionpc');

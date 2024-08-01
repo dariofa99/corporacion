@@ -17,7 +17,7 @@
     color:#555;
   }
 </style>
-<link rel="stylesheet" href="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.css')}}">
+<link rel="stylesheet" href="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.css')}}?v={{ config('app.asset_version') }}">
 @endpush
 
 @section('navbar')
@@ -192,7 +192,7 @@
 
 @push('scripts')
 <!-- aqui van los scripts de cada vista -->
-<script type="text/javascript" src="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.js')}}"></script>
+<script type="text/javascript" src="{{asset('plugins/bootstrap-toggle4/bootstrap-toggle4.min.js')}}?v={{ config('app.asset_version') }}"></script>
 
 @endpush
 
