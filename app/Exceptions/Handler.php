@@ -3,6 +3,7 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -37,5 +38,21 @@ class Handler extends ExceptionHandler
         $this->reportable(function (Throwable $e) {
             //
         });
+    }
+
+    public function render($request, Throwable $exception)
+    {
+        // Verifica si es una excepción HttpException
+        if ($exception instanceof HttpException && $exception->getStatusCode() === 419) {
+            return redirect()->route('login')->with('message', 'Tu sesión ha expirado, por favor inicia sesión nuevamente.');
+        }
+
+        // Verifica si es una excepción TokenMismatchException
+        if ($exception instanceof \Illuminate\Session\TokenMismatchException) {
+            return redirect()->route('login')->with('message', 'Tu sesión ha expirado, por favor inicia sesión nuevamente.');
+        }
+
+        // Para otras excepciones
+        return parent::render($request, $exception);
     }
 }
