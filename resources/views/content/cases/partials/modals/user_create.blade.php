@@ -51,12 +51,11 @@
         
        <div id="cont_form_new_professional" style="display:block">
                  <div class="form-group">
-                 @foreach ($types_identification as $key => $tipo_doc )
-                     <div class="form-check form-check-inline">
-                      <input class="form-check-input" required @if($tipo_doc=="CC") checked @endif type="radio" name="type_identification_id" id="type_identification-{{$key}}" value="{{$key}}">
-                      <label class="form-check-label" for="inlineRadio1">{{$tipo_doc}}</label>
-                    </div>
-                 @endforeach
+                    <select name="type_identification_id" id="type_identification" class="form-control form-control-sm form-select" required>
+                        @foreach ($types_identification as $key => $tipo_doc)
+                            <option value="{{ $key }}" @if($tipo_doc == "CC") selected @endif>{{ $tipo_doc }}</option>
+                        @endforeach
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="num_identificacion">No de identificación</label>
