@@ -17,6 +17,25 @@ class Directory extends Model
      public function user(){     
         return $this->belongsTo(User::class,'user_id');    
      }
+
+     public function scopeGetData($query, $request)
+    {
+
+        if (trim($request->data)) { 
+
+            if ($request->type and $request->data and ($request->type == 'name' || $request->type == 'email' ||
+                $request->type == 'number_phone' || $request->type == 'address' || $request->type == 'type_status_id' || $request->type == 'created_at')) {
+                return $query->Where(function ($query) use ($request) {
+                    $query->orWhere('directory.name','like', "%{$request->data}%");
+                    $query->orWhere('directory.email','like', "%{$request->data}%");
+                    $query->orWhere('directory.number_phone','like', "%{$request->data}%");
+                    $query->orWhere('directory.address','like', "%{$request->data}%");
+                    $query->orWhere('directory.type_status_id', '=', $request->data);
+                    $query->orWhereDate('directory.created_at', '=', $request->data);
+                });
+            }
+        }
+    }
      
      //Events
      public static function boot() {

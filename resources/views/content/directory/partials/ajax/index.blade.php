@@ -1,3 +1,4 @@
+@if(!$directories->isEmpty())
 @foreach($directories as $key => $directory)
     
 
@@ -65,3 +66,8 @@
   </div>
 
   @endforeach
+  <hr>
+  {{ $directories->appends(request()->query())->links() }}
+@else
+<div>No hay resultados para tu búsqueda</div>
+@endif
