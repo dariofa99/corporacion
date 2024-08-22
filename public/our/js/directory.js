@@ -164,5 +164,74 @@ delete(id){
     });
     
 }
+
+index(request, url) {
+    $.ajax({
+        url: url,
+        type: 'GET',
+        cache: false,
+        data: request,
+        beforeSend: function (xhr) {
+            xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
+            $("#wait").show()
+        },
+        success: function (res) {
+
+            if (res.view) {
+                $("#content_directories_list").html(res.view);
+                //$("#content_list_users_table").html(res.view);
+                // $("[data-toggle='toggle']").bootstrapToggle();
+            }
+            $("#wait").hide();
+        },
+        error: function (xhr, textStatus, thrownError) {
+        }
+    });
+}
     
 }
+
+const directoryf = new Directory();
+
+$("#myFormSearchIndexDirectory").on("submit", function (e) {
+    var request = $(this).serialize();
+    var url = $(this).attr('action');
+    //alert(url);
+
+    if ($('#myFormSearchIndexDirectory select[name=type]').val() == 'view_all') {
+        request = {};
+        window.history.pushState(null, '', url);
+    } else {    
+        window.history.pushState(null, '', url + '?' + request);
+    }
+    $("#wait").show();
+    directoryf.index(request, url);
+
+
+    e.preventDefault();
+});
+
+$('#myFormSearchIndexDirectory select[name=type]').on('change', function (e) {
+    $(".input_data").prop('disabled', true).hide().val('');
+    $('#myFormSearchIndexDirectory input[id=types_text]').attr("type","text");
+           
+    switch (this.value) {
+        case 'view_all':
+            $('#myFormSearchIndexDirectory input[id=types_text]').show();
+            break;
+        case 'name':
+        case 'email':
+        case 'number_phone':
+        case 'address':
+            $('#myFormSearchIndexDirectory input[id=types_text]').prop('disabled', false).show();
+            break;
+        case 'type_status_id':
+            $('#myFormSearchIndexDirectory select[id=type_status_id]').prop('disabled', false).show();
+            break;
+        case 'created_at':
+             $('#myFormSearchIndexDirectory input[id=types_text]').show().attr("type","date").prop('disabled', false);
+            break;
+        default:
+            break;
+    }
+});
