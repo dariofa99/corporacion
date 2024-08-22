@@ -13,17 +13,26 @@ class DirectoryController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        $directories = $this->getDirectories();
+        $directories = $this->getDirectories($request);
+
+        if($request->ajax()){ 
+            $response = [
+                'view'=>view('content.directory.partials.ajax.index',compact('directories'))->render(),
+            ];
+            return response()->json($response);      
+        }
+
         return view('content.directory.index', compact('directories')); 
     }
 
-    public function getDirectories()
+    public function getDirectories($request)
     {
        // $directory = Directory::all();
-        return Directory::where('type_status_id','<>',15)
-        ->where('origin','web')->get();
+        return Directory::getData($request)
+        ->where('type_status_id','<>',15)
+        ->where('origin','web')->paginate(6);
     }
 
 

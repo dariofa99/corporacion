@@ -35,13 +35,46 @@
             <div class="card card-primary card-outline">
               <div class="card-header">
                 <div class="row">
-                  <div class="col-md-6">
+                  <div class="col-md-2">
                     <h3 class="card-title">
                       <i class="fa fa-address-book"></i>
                       Directorio
                     </h3>
-                  </div>        
-                </div>
+                  </div>
+                  
+                  <div class="col-md-10  ">
+                  <form class="form-inline " id="myFormSearchIndexDirectory"  action="/directorio">
+                    <div class="col-md-5 offset-md-2">
+                      <div class="form-group justify-content-end">
+                        <select class="form-control" name="type">
+                          <option value="view_all">Ver todo...</option>
+                          <option value="name">Nombre</option>
+                          <option value="email">Correo</option>
+                          <option value="number_phone">Teléfono</option>
+                          <option value="address">Dirección</option>
+                          <option value="type_status_id">Estado</option>
+                          <option value="created_at">Fecha de creación</option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-5 ">
+                      <div class="input-group ">
+                        <input type="text" disabled id="types_text" class="form-control input_data" name="data" placeholder="Buscar..." aria-label="Buscar..." aria-describedby="basic-addon2">
+                        <select style="display:none" class="form-control input_data" id="type_status_id" name="data">
+                          <option value="view_all">Seleccione...</option>
+                         @foreach ($types_status_id as $key => $type_status )
+                              <option value="{{$key}}">{{$type_status}}</option>
+                         @endforeach
+                        </select>
+                        <div class="input-group-append">
+                          <button type="submmit" class="input-group-text" id="basic-addon2"> <i class="fas fa-search"></i></button>                         
+                        </div>
+                      </div>                   
+                    </div>
+                  </form>
+                  </div>
+
+                </div><!-- End Row -->
 
               </div>
               <div class="card-body p-3" >
