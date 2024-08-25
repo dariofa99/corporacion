@@ -48,10 +48,7 @@
                       <div class="form-group justify-content-end">
                         <select class="form-control" name="type">
                           <option value="view_all">Ver todo...</option>
-                          <option value="name">Nombre</option>
-                          <option value="email">Correo</option>
-                          <option value="number_phone">Teléfono</option>
-                          <option value="address">Dirección</option>
+                          <option value="general_search">Búsqueda general</option>
                           <option value="type_status_id">Estado</option>
                           <option value="created_at">Fecha de creación</option>
                         </select>
