@@ -23,8 +23,7 @@ class Directory extends Model
 
         if (trim($request->data)) { 
 
-            if ($request->type and $request->data and ($request->type == 'name' || $request->type == 'email' ||
-                $request->type == 'number_phone' || $request->type == 'address' || $request->type == 'type_status_id' || $request->type == 'created_at')) {
+            if ($request->type and $request->data and ($request->type == 'general_search' || $request->type == 'type_status_id' || $request->type == 'created_at')) {
                 return $query->Where(function ($query) use ($request) {
                     $query->orWhere('directory.name','like', "%{$request->data}%");
                     $query->orWhere('directory.email','like', "%{$request->data}%");

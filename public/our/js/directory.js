@@ -219,11 +219,9 @@ $('#myFormSearchIndexDirectory select[name=type]').on('change', function (e) {
         case 'view_all':
             $('#myFormSearchIndexDirectory input[id=types_text]').show();
             break;
-        case 'name':
-        case 'email':
-        case 'number_phone':
-        case 'address':
-            $('#myFormSearchIndexDirectory input[id=types_text]').prop('disabled', false).show();
+        case 'general_search':
+            $('#myFormSearchIndexDirectory input[id=types_text]').prop('disabled', false).show().
+            attr('placeholder','Busca por Nombre, email, teléfono o dirección');
             break;
         case 'type_status_id':
             $('#myFormSearchIndexDirectory select[id=type_status_id]').prop('disabled', false).show();
