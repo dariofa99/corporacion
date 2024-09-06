@@ -6,6 +6,10 @@ use App\Events\LoginEvent;
 use App\Events\NotifyClientStreamEvent;
 use \Facades\App\Facades\NewPush;
 use Illuminate\Http\Request;
+use App\Models\ReferenceData;
+use App\Models\ReferenceDataOptions;
+use App\Models\CaseNoveltyData;
+use App\Models\CaseNoveltyHasData;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redis;
 use App\Models\CaseM; 
@@ -311,21 +315,265 @@ class CasesController extends Controller
     }
 
     public function insertData(Request $request){
-         $data = DB::table('case_data')
-        ->where(['type_data_id'=>$request->type_data_id,
-        'case_id'=>$request->case_id])->first();    
-        if($data){           
-            $data = DB::table('case_data')
-            ->where(['type_data_id'=>$request->type_data_id,
-            'case_id'=>$request->case_id])->update($request->all());   
-        }else{
-            $request['user_id'] = \Auth::user()->id;
-            $data = DB::table('case_data')
-            ->where(['type_data_id'=>$request->type_data_id,
-            'case_id'=>$request->case_id])->insert($request->all());
-        }
+        $data = DB::table('case_data')
+       ->where(['type_data_id'=>$request->type_data_id,
+       'case_id'=>$request->case_id])->first();    
+       if($data){           
+           $data = DB::table('case_data')
+           ->where(['type_data_id'=>$request->type_data_id,
+           'case_id'=>$request->case_id])->update($request->all());   
+       }else{
+           $request['user_id'] = \Auth::user()->id;
+           $data = DB::table('case_data')
+           ->where(['type_data_id'=>$request->type_data_id,
+           'case_id'=>$request->case_id])->insert($request->all());
+       }
 
+       return response()->json($request->all());
+    }
+
+    public function storeNoveltyData(Request $request){
+        if ($request->has('data') and is_array($request->data)) {
+            $case = CaseM::find($request['case_id']);
+            $requestData = $request->data;
+            foreach ($request->data as $key => $option_r) {
+              $option_r['case_id'] = $request['case_id'];
+              $ref_data = ReferenceData::where(function ($query) use ($option_r) {
+                if (isset($option_r['short_name'])) {
+                  $query->where([
+                    'short_name' => $option_r['short_name']
+                  ]);
+                } elseif (isset($option_r['question_id'])) {
+                  $query->where([
+                    'id' => $option_r['question_id']
+                  ]);
+                }
+              })->where([
+                'section' => $request['component']
+              ])->first();
+              if ($ref_data) {
+                $this->storeData($ref_data, $option_r);
+              }
+              //
+            }
+          }
+
+          $response=[];
+          $response['render_view'] = view('content.cases.partials.ajax.novelty',compact('case'))->render();
+          return response()->json($response);
+    }
+
+    public function updateNoveltyData(Request $request){
+        
         return response()->json($request->all());
+    }
+
+    public function editNoveltyData($id){
+        $noveltyData = CaseNoveltyData::find($id);
+        $types_categories_novelty = ReferenceData::where(['categories'=>'type_data_novelty','table'=>'case'])
+         ->pluck('name','id');
+        $options = ReferenceData::find($noveltyData->reference_data_id)->options()->pluck('value', 'id'); // Adjust 'name' and 'id' fields as needed
+        $response=[];
+        $response['render_view'] = view('content.cases.partials.modals.novelty_edit',compact('noveltyData','types_categories_novelty','options'))->render();
+        return response()->json($response);
+    }
+
+    public function deleteNoveltyData(Request $request){
+        $case = CaseM::find($request->case_id);
+        $case_novelty = DB::table('case_novelty_data')->where('id',$request->id)->delete();
+        $response=[];
+        $response['render_view'] = view('content.cases.partials.ajax.novelty',compact('case'))->render();
+        return response()->json($response);
+    }
+    
+    private function storeData($question, $request){
+        if (isset($request['options']) and count($request['options']) > 0) {
+
+            $caseId =  $request['case_id'];
+
+            $data = CaseNoveltyData::where([
+                'reference_data_id' => $question->id,
+                'case_id' => $caseId
+            ])->delete();
+
+        foreach ($request['options'] as $key => $option_r) {
+            $option = ReferenceDataOptions::where(function ($query) use ($option_r) {
+            if (isset($option_r['value_db'])) {
+                $query->where([
+                'value_db' => $option_r['value_db']
+                ]);
+            } elseif (isset($option_r['option_id'])) {
+                $query->where([
+                'id' => $option_r['option_id']
+                ]);
+            }
+            })->first();
+            $tipo_pregunta = $question->type_data_id;
+            $data = CaseNoveltyData::where([
+            'reference_data_id' => $question->id,
+            'case_id' => $caseId,
+            /* 'reference_data_option_id' => $option->id */
+            ])->where(function($query) use ($option,$tipo_pregunta){
+            if($tipo_pregunta==136){
+                $query->where(['reference_data_option_id' => $option->id]);
+            }
+            })->first();
+
+
+            if ($data) {
+            
+            Log::info($tipo_pregunta);
+            if ($tipo_pregunta != 136) { ///texto
+                $data->value = $option_r["value"];
+                $data->reference_data_option_id = $option->id;
+                $data->value_is_other = (isset($option_r["value_is_other"]) and $option_r["value_is_other"] != "") ? $option_r["value_is_other"] : "";
+                $data->save();
+            } else if ($tipo_pregunta == 136) {
+                if ($option_r["value"] != "") {
+                $data->value = $option_r["value"];
+                $data->reference_data_option_id = $option->id;
+                $data->value_is_other = (isset($option_r["value_is_other"]) and $option_r["value_is_other"] != "") ? $option_r["value_is_other"] : "";
+                $data->save();
+                }else{
+                $data->delete();
+                }
+            }
+            } else {
+            if ($option_r["value"] != '') {
+                $data = CaseNoveltyData::create([
+                'reference_data_id' => $question->id,
+                'reference_data_option_id' => $option->id,
+                'case_id' => $caseId,
+                'value' => $option_r["value"],
+                'value_is_other' => (isset($option_r["value_is_other"]) and $option_r["value_is_other"] != "") ? $option_r["value_is_other"] : "",
+                ]);
+            }
+            }
+        }
+        }
+        return $data;
+    }
+
+    public function storeNoveltyHasData(Request $request){
+        if ($request->has('data') and is_array($request->data)) {
+            $case = CaseM::find($request['case_id']);
+            $requestData = $request->data;
+            foreach ($request->data as $key => $option_r) {
+              $option_r['case_id'] = $request['case_id'];
+              $ref_data = ReferenceData::where(function ($query) use ($option_r) {
+                if (isset($option_r['short_name'])) {
+                  $query->where([
+                    'short_name' => $option_r['short_name']
+                  ]);
+                } elseif (isset($option_r['question_id'])) {
+                  $query->where([
+                    'id' => $option_r['question_id']
+                  ]);
+                }
+              })->where([
+                'section' => $request['component']
+              ])->first();
+              if ($ref_data) {
+                $this->storeHasData($ref_data, $option_r);
+              }
+              //
+            }
+          }
+
+          $response=[];
+          $response['render_view'] = view('content.cases.partials.ajax.novelty_has',compact('case'))->render();
+          return response()->json($response);
+    }
+
+    public function updateNoveltyHasData(Request $request){
+        
+        return response()->json($request->all());
+    }
+
+    public function editNoveltyHasData($id){
+        $noveltyData = CaseNoveltyHasData::find($id);
+        $types_categories_novelty_has = ReferenceData::where(['categories'=>'type_data_novelty_has','table'=>'case_has'])
+         ->pluck('name','id');
+        $options = ReferenceData::find($noveltyData->reference_data_id)->options()->pluck('value', 'id'); // Adjust 'name' and 'id' fields as needed
+        $response=[];
+        $response['render_view'] = view('content.cases.partials.modals.novelty_has_edit',compact('noveltyData','types_categories_novelty_has','options'))->render();
+        return response()->json($response);
+    }
+
+    public function deleteNoveltyHasData(Request $request){
+        $case = CaseM::find($request->case_id);
+        $case_novelty = DB::table('case_novelty_has_data')->where('id',$request->id)->delete();
+        $response=[];
+        $response['render_view'] = view('content.cases.partials.ajax.novelty_has',compact('case'))->render();
+        return response()->json($response);
+    }
+    
+    private function storeHasData($question, $request){
+        if (isset($request['options']) and count($request['options']) > 0) {
+
+            $caseId =  $request['case_id'];
+
+            $data = CaseNoveltyHasData::where([
+                'reference_data_id' => $question->id,
+                'case_id' => $caseId
+            ])->delete();
+
+        foreach ($request['options'] as $key => $option_r) {
+            $option = ReferenceDataOptions::where(function ($query) use ($option_r) {
+            if (isset($option_r['value_db'])) {
+                $query->where([
+                'value_db' => $option_r['value_db']
+                ]);
+            } elseif (isset($option_r['option_id'])) {
+                $query->where([
+                'id' => $option_r['option_id']
+                ]);
+            }
+            })->first();
+            $tipo_pregunta = $question->type_data_id;
+            $data = CaseNoveltyHasData::where([
+            'reference_data_id' => $question->id,
+            'case_id' => $caseId,
+            /* 'reference_data_option_id' => $option->id */
+            ])->where(function($query) use ($option,$tipo_pregunta){
+            if($tipo_pregunta==136){
+                $query->where(['reference_data_option_id' => $option->id]);
+            }
+            })->first();
+
+
+            if ($data) {
+            
+            Log::info($tipo_pregunta);
+            if ($tipo_pregunta != 136) { ///texto
+                $data->value = $option_r["value"];
+                $data->reference_data_option_id = $option->id;
+                $data->value_is_other = (isset($option_r["value_is_other"]) and $option_r["value_is_other"] != "") ? $option_r["value_is_other"] : "";
+                $data->save();
+            } else if ($tipo_pregunta == 136) {
+                if ($option_r["value"] != "") {
+                $data->value = $option_r["value"];
+                $data->reference_data_option_id = $option->id;
+                $data->value_is_other = (isset($option_r["value_is_other"]) and $option_r["value_is_other"] != "") ? $option_r["value_is_other"] : "";
+                $data->save();
+                }else{
+                $data->delete();
+                }
+            }
+            } else {
+            if ($option_r["value"] != '') {
+                $data = CaseNoveltyHasData::create([
+                'reference_data_id' => $question->id,
+                'reference_data_option_id' => $option->id,
+                'case_id' => $caseId,
+                'value' => $option_r["value"],
+                'value_is_other' => (isset($option_r["value_is_other"]) and $option_r["value_is_other"] != "") ? $option_r["value_is_other"] : "",
+                ]);
+            }
+            }
+        }
+        }
+        return $data;
     }
  
     public function insertUser(Request $request){
@@ -583,6 +831,11 @@ Log::info("Si pasa");
 
     return response()->json($request->all());
 
+   }
+
+   public function getOptionsByCategory($categoryId){
+    $options = TypeCategoriesNovelty::find($categoryId)->options()->pluck('name', 'id'); // Adjust 'name' and 'id' fields as needed
+    return response()->json($options);
    }
 
 }

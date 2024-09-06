@@ -314,4 +314,88 @@
       </div>
 
 
+      <div class="row">
+      <div class="col-md-8">
+        <h4>Autoridades competentes que conocen el caso</h4>     
+      </div>
+  
+      <div class="col-md-2"> 
+  
+          <button class="btn btn-primary btn-block btn-sm btnAddCaseNovelty" data-type_user_id="25" data-view="create"
+                id="btnAddCaseNovelty"><i class="fa fa-lightbulb"> </i> Agregar novedad 
+          </button>
+  
+      </div>
+  </div>  
+
+
+    <div class="row">
+      <div class="col-md-12 table-responsive p-0">
+      
+          
+          <table class="table table-hover content_ajax_list_novelty table-striped" id="table_list_novelty">
+                <thead>
+                    <th>
+                    No.
+                    </th>
+                    <th>
+                    Novedad
+                    </th>
+                    <th>Estado</th>
+                    
+                    <th>Acciones</th>
+                    </thead>
+                    <tbody>
+                   @include('content.cases.partials.ajax.novelty')           
+                    </tbody>
+                    
+                </table>
+      </div>
+      </div>
+
+      <div class="row">
+      <div class="col-md-8">
+        <h4>Cuenta con</h4>     
+      </div>
+  
+      <div class="col-md-2"> 
+  
+          <button class="btn btn-primary btn-block btn-sm btnAddCaseNoveltyHas" data-type_user_id="25" data-view="create"
+                id="btnAddCaseNoveltyHas"><i class="fa fa-lightbulb"> </i> Agregar novedad 
+          </button>
+  
+      </div>
+  </div>  
+
+
+    <div class="row">
+      <div class="col-md-12 table-responsive p-0">
+      
+          
+          <table class="table table-hover content_ajax_list_novelty_has table-striped" id="table_list_novelty_has">
+                <thead>
+                    <th>
+                    No.
+                    </th>
+                    <th>
+                    Novedad
+                    </th>
+                    <th>Estado</th>
+                    
+                    <th>Acciones</th>
+                    </thead>
+                    <tbody>
+                   @include('content.cases.partials.ajax.novelty_has')           
+                    </tbody>
+                    
+                </table>
+      </div>
+      </div>
+
+
+    </div>
+
+
+    </div>
+
     </div>

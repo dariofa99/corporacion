@@ -186,6 +186,8 @@
 
 
     @include('content.cases.partials.modals.user_create')
+    @include('content.cases.partials.modals.novelty_create')
+    @include('content.cases.partials.modals.novelty_has_create')
     @include('content.cases.partials.modals.streaming')
     @include('content.cases.partials.modals.log_details')
     @include('content.users.partials.modals.user_data')
