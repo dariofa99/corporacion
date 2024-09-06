@@ -27,6 +27,8 @@
                             <option value="type_category_log">Bitácora</option>
                             <option value="type_data_user">Usuarios</option>
                             <option value="type_data_directory">Directorio</option>
+                            <option value="type_data_novelty">Novedades del Caso</option>
+                            <option value="type_data_novelty_has">Novedades del Caso Cuenta Con</option>
                         </select>
                     </div>
                     <input type="hidden" value="26" name="type_data_id" id="type_data_id">

@@ -21,7 +21,13 @@ class ReferenceData extends Model
         return 'Bitacoras';
     }elseif ($this->categories=='type_data_directory') {
         return 'Directorio';
-    }else{
+    }elseif ($this->categories=='type_data_novelty') {
+        return 'Novedades del Caso';
+    }
+    elseif ($this->categories=='type_data_novelty_has') {
+        return 'Novedades del Caso Cuenta Con';
+    }
+    else{
         return $this->categories;
     }
 

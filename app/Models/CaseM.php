@@ -74,6 +74,17 @@ class CaseM extends Model // implements Auditable
             ->where(['type_data_id' => $type_data_id, 'case_id' => $this->id])->first();
     }
 
+    public function case_novelty_data()
+    {
+        return $this->hasMany(CaseNoveltyData::class, 'case_id', 'id');
+    }
+
+    public function case_novelty_has_data()
+    {
+        return $this->hasMany(CaseNoveltyHasData::class, 'case_id', 'id');
+    }
+
+
     public function getTotalPayments()
     {
         //  dd('hoa');

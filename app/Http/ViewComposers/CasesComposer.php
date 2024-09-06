@@ -42,7 +42,11 @@ class CasesComposer
          $types_categories_log = ReferenceData::where(['categories'=>'type_category_log','table'=>'case_log'])
          ->pluck('name','id');
 
-       
+         $types_categories_novelty = ReferenceData::where(['categories'=>'type_data_novelty','table'=>'case'])
+         ->pluck('name','id');
+
+         $types_categories_novelty_has = ReferenceData::where(['categories'=>'type_data_novelty_has','table'=>'case'])
+         ->pluck('name','id');
 
          $types_categories_pays = Referencetable::where(['categories'=>'type_category_pay','table'=>'payments'])
          ->pluck('name','id');
@@ -95,6 +99,8 @@ class CasesComposer
         ->with(['types_status'=>$types_status])
         ->with(['roles_prof'=>$roles_prof])
         ->with(['types_categories_log'=>$types_categories_log])
+        ->with(['types_categories_novelty'=>$types_categories_novelty])
+        ->with(['types_categories_novelty_has'=>$types_categories_novelty_has])
         ->with(['users_prof'=>$users_prof]); 
              
        
