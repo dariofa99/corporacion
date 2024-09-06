@@ -148,6 +148,8 @@
     </section>
     <!-- /.content -->
 @include('content.cases.partials.modals.user_create')
+@include('content.cases.partials.modals.novelty_create')
+@include('content.cases.partials.modals.novelty_has_create')
 @endsection
 
 @push('scripts')

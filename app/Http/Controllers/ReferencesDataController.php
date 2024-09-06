@@ -79,6 +79,14 @@ class ReferencesDataController extends Controller
             $request['table'] = 'case_log';
             $request['section'] = null;
         }
+        if ($request->categories == 'type_data_novelty') {
+            $request['table'] = 'case';
+            $request['section'] = 'case';
+        };
+        if ($request->categories == 'type_data_novelty_has') {
+            $request['table'] = 'case';
+            $request['section'] = 'case_has';
+        };
         if ($request->categories == 'type_data_user') $request['table'] = 'users';
         if ($request->categories == 'type_data_directory') {
             $request['table'] = 'directory';
@@ -214,5 +222,11 @@ class ReferencesDataController extends Controller
         $response = [];
         $response['render_view'] = $view;
         return response()->json($response);
+    }
+
+    public function getOptionsByCategory($id)
+    {
+        $options = ReferenceData::find($id)->options()->pluck('value', 'id'); // Adjust 'name' and 'id' fields as needed
+        return response()->json($options);
     }
 }

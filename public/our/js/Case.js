@@ -164,6 +164,85 @@ $(".btnAddUserCase").on('click', function (e) {
 
 });
 
+$(".btnAddCaseNovelty").on('click', function (e) {
+    $("#myformCreateNovelty")[0].reset();
+    $("#myModal_create_novelty").modal('show');
+
+});
+
+
+$('#types_category_novelty').on('change', function() {
+    var selectedValue = $(this).val();
+    var $stateSelect = $('#state_novelty');
+
+    if (selectedValue !== 'view_all') {
+        $.ajax({
+            url: '/casos/find/novelty/options/' + selectedValue, // Adjust the URL as needed
+            type: 'GET',
+            success: function(response) {
+                $stateSelect.empty(); // Clear existing options
+                $stateSelect.append('<option value="view_all">Seleccione...</option>');
+
+                $.each(response, function(key, value) {
+                    $stateSelect.append('<option value="' + key + '">' + value + '</option>');
+                });
+            },
+            error: function() {
+                console.error('Error fetching data.');
+            }
+        });
+    } else {
+        $stateSelect.empty(); // Clear existing options if "view_all" is selected
+        $stateSelect.append('<option value="view_all">Seleccione...</option>');
+    }
+});
+
+document.getElementById('state_novelty').addEventListener('change', function() {
+    var selectedValue = this.options[this.selectedIndex].text;
+    
+    document.getElementById('value_novelty').value = selectedValue;
+});
+
+
+$(".btnAddCaseNoveltyHas").on('click', function (e) {
+    $("#myformCreateNoveltyHas")[0].reset();
+    $("#myModal_create_novelty_has").modal('show');
+
+});
+
+
+$('#types_category_novelty_has').on('change', function() {
+    var selectedValue = $(this).val();
+    var $stateSelect = $('#state_novelty_has');
+
+    if (selectedValue !== 'view_all') {
+        $.ajax({
+            url: '/casos/find/novelty/options/' + selectedValue, // Adjust the URL as needed
+            type: 'GET',
+            success: function(response) {
+                $stateSelect.empty(); // Clear existing options
+                $stateSelect.append('<option value="view_all">Seleccione...</option>');
+
+                $.each(response, function(key, value) {
+                    $stateSelect.append('<option value="' + key + '">' + value + '</option>');
+                });
+            },
+            error: function() {
+                console.error('Error fetching data.');
+            }
+        });
+    } else {
+        $stateSelect.empty(); // Clear existing options if "view_all" is selected
+        $stateSelect.append('<option value="view_all">Seleccione...</option>');
+    }
+});
+
+document.getElementById('state_novelty_has').addEventListener('change', function() {
+    var selectedValue = this.options[this.selectedIndex].text;
+    
+    document.getElementById('value_novelty_has').value = selectedValue;
+});
+
 
 $("input[name=radio_change_revisor]").on("change", function () {
     if ($(this).val() == 'select_user') {
@@ -330,6 +409,121 @@ $(".content_client_data").on("click", '.btn_delete_user', function (e) {
 
         }
     });
+});
+
+$('#myformCreateNovelty').on('submit', function(event) {
+    event.preventDefault();
+
+    // Extract values from the form
+    var questionId = document.getElementById('types_category_novelty').value;
+    var optionId = document.getElementById('state_novelty').value;
+    var value = document.getElementById('value_novelty').value;
+
+    var request = {
+        'case_id': $("#case_id").val(),
+        'component': $("#component").val(),
+        'data': [
+            {
+                'question_id': questionId,
+                'options': [
+                    {
+                        'option_id': optionId,
+                        'value': value
+                    }
+                ]
+            }
+        ]
+    };
+
+    casef.addNoveltyCase(request);
+  });
+
+  
+
+$(".btn_delete_novelty").on("click", function (e) {
+    var request = {
+        'id': $(this).attr('data-id'),
+        'case_id': $("#case_id").val(),
+    };
+    Swal.fire({
+        title: 'Esta seguro de eliminar la novedad del caso?',
+        text: "Los cambios no podrán ser revertidos!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+
+            casef.deleteNoveltyCase(request);
+
+        }
+    });
+});
+
+$(".btn_edit_novelty").on("click", function (e) {
+    let id = $(this).attr('data-id');
+    casef.editNoveltyCase(id);
+});
+
+
+$('#myformCreateNoveltyHas').on('submit', function(event) {
+    event.preventDefault();
+
+    // Extract values from the form
+    var questionId = document.getElementById('types_category_novelty_has').value;
+    var optionId = document.getElementById('state_novelty_has').value;
+    var value = document.getElementById('value_novelty_has').value;
+
+    var request = {
+        'case_id': $("#case_id").val(),
+        'component': $("#component_has").val(),
+        'data': [
+            {
+                'question_id': questionId,
+                'options': [
+                    {
+                        'option_id': optionId,
+                        'value': value
+                    }
+                ]
+            }
+        ]
+    };
+
+    casef.addNoveltyHasCase(request);
+  });
+
+  
+
+$(".btn_delete_novelty_has").on("click", function (e) {
+    var request = {
+        'id': $(this).attr('data-id'),
+        'case_id': $("#case_id").val(),
+    };
+    Swal.fire({
+        title: 'Esta seguro de eliminar la novedad del caso?',
+        text: "Los cambios no podrán ser revertidos!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+
+            casef.deleteNoveltyHasCase(request);
+
+        }
+    });
+});
+
+$(".btn_edit_novelty_has").on("click", function (e) {
+    let id = $(this).attr('data-id');
+    casef.editNoveltyHasCase(id);
 });
 
 $("#btn_user_data").on("click", async function (e) {
