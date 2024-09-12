@@ -364,21 +364,6 @@ class CasesController extends Controller
           return response()->json($response);
     }
 
-    public function updateNoveltyData(Request $request){
-        
-        return response()->json($request->all());
-    }
-
-    public function editNoveltyData($id){
-        $noveltyData = CaseNoveltyData::find($id);
-        $types_categories_novelty = ReferenceData::where(['categories'=>'type_data_novelty','table'=>'case'])
-         ->pluck('name','id');
-        $options = ReferenceData::find($noveltyData->reference_data_id)->options()->pluck('value', 'id'); // Adjust 'name' and 'id' fields as needed
-        $response=[];
-        $response['render_view'] = view('content.cases.partials.modals.novelty_edit',compact('noveltyData','types_categories_novelty','options'))->render();
-        return response()->json($response);
-    }
-
     public function deleteNoveltyData(Request $request){
         $case = CaseM::find($request->case_id);
         $case_novelty = DB::table('case_novelty_data')->where('id',$request->id)->delete();
@@ -484,21 +469,6 @@ class CasesController extends Controller
           $response=[];
           $response['render_view'] = view('content.cases.partials.ajax.novelty_has',compact('case'))->render();
           return response()->json($response);
-    }
-
-    public function updateNoveltyHasData(Request $request){
-        
-        return response()->json($request->all());
-    }
-
-    public function editNoveltyHasData($id){
-        $noveltyData = CaseNoveltyHasData::find($id);
-        $types_categories_novelty_has = ReferenceData::where(['categories'=>'type_data_novelty_has','table'=>'case_has'])
-         ->pluck('name','id');
-        $options = ReferenceData::find($noveltyData->reference_data_id)->options()->pluck('value', 'id'); // Adjust 'name' and 'id' fields as needed
-        $response=[];
-        $response['render_view'] = view('content.cases.partials.modals.novelty_has_edit',compact('noveltyData','types_categories_novelty_has','options'))->render();
-        return response()->json($response);
     }
 
     public function deleteNoveltyHasData(Request $request){

@@ -215,11 +215,7 @@ Route::group(['middleware' => ['auth','sadmin','vlogout'],"namespace"=>'App\Http
      
 	Route::resource('/casos','CasesController');
 	Route::post('/casos/add/noveltydata','CasesController@storeNoveltyData')->name('cases.addnoveltydata');
-	Route::post('/casos/update/noveltydata','CasesController@updateNoveltyData')->name('cases.updatenoveltydata');
-	Route::get('/casos/edit/noveltydata/{id}','CasesController@editNoveltyData');
 	Route::post('/casos/add/noveltyhasdata','CasesController@storeNoveltyHasData')->name('cases.addnoveltyhasdata');
-	Route::post('/casos/update/noveltyhasdata','CasesController@updateNoveltyHasData')->name('cases.updatenoveltyhasdata');
-	Route::get('/casos/edit/noveltyhasdata/{id}','CasesController@editNoveltyHasData');
 	Route::post('/casos/insert/data','CasesController@insertData');
 	Route::get('/casos/find/novelty/options/{id}','ReferencesDataController@getOptionsByCategory');
 	Route::post('/casos/insert/user','CasesController@insertUser');

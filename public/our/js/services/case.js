@@ -426,65 +426,6 @@ export class CaseM {
         });
     }
 
-    editNoveltyCase(id) {
-        $.ajax({
-            url: '/casos/edit/noveltydata/'+id,
-            type: 'GET',
-            datatype: 'json',
-            cache: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-                $("#wait").show();
-            },
-            success: function (res) {
-                ////console.log(res) 
-                $("#wait").hide();
-                
-                if ($('body').find('#myModal_edit_novelty').length === 0) {
-                    const casef = new CaseM();
-                    
-                    $("body").append(res.render_view);
-                    document.getElementById('state_novelty_edit').addEventListener('change', function() {
-                        var selectedValue = this.options[this.selectedIndex].text;
-                        
-                        document.getElementById('value_novelty_edit').value = selectedValue;
-                    });
-
-                    $('#myformEditNovelty').on('submit', function(event) {
-                        event.preventDefault();
-                    
-                        // Extract values from the form
-                        var questionId = document.getElementById('types_category_novelty_edit').value;
-                        var optionId = document.getElementById('state_novelty_edit').value;
-                        var value = document.getElementById('value_novelty_edit').value;
-                    
-                        var request = {
-                            'case_id': $("#case_id").val(),
-                            'component': $("#component").val(),
-                            'data': [
-                                {
-                                    'question_id': questionId,
-                                    'options': [
-                                        {
-                                            'option_id': optionId,
-                                            'value': value
-                                        }
-                                    ]
-                                }
-                            ]
-                        };
-                    
-                        casef.updateNoveltyCase(request);
-                      });
-                }
-                $("#myModal_edit_novelty").modal('show');
-            },
-            error: function (xhr, textStatus, thrownError) {
-                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
-            }
-        });
-    }
-
     addNoveltyCase(request) {
         $.ajax({
             url: '/casos/add/noveltydata',
@@ -513,38 +454,9 @@ export class CaseM {
         });
     }
 
-    updateNoveltyCase(request) {
-        $.ajax({
-            url: '/casos/add/noveltydata',
-            type: 'POST',
-            datatype: 'json',
-            data: request,
-            cache: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-                $("#wait").show();
-            },
-            success: function (res) {
-                ////console.log(res) 
-                $("#wait").hide();
-                $("#myModal_edit_novelty").modal('hide');
-                toastr.success('Guardado con éxito!', '',
-                    { "positionClass": "toast-bottom-right", "timeOut": "1000" });
-                
-                $("#table_list_novelty tbody").html(res.render_view);
-               
-            },
-            error: function (xhr, textStatus, thrownError) {
-                $("#myModal_edit_novelty").modal('hide');
-                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
-            }
-        });
-    }
-
-
     deleteNoveltyHasCase(request) {
         $.ajax({
-            url: '/casos/delete/novelty_has',
+            url: '/casos/delete/noveltyhas',
             type: 'POST',
             datatype: 'json',
             data: request,
@@ -569,65 +481,6 @@ export class CaseM {
                 } */
                 $("#table_list_novelty_has tbody").html(res.render_view);
                
-            },
-            error: function (xhr, textStatus, thrownError) {
-                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
-            }
-        });
-    }
-
-    editNoveltyHasCase(id) {
-        $.ajax({
-            url: '/casos/edit/noveltyhasdata/'+id,
-            type: 'GET',
-            datatype: 'json',
-            cache: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-                $("#wait").show();
-            },
-            success: function (res) {
-                ////console.log(res) 
-                $("#wait").hide();
-                
-                if ($('body').find('#myModal_edit_novelty_has').length === 0) {
-                    const casef = new CaseM();
-                    
-                    $("body").append(res.render_view);
-                    document.getElementById('state_novelty_has_edit').addEventListener('change', function() {
-                        var selectedValue = this.options[this.selectedIndex].text;
-                        
-                        document.getElementById('value_novelty_has_edit').value = selectedValue;
-                    });
-
-                    $('#myformEditNoveltyHas').on('submit', function(event) {
-                        event.preventDefault();
-                    
-                        // Extract values from the form
-                        var questionId = document.getElementById('types_category_novelty_has_edit').value;
-                        var optionId = document.getElementById('state_novelty_has_edit').value;
-                        var value = document.getElementById('value_novelty_has_edit').value;
-                    
-                        var request = {
-                            'case_id': $("#case_id").val(),
-                            'component': $("#component_has").val(),
-                            'data': [
-                                {
-                                    'question_id': questionId,
-                                    'options': [
-                                        {
-                                            'option_id': optionId,
-                                            'value': value
-                                        }
-                                    ]
-                                }
-                            ]
-                        };
-                    
-                        casef.updateNoveltyHasCase(request);
-                      });
-                }
-                $("#myModal_edit_novelty_has").modal('show');
             },
             error: function (xhr, textStatus, thrownError) {
                 alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
@@ -662,36 +515,6 @@ export class CaseM {
             }
         });
     }
-
-    updateNoveltyHasCase(request) {
-        $.ajax({
-            url: '/casos/add/noveltyhasdata',
-            type: 'POST',
-            datatype: 'json',
-            data: request,
-            cache: false,
-            beforeSend: function (xhr) {
-                xhr.setRequestHeader('X-CSRF-TOKEN', $("#token").attr('content'));
-                $("#wait").show();
-            },
-            success: function (res) {
-                ////console.log(res) 
-                $("#wait").hide();
-                $("#myModal_edit_novelty_has").modal('hide');
-                toastr.success('Guardado con éxito!', '',
-                    { "positionClass": "toast-bottom-right", "timeOut": "1000" });
-                
-                $("#table_list_novelty_has tbody").html(res.render_view);
-               
-            },
-            error: function (xhr, textStatus, thrownError) {
-                $("#myModal_edit_novelty_has").modal('hide');
-                alert("Hubo un error con el servidor ERROR::" + thrownError, textStatus);
-            }
-        });
-    }
-
-
 
     insertUser(request) {
         var casef = this;

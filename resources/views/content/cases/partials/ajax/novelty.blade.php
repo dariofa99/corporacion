@@ -14,9 +14,6 @@
 <button class="btn btn-danger btn-sm btn_delete_novelty" data-id="{{$novelty->id}}">
 Eliminar
 </button>
-<button class="btn btn-primary btn-sm btn_edit_novelty" data-id="{{$novelty->id}}">
-Editar
-</button> 
 </td>
 </tr>
 @endforeach    

@@ -163,8 +163,8 @@
                 <label for="case_number">Personas/organizaciones afectadas</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="132" rows="6">
                   @if ($case->getCaseData(132))
-                  {{ $case->getCaseData(132)->value }}
-                  @endif
+{{ $case->getCaseData(132)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -174,8 +174,8 @@
                 <label for="case_number">Presuntos agresores</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="133" rows="6">
                   @if ($case->getCaseData(133))
-                  {{ $case->getCaseData(133)->value }}
-                  @endif
+{{ $case->getCaseData(133)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -185,8 +185,8 @@
                 <label for="case_number">El medio por el que se realizó la agresión</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="134" rows="6">
                   @if ($case->getCaseData(134))
-                  {{ $case->getCaseData(134)->value }}
-                  @endif
+{{ $case->getCaseData(134)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -196,8 +196,8 @@
                 <label for="case_number">Evidencias</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="135" rows="6">
                   @if ($case->getCaseData(135))
-                  {{ $case->getCaseData(135)->value }}
-                  @endif
+{{ $case->getCaseData(135)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -207,8 +207,8 @@
                 <label for="case_number">Daños causados</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="118" rows="6">
                   @if ($case->getCaseData(118))
-                  {{ $case->getCaseData(118)->value }}
-                  @endif
+{{ $case->getCaseData(118)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -217,8 +217,8 @@
                 <label for="case_number">Tipo de riesgo</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="119" rows="6">
                   @if ($case->getCaseData(119))
-                  {{ $case->getCaseData(119)->value }}
-                  @endif
+{{ $case->getCaseData(119)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -227,8 +227,8 @@
                 <label for="case_number">Características del riesgo</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="120" rows="6">
                   @if ($case->getCaseData(120))
-                  {{ $case->getCaseData(120)->value }}
-                  @endif
+{{ $case->getCaseData(120)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -237,8 +237,8 @@
                 <label for="case_number">Ocurrencia</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="121" rows="6">
                   @if ($case->getCaseData(121))
-                  {{ $case->getCaseData(121)->value }}
-                  @endif
+{{ $case->getCaseData(121)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -248,8 +248,8 @@
                 <label for="case_number">Análisis del contexto del caso</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="122" rows="6">
                   @if ($case->getCaseData(122))
-                  {{ $case->getCaseData(122)->value }}
-                  @endif
+{{ $case->getCaseData(122)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -258,8 +258,8 @@
                 <label for="case_number">Qué ruta debe seguir</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="123" rows="6">
                   @if ($case->getCaseData(123))
-                  {{ $case->getCaseData(123)->value }}
-                  @endif
+{{ $case->getCaseData(123)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -269,8 +269,8 @@
                 <label for="case_number">Hechos</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="14" rows="10">
                   @if ($case->getCaseData(14))
-                  {{ $case->getCaseData(14)->value }}
-                  @endif
+{{ $case->getCaseData(14)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -282,8 +282,8 @@
                 <label for="case_number">Novedades/Observaciones</label>
                 <textarea class="form-control form-control-sm input_case_data set_old_value" data-type_id="24" rows="5">
                   @if ($case->getCaseData(24))
-                  {{ $case->getCaseData(24)->value }}
-                  @endif
+{{ $case->getCaseData(24)->value }}
+@endif
                 </textarea>
             </div>
         </div>
@@ -291,174 +291,199 @@
 
     </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <h4>Información contraparte</h4>
+
+
+
+
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>Información contraparte</h4>
+                </div>
+                <div class="col-md-2">
+                    <button class="btn btn-warning btn-block btn-sm" data-type_user_id="21" data-view="create"
+                        id="btnDNotification"><i class="fa fa-envelope" aria-hidden="true"></i> Notificaciones
+                        judiciales
+                    </button>
+                </div>
+
+                <div class="col-md-2">
+
+                    <button class="btn btn-primary btn-block btn-sm btnAddUserCase" data-type_user_id="21"
+                        data-view="create" id="btnAddUserCase"><i class="fa fa-user"> </i> Agregar contraparte
+                    </button>
+
+                </div>
+            </div>
         </div>
-        <div class="col-md-2">
-            <button class="btn btn-warning btn-block btn-sm" data-type_user_id="21" data-view="create"
-                id="btnDNotification"><i class="fa fa-envelope" aria-hidden="true"></i> Notificaciones judiciales
-            </button>
-        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 table-responsive p-0">
 
-        <div class="col-md-2">
 
-            <button class="btn btn-primary btn-block btn-sm btnAddUserCase" data-type_user_id="21" data-view="create"
-                id="btnAddUserCase"><i class="fa fa-user"> </i> Agregar contraparte
-            </button>
+                    <table class="table table-hover content_ajax_list_users table-striped" id="table_list_defendant">
+                        <thead>
+                            <th>
+                                No. Identificación
+                            </th>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Tipo</th>
+                            <th>Notificaciones</th>
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            @include('content.cases.partials.ajax.defendant')
+                        </tbody>
 
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row">
-        <div class="col-md-12 table-responsive p-0">
-
-
-            <table class="table table-hover content_ajax_list_users table-striped" id="table_list_defendant">
-                <thead>
-                    <th>
-                        No. Identificación
-                    </th>
-                    <th>
-                        Nombre
-                    </th>
-                    <th>Email</th>
-                    <th>Teléfono</th>
-                    <th>Tipo</th>
-                    <th>Notificaciones</th>
-                    <th>Acciones</th>
-                </thead>
-                <tbody>
-                    @include('content.cases.partials.ajax.defendant')
-                </tbody>
-
-            </table>
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-8">
-            <h4>Personas que intervienen en el caso</h4>
-        </div>
-        {{--  <div class="col-md-2">
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>Personas que intervienen en el caso</h4>
+                </div>
+                {{--  <div class="col-md-2">
         <button class="btn btn-warning btn-block btn-sm" data-type_user_id="21" data-view="create"
                 id="btnDNotification"><i class="fa fa-envelope" aria-hidden="true"></i> Notificaciones judiciales
           </button>
       </div> --}}
 
-        <div class="col-md-2">
+                <div class="col-md-2">
 
-            <button class="btn btn-primary btn-block btn-sm btnAddUserCase" data-type_user_id="25" data-view="create"
-                id="btnAddUserCase"><i class="fa fa-user"> </i> Agregar persona
-            </button>
+                    <button class="btn btn-primary btn-block btn-sm btnAddUserCase" data-type_user_id="25"
+                        data-view="create" id="btnAddUserCase"><i class="fa fa-user"> </i> Agregar persona
+                    </button>
 
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 table-responsive p-0">
+
+
+                    <table class="table table-hover content_ajax_list_users table-striped"
+                        id="table_list_interventor">
+                        <thead>
+                            <th>
+                                No. Identificación
+                            </th>
+                            <th>
+                                Nombre
+                            </th>
+                            <th>Email</th>
+                            <th>Teléfono</th>
+                            <th>Tipo</th>
+
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            @include('content.cases.partials.ajax.interventor')
+                        </tbody>
+
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>Autoridades competentes que conocen el caso</h4>
+                </div>
 
-    <div class="row">
-        <div class="col-md-12 table-responsive p-0">
+                <div class="col-md-2">
+
+                    <button class="btn btn-primary btn-block btn-sm btnAddCaseNovelty" data-type_user_id="25"
+                        data-view="create" id="btnAddCaseNovelty"><i class="fa fa-lightbulb"> </i> Agregar novedad
+                    </button>
+
+                </div>
+            </div>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-12 table-responsive p-0">
 
 
-            <table class="table table-hover content_ajax_list_users table-striped" id="table_list_interventor">
-                <thead>
-                    <th>
-                        No. Identificación
-                    </th>
-                    <th>
-                        Nombre
-                    </th>
-                    <th>Email</th>
-                    <th>Teléfono</th>
-                    <th>Tipo</th>
+                    <table class="table table-hover content_ajax_list_novelty table-striped" id="table_list_novelty">
+                        <thead>
+                            <th>
+                                No.
+                            </th>
+                            <th>
+                                Novedad
+                            </th>
+                            <th>Estado</th>
 
-                    <th>Acciones</th>
-                </thead>
-                <tbody>
-                    @include('content.cases.partials.ajax.interventor')
-                </tbody>
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            @include('content.cases.partials.ajax.novelty')
+                        </tbody>
 
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 
+    <div class="card">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-md-8">
+                    <h4>Cuenta con</h4>
+                </div>
 
-    <div class="row">
-        <div class="col-md-8">
-            <h4>Autoridades competentes que conocen el caso</h4>
+                <div class="col-md-2">
+
+                    <button class="btn btn-primary btn-block btn-sm btnAddCaseNoveltyHas" data-type_user_id="25"
+                        data-view="create" id="btnAddCaseNoveltyHas"><i class="fa fa-lightbulb"> </i> Agregar novedad
+                    </button>
+
+                </div>
+            </div>
         </div>
-
-        <div class="col-md-2">
-
-            <button class="btn btn-primary btn-block btn-sm btnAddCaseNovelty" data-type_user_id="25"
-                data-view="create" id="btnAddCaseNovelty"><i class="fa fa-lightbulb"> </i> Agregar novedad
-            </button>
-
-        </div>
-    </div>
+        <div class="card-body">
 
 
-    <div class="row">
-        <div class="col-md-12 table-responsive p-0">
+
+            <div class="row">
+                <div class="col-md-12 table-responsive p-0">
 
 
-            <table class="table table-hover content_ajax_list_novelty table-striped" id="table_list_novelty">
-                <thead>
-                    <th>
-                        No.
-                    </th>
-                    <th>
-                        Novedad
-                    </th>
-                    <th>Estado</th>
+                    <table class="table table-hover content_ajax_list_novelty_has table-striped"
+                        id="table_list_novelty_has">
+                        <thead>
+                            <th>
+                                No.
+                            </th>
+                            <th>
+                                Novedad
+                            </th>
+                            <th>Estado</th>
 
-                    <th>Acciones</th>
-                </thead>
-                <tbody>
-                    @include('content.cases.partials.ajax.novelty')
-                </tbody>
+                            <th>Acciones</th>
+                        </thead>
+                        <tbody>
+                            @include('content.cases.partials.ajax.novelty_has')
+                        </tbody>
 
-            </table>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-md-8">
-            <h4>Cuenta con</h4>
-        </div>
-
-        <div class="col-md-2">
-
-            <button class="btn btn-primary btn-block btn-sm btnAddCaseNoveltyHas" data-type_user_id="25"
-                data-view="create" id="btnAddCaseNoveltyHas"><i class="fa fa-lightbulb"> </i> Agregar novedad
-            </button>
-
-        </div>
-    </div>
-
-
-    <div class="row">
-        <div class="col-md-12 table-responsive p-0">
-
-
-            <table class="table table-hover content_ajax_list_novelty_has table-striped" id="table_list_novelty_has">
-                <thead>
-                    <th>
-                        No.
-                    </th>
-                    <th>
-                        Novedad
-                    </th>
-                    <th>Estado</th>
-
-                    <th>Acciones</th>
-                </thead>
-                <tbody>
-                    @include('content.cases.partials.ajax.novelty_has')
-                </tbody>
-
-            </table>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 

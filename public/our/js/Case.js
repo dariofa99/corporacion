@@ -284,7 +284,7 @@ $("#myformCreateUser input[name=type_identification_id]").on('change', function 
 })
 
 $("#myformCreateUser input[name=identification_number]").on('blur', function () {
-    var type_identification = $("#myformCreateUser input[name=type_identification_id]:checked").val();
+    var type_identification = $("#myformCreateUser select[name=type_identification_id]").val();
     if (this.value != '') {
         var request = {
             'identification_number': this.value,
@@ -386,7 +386,32 @@ $(".content_ajax_list_users").on("click", '.btn_user_data', function (e) {
     casef.getUserData(request)
 });
 
-$(".content_client_data").on("click", '.btn_delete_user', function (e) {
+$("#table_list_defendant").on("click", '.btn_delete_user', function (e) {
+    var request = {
+        'user_id': $(this).attr('data-id'),
+        'pivot_id': $(this).attr('data-pivot_id'),
+        'case_id': $("#case_id").val(),
+        'type_user_id': $(this).attr('data-type_user_id')
+    };
+    Swal.fire({
+        title: 'Esta seguro de eliminar el usuario del caso?',
+        text: "Los cambios no podrán ser revertidos!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Si, eliminar!',
+        cancelButtonText: 'Cancelar'
+    }).then((result) => {
+        if (result.value) {
+
+            casef.deleteUserCase(request);
+
+        }
+    });
+});
+
+$("#table_list_interventor").on("click", '.btn_delete_user', function (e) {
     var request = {
         'user_id': $(this).attr('data-id'),
         'pivot_id': $(this).attr('data-pivot_id'),
@@ -440,7 +465,7 @@ $('#myformCreateNovelty').on('submit', function(event) {
 
   
 
-$(".btn_delete_novelty").on("click", function (e) {
+$("#table_list_novelty").on("click", ".btn_delete_novelty", function (e) {
     var request = {
         'id': $(this).attr('data-id'),
         'case_id': $("#case_id").val(),
@@ -462,12 +487,6 @@ $(".btn_delete_novelty").on("click", function (e) {
         }
     });
 });
-
-$(".btn_edit_novelty").on("click", function (e) {
-    let id = $(this).attr('data-id');
-    casef.editNoveltyCase(id);
-});
-
 
 $('#myformCreateNoveltyHas').on('submit', function(event) {
     event.preventDefault();
@@ -496,9 +515,7 @@ $('#myformCreateNoveltyHas').on('submit', function(event) {
     casef.addNoveltyHasCase(request);
   });
 
-  
-
-$(".btn_delete_novelty_has").on("click", function (e) {
+$("#table_list_novelty_has").on("click", ".btn_delete_novelty_has", function (e) {
     var request = {
         'id': $(this).attr('data-id'),
         'case_id': $("#case_id").val(),
@@ -519,11 +536,6 @@ $(".btn_delete_novelty_has").on("click", function (e) {
 
         }
     });
-});
-
-$(".btn_edit_novelty_has").on("click", function (e) {
-    let id = $(this).attr('data-id');
-    casef.editNoveltyHasCase(id);
 });
 
 $("#btn_user_data").on("click", async function (e) {

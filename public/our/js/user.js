@@ -39,7 +39,7 @@ const httpService = new HttpService();
   })
 
   $("#myformCreateNewUser input[name=identification_number]").on('blur', function () {
-    var type_identification = $("#myformCreateNewUser input[name=type_identification_id]:checked")
+    var type_identification = $("#myformCreateNewUser select[name=type_identification_id]")
       .val();
     if (this.value != '') {
       var request = {
