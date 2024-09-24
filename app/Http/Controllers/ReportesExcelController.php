@@ -284,7 +284,7 @@ class ReportesExcelController extends Controller
             $data_val[] = $model->case_number; 
             $to_excel[] = $data_val;
         }
-        return ["data"=>$to_excel,"header"=>$header,'title'=>'usuario_casos'];
+        return ["data"=>$to_excel,"header"=>$header,'title'=>'perfil_casos'];
     }
 
     private function getDataUsers($users,Request $request){
@@ -339,7 +339,7 @@ class ReportesExcelController extends Controller
             $to_excel[] = $data_val;
             
         }       
-        return ["data"=>$to_excel,"header"=>$header,'title'=>'usuarios'];
+        return ["data"=>$to_excel,"header"=>$header,'title'=>'perfiles'];
     }
     private function getDataCases($cases,Request $request){
         $to_excel = [];

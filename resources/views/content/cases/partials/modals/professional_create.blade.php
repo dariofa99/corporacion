@@ -42,7 +42,7 @@
 <div id="cont_select_new_professional">
 <div class="col-md-12" id="cont_select_new_professional">
                  <div class="form-group">
-                  <label>Nombre de usuario:</label>
+                  <label>Nombre de perfil:</label>
                    <select name="id" required  id="id_usuario" class="form-control form-control-sm">
                       <option value="">Seleccione...</option>
                       @foreach ($users_prof as $user)

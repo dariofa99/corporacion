@@ -14,7 +14,7 @@
                     Para ingresar da clic en el enlace: <a href="{{url('/')}}">{{url('/')}}</a>
                     
                   <br>
-                  Nombre de usuario: {{$user->email}}
+                  Nombre de perfil: {{$user->email}}
                 </p>
             </td>
         </tr>

@@ -5,7 +5,7 @@
 	@endslot
 
 	@slot('title')
-		<h6><label id="lbl_modal_title">Nuevo usuario</label></h6>
+		<h6><label id="lbl_modal_title">Nuevo perfil</label></h6>
 	@endslot
 
 
@@ -39,7 +39,7 @@
 
             <div class="col-md-12" id="cont_select_new_professional" style="display:none">
                  <div class="form-group">
-                  <label>Nombre de usuario:</label>
+                  <label>Nombre de perfil:</label>
                    <select disabled name="id" required  id="id_usuario" class="form-control form-control-sm">
                       <option value="">Seleccione...</option>
                       @foreach ($users_prof as $user)

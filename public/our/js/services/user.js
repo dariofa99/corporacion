@@ -82,7 +82,7 @@ export class User {
                     }
                     Toast.fire({
                         type: 'success',
-                        title: 'Usuario agregado con éxito.'
+                        title: 'Perfil agregado con éxito.'
                     });
                 } catch (error) {
                     toastr.error('A ocurrido un error, refresque la página, si el error persiste, consulte con el adiministrador', 'Error',

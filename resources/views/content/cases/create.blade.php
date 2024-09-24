@@ -80,7 +80,7 @@
                     </div>
 
                       <div class="col-md-4">   
-                      <label for="user_identification_number">Usuario</label>   
+                      <label for="user_identification_number">Perfil</label>   
                       <div class="input-group input-group-sm">
                     @if(!isset($user))
                       <div class="input-group-prepend">

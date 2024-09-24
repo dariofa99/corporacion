@@ -5,7 +5,7 @@
 	@endslot
 
 	@slot('title')
-		<h6><label id="lbl_modal_title">Nuevo usuario</label></h6>
+		<h6><label id="lbl_modal_title">Nuevo perfil</label></h6>
 	@endslot
 
 
@@ -69,7 +69,7 @@
                            
                            
 
-                             <button type="submit" class="btn btn-primary btn-sm btn-block">Crear usuario</button>
+                             <button type="submit" class="btn btn-primary btn-sm btn-block">Crear perfil</button>
 
 
                 </form>

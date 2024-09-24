@@ -316,7 +316,7 @@
                             });
                         } else {
                             Toast.fire({
-                                title: 'No hay usuarios registrados en el caso.',
+                                title: 'No hay perfiles registrados en el caso.',
                                 type: 'error',
                                 timer: 8000,
                             });

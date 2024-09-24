@@ -5,7 +5,7 @@
 	@endslot
 
 	@slot('title')
-		<h6><label id="lbl_modal_title">Datos del usuario</label></h6>
+		<h6><label id="lbl_modal_title">Datos del perfil</label></h6>
 	@endslot
 
 

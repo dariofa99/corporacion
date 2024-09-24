@@ -394,7 +394,7 @@ $("#table_list_defendant").on("click", '.btn_delete_user', function (e) {
         'type_user_id': $(this).attr('data-type_user_id')
     };
     Swal.fire({
-        title: 'Esta seguro de eliminar el usuario del caso?',
+        title: 'Esta seguro de eliminar el perfil del caso?',
         text: "Los cambios no podrán ser revertidos!",
         type: 'warning',
         showCancelButton: true,
@@ -419,7 +419,7 @@ $("#table_list_interventor").on("click", '.btn_delete_user', function (e) {
         'type_user_id': $(this).attr('data-type_user_id')
     };
     Swal.fire({
-        title: 'Esta seguro de eliminar el usuario del caso?',
+        title: 'Esta seguro de eliminar el perfil del caso?',
         text: "Los cambios no podrán ser revertidos!",
         type: 'warning',
         showCancelButton: true,

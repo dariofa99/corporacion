@@ -345,7 +345,7 @@ const httpService = new HttpService();
     Swal.fire({
       title: 'Atencion!',
       html: `
-       <h2>¿Esta seguro de activar el usuario?</h2>
+       <h2>¿Esta seguro de activar el perfil?</h2>
     
         Se recepcionará una solicitud
       `,

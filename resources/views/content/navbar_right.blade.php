@@ -29,7 +29,7 @@
 
 
           <div class="dropdown-divider"></div>
-          {{-- <a href="#" class="dropdown-item dropdown-footer">Cargando usuarios...</a> --}}
+          {{-- <a href="#" class="dropdown-item dropdown-footer">Cargando perfiles...</a> --}}
         </div>        
       </li>
       @endcan

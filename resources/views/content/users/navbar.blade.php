@@ -22,12 +22,12 @@ $modo_nav="light";
       </li>
       @can('ver_usuarios')
       <li class="nav-item ">
-        <a href="/admin/users" class="nav-link">Listar <span class="d-none d-sm-inline-block">usuarios</span></a>
+        <a href="/admin/users" class="nav-link">Listar <span class="d-none d-sm-inline-block">perfiles</span></a>
       </li>
       @endcan
       @can('crear_usuarios')
        <li class="nav-item nav_btn_estado">
-        <a href="#" id="btn_create_nwus" class="nav-link">Nuevo <span class="d-none d-sm-inline-block">usuario</span></a>
+        <a href="#" id="btn_create_nwus" class="nav-link">Nuevo <span class="d-none d-sm-inline-block">perfil</span></a>
       </li>
       @endcan
 

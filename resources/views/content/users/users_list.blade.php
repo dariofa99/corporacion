@@ -37,7 +37,7 @@
                             <div class="card-header">
                                 <h3 class="card-title">
                                     <i class="fas fa-users"></i>
-                                    Usuarios
+                                    Perfiles
                                 </h3>
                                
                                 <form class="form-inline " id="myFormSearchIndex" action="/admin/users">
@@ -48,7 +48,7 @@
                                                 <option value="view_all">Ver todo...</option>
                                                 <option value="identification_number">No. identificación</option>
                                                 <option value="user_name">Nombre</option>
-                                                <option value="rol_type">Rol de usuario</option>
+                                                <option value="rol_type">Rol de perfil</option>
                                           </select>
                                         </div>
                                     </div>

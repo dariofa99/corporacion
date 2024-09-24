@@ -2,7 +2,7 @@
     <thead>
         <tr class="text-center">
             <th>No. Recepción</th>
-            <th>Usuario</th>
+            <th>Perfil</th>
 
             <th>Estado</th>
 

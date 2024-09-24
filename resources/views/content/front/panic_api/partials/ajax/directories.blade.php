@@ -25,7 +25,7 @@
                 </li>
                 <li class="small">
                     <span class="fa-li"><i class="fas fa-phone-volume"></i></span> 
-                    Usuario de confianza: {{$directory->is_trusted ? 'SI':'NO'}}
+                    Perfil de confianza: {{$directory->is_trusted ? 'SI':'NO'}}
                 </li>
                 @if(count($directory->aditional_data)>0)      
                 <li class="small">                   

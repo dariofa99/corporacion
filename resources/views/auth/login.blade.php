@@ -102,7 +102,7 @@
 
 Sigue estos pasos:<br>
 1. Llene el Formulario de Registro con sus datos.<br>
-2. El usuario y contraseña no deben tener espacios y siempre se requerirán para ingresar a la oficina virtual.<br>
+2. El correo electrónico y contraseña no deben tener espacios y siempre se requerirán para ingresar a la oficina virtual.<br>
 3. Los datos serán verificados para poder acceder a este servicio.<br>
 
 

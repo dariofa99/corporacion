@@ -1,7 +1,7 @@
 <table class="table table-bordered text-nowrap table-striped ">
     <thead>
       <tr class="text-center">
-        <th>Nombre de usuario</th>
+        <th>Nombre de perfil</th>
         <th>Tipo de evento</th>
         <th>Tabla afectada</th>
         <th>Descripción de cambios</th>

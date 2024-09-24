@@ -418,7 +418,7 @@ var hora = fecha.toLocaleTimeString('en-US');
         .attr('data-toggle','tooltip')
         .attr('data-placement','top')
         .attr('data-html','true')
-        .attr('title','Usuario: '+username.username+' Correo: '+username.correo);
+        .attr('title','Perfil: '+username.username+' Correo: '+username.correo);
        $( ".box-chat-tittle" ).append($imgtagtitle2);
     for( var i = 0; i < usersroom.length; i++){
      if (username.idusuario != usersroom[i].idusuario) {
@@ -429,7 +429,7 @@ var hora = fecha.toLocaleTimeString('en-US');
         .attr('data-toggle','tooltip')
         .attr('data-placement','top')
         .attr('data-html','true')
-        .attr('title','Usuario: '+usersroom[i].username+' Correo: '+usersroom[i].correo);
+        .attr('title','Perfil: '+usersroom[i].username+' Correo: '+usersroom[i].correo);
       $( ".box-chat-tittle" ).append($imgtagtitle);
        }
       }
@@ -463,7 +463,7 @@ var hora = fecha.toLocaleTimeString('en-US');
       .attr('data-toggle','tooltip')
       .attr('data-placement','top')
       .attr('data-html','true')
-      .attr('title','Usuario: '+usuarioRes.username+' Correo: '+usuarioRes.correo);
+      .attr('title','Perfil: '+usuarioRes.username+' Correo: '+usuarioRes.correo);
      $( ".box-chat-tittle" ).append($imgtagtitle);
       }
     }

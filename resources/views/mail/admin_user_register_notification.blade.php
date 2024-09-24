@@ -9,7 +9,7 @@
                 style="Margin:0;padding-top:20px;padding-bottom:20px;padding-left:30px;padding-right:30px">
                 <p
                     style="Margin:0;-webkit-text-size-adjust:none;-ms-text-size-adjust:none;mso-line-height-rule:exactly;font-family:lato, 'helvetica neue', helvetica, arial, sans-serif;line-height:27px;color:#666666;font-size:18px">
-                    Se ha registrado un nuevo usuario en el sistema {{config("app.name")}}.<br>
+                    Se ha registrado un nuevo perfil en el sistema {{config("app.name")}}.<br>
                     <br>
                     Nombres: <strong>{{$user->name}}</strong> <br>
                     Email: <strong> {{$user->email}}</strong>                    

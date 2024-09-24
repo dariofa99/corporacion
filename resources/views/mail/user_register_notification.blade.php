@@ -13,7 +13,7 @@
                     Para ingresar da clic en el enlace: <a href="{{ url('/') }}">{{ url('/') }}</a>
 
                     <br>
-                    Nombre de usuario: <strong>{{ $user->email }}</strong> <br>
+                    Nombre de perfil: <strong>{{ $user->email }}</strong> <br>
                     Contraseña: <strong>{{ $password_send }}</strong> <br>
 
                 </p>
@@ -26,7 +26,7 @@
 
                 </span>
                 <small>Para mayor seguridad, recuerda que puedes cambiar la contraseña desde el perfil de
-                    usuario.</small>
+                    cuenta.</small>
             </td>
         </tr>
         <tr style="border-collapse:collapse">

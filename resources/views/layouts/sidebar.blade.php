@@ -174,7 +174,7 @@
                                 <li class="nav-item ml-3">
                                     <a href="{{ route('users.index') }}" class="nav-link">
                                         <i class="fas fa-user-plus nav-icon"></i>
-                                        <p>Usuarios</p>
+                                        <p>Perfiles</p>
                                     </a>
                                 </li>
                             @endcan
@@ -222,7 +222,7 @@
                                 <li class="nav-item ml-3">
                                     <a href="{{ route('panic.directories') }}" class="nav-link">
                                         <i class="fas fa-address-card nav-icon"></i>
-                                        <p>Usuarios - Directorio</p>
+                                        <p>Perfiles - Directorio</p>
                                     </a>
                                 </li>
                             @endcan
