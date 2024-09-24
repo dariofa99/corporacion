@@ -339,7 +339,8 @@
                 e.preventDefault();
 
             });
-            initMessage();
+            //Commenting out the initMessage() function call to hide the message on startup
+            //initMessage();
             function initMessage(params) {
                var localVKey = "keyGeneralMessageClose"+version
                 var keyCir = localStorage.getItem(localVKey);
