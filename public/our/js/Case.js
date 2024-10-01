@@ -197,12 +197,18 @@ $('#types_category_novelty').on('change', function() {
     }
 });
 
-document.getElementById('state_novelty').addEventListener('change', function() {
+/* document.getElementById('state_novelty').addEventListener('change', function() {
     var selectedValue = this.options[this.selectedIndex].text;
     
     document.getElementById('value_novelty').value = selectedValue;
-});
+}); */
+   
+$(".state_novelty").on('click', function (e) {
+    var selectedValue = this.options[this.selectedIndex].text;
+    
+    document.getElementById('value_novelty').value = selectedValue;
 
+});
 
 $(".btnAddCaseNoveltyHas").on('click', function (e) {
     $("#myformCreateNoveltyHas")[0].reset();
@@ -237,11 +243,18 @@ $('#types_category_novelty_has').on('change', function() {
     }
 });
 
-document.getElementById('state_novelty_has').addEventListener('change', function() {
+
+$(".state_novelty_has").on('click', function (e) {
+    var selectedValue = this.options[this.selectedIndex].text;    
+    document.getElementById('value_novelty_has').value = selectedValue;
+
+});
+
+/* document.getElementById('state_novelty_has').addEventListener('change', function() {
     var selectedValue = this.options[this.selectedIndex].text;
     
     document.getElementById('value_novelty_has').value = selectedValue;
-});
+}); */
 
 
 $("input[name=radio_change_revisor]").on("change", function () {
