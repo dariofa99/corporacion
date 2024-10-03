@@ -213,3 +213,9 @@ animation: spin 5s linear infinite;
 .btn_read_noti .itemnot{
   color: #000000 !important;
 }
+
+#cases_datatable_wrapper{
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-right: 10px
+}

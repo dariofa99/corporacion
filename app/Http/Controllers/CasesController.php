@@ -13,7 +13,7 @@ use App\Models\CaseNoveltyHasData;
 use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Redis;
 use App\Models\CaseM; 
-
+use DataTables;
 use App\Models\User;
 use App\Models\Payment;
 use App\Models\PanicAlert;
@@ -59,10 +59,74 @@ class CasesController extends Controller
             $cases= $this->casesAsignados($request);
         }
         if($request->ajax()){ 
-            $response = [
-                'view'=>view('content.cases.partials.ajax.index',compact('cases'))->render(),
-            ];
-            return response()->json($response);      
+
+            return datatables()->of($cases->items())
+            
+            // Column for case_number
+            ->addColumn('case_number', function ($case) {
+                return $case->case_number;
+            })
+
+            // Column for user with type_user_id 7
+            ->addColumn('user_type_7', function ($case) {
+                $user = $case->users()->where('type_user_id', 7)->first();
+                return $user ? $user->name : 'Sin registrar';
+            })
+
+            // Column for type_case with tooltip for users with type_user_id 21
+            ->addColumn('type_case', function ($case) {
+                $usersType21 = $case->users()->where('type_user_id', 21)->get();
+                if ($usersType21->count() > 0) {
+                    $names = $usersType21->pluck('name')->implode('; ');
+                    return '<span data-toggle="tooltip" title="' . $names . '">' . $case->type_case . '</span>';
+                } else {
+                    return '<span data-toggle="tooltip" title="Sin demandados">' . $case->type_case . '</span>';
+                }
+            })
+
+            // Column for branch_law
+            ->addColumn('branch_law', function ($case) {
+                return $case->branch_law;
+            })
+
+            // Column for created_at with custom formatting
+            ->addColumn('created_at', function ($case) {
+                return getSmallDateWithHour($case->created_at);
+            })
+
+            // Column for status with badge
+            ->addColumn('status', function ($case) {
+                return '<span style="display:block" class="badge badge-pill badge-' . $case->color . '">' . $case->status . '</span>';
+            })
+
+            // Column for action buttons (edit and delete)
+            ->addColumn('action', function ($case) {
+                return '
+                    <a href="/casos/' . $case->id . '/edit" class="btn btn-success btn-sm">
+                        <i class="fa fa-cogs"></i> Administrar
+                    </a>
+                    <button data-id="' . $case->id . '" class="btn btn-danger btn-sm btn_delete_case">
+                        <i class="fa fa-trash"></i> Eliminar
+                    </button>';
+            })
+
+            // Enable raw HTML output for specific columns
+            ->rawColumns(['type_case', 'status', 'action'])
+
+            // Return custom response with recordsTotal and recordsFiltered
+            ->with([
+                'recordsTotal' => $cases->total(),
+                'recordsFiltered' => $cases->total(), // You can adjust this if you have a different filtered count
+                'current_page' => $cases->currentPage(),
+                'per_page' => $cases->perPage(),
+                'last_page' => $cases->lastPage(),
+                'next_page_url' => $cases->nextPageUrl(),
+                'prev_page_url' => $cases->previousPageUrl(),
+                'links' => $cases->appends($request->query())->links()->render()
+            ])
+
+            // Return the final DataTables result
+            ->make(true);
         }
         return view('content.cases.index',compact('cases')); 
 
@@ -70,18 +134,47 @@ class CasesController extends Controller
 
     public function allCases(Request $request)
     {
+        $columnMapping = [
+            '0' => 'cases.case_number',
+            '1' => 'users.name',
+            '2' => 'rtc.name',
+            '3' => 'rtr.name',
+            '4' => 'cases.created_at',
+            '5' => 'rt.name',
+        ];
 
         if (\Auth::user()->can('ver_todos_casos')) {}
-        $cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
+        $casesBase=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
             ->join('references_table as rtc','rtc.id','cases.type_case_id')
             ->join('references_table as rtr','rtr.id','cases.type_branch_law_id')
             ->leftJoin('user_cases', 'user_cases.case_id', '=', 'cases.id')
             ->join('users','users.id','=','user_cases.user_id')
             ->getData($request)
             ->where('cases.type_status_id','<>','15')
-            ->select('cases.created_at','cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law')
-            ->orderBy('cases.case_number','desc')
-            ->groupBy('cases.case_number')->paginate(15);
+            ->select('cases.created_at','cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law');
+
+            if ($request->has('order')) {
+                $columns = $request->order; // Get columns array from the request
+            
+                // Loop through each order directive and apply it to the query
+                foreach ($columns as $orderClause) {
+                    $columnIndex = $orderClause['column']; // Get column index from the order array
+                    $direction = $orderClause['dir']; // Get direction ('asc' or 'desc')
+            
+                    // Get the column name based on the index
+                    if (isset($columnMapping[$columnIndex])) {
+                        $columnName = $columnMapping[$columnIndex];
+                        $casesBase->orderBy($columnName, $direction);
+                    }
+                }
+                $cases = $casesBase->groupBy('cases.case_number')->paginate(15);
+            } else {
+                // Apply default ordering if no 'order' array is present in the request
+                $cases = $casesBase->orderBy('cases.case_number', 'desc')->groupBy('cases.case_number')->paginate(15);
+            }
+            
+
+        
         if((!$request->data and !$request->type)){
            /*  $cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
             ->join('references_table as rtc','rtc.id','cases.type_case_id')
@@ -111,6 +204,15 @@ class CasesController extends Controller
 
     public function casesAsignados(Request $request)
     {
+        $columnMapping = [
+            '0' => 'cases.case_number',
+            '1' => 'users.name',
+            '2' => 'rtc.name',
+            '3' => 'rtr.name',
+            '4' => 'cases.created_at',
+            '5' => 'rt.name',
+        ];
+
         $user=\Auth::user();
        // $proyectos = $user->proyectos()->whereIn('tipo_user_id',[99, 100])->get();
         
@@ -119,7 +221,7 @@ class CasesController extends Controller
         if((!$request->data and !$request->type) ||
          ($request->type=='case_number' || $request->type=='type_case' || 
          $request->type=='branch_law' || $request->type=='status' || $request->type=='view_all')){
-            $cases=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
+            $casesBase=CaseM::join('references_table as rt','rt.id','cases.type_status_id')
             ->join('references_table as rtc','rtc.id','cases.type_case_id')
             ->join('references_table as rtr','rtr.id','cases.type_branch_law_id')
             ->join('user_cases', 'user_cases.case_id','cases.id')
@@ -127,11 +229,30 @@ class CasesController extends Controller
             ->where('user_cases.type_user_id','8')
             ->where('cases.type_status_id','<>','15')
             ->getData($request)
-            ->select('cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law')
-            ->orderBy('cases.created_at','desc')->paginate(15);
+            ->select('cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law');
             
+            if ($request->has('order')) {
+                $columns = $request->order; // Get columns array from the request
+            
+                // Loop through each order directive and apply it to the query
+                foreach ($columns as $orderClause) {
+                    $columnIndex = $orderClause['column']; // Get column index from the order array
+                    $direction = $orderClause['dir']; // Get direction ('asc' or 'desc')
+            
+                    // Get the column name based on the index
+                    if (isset($columnMapping[$columnIndex])) {
+                        $columnName = $columnMapping[$columnIndex];
+                        $casesBase->orderBy($columnName, $direction);
+                    }
+                }
+                $cases = $casesBase->groupBy('cases.case_number')->paginate(15);
+            } else {
+                // Apply default ordering if no 'order' array is present in the request
+                $cases = $casesBase->orderBy('cases.created_at', 'desc')->groupBy('cases.case_number')->paginate(15);
+            }
+              
         }else{
-            $cases=CaseM::join('user_cases as uc','uc.case_id','=','cases.id')
+            $casesBase=CaseM::join('user_cases as uc','uc.case_id','=','cases.id')
             ->join('users','users.id','=','uc.user_id')
             ->join('references_table as rt','rt.id','cases.type_status_id')
             ->join('references_table as rtc','rtc.id','cases.type_case_id')
@@ -141,11 +262,30 @@ class CasesController extends Controller
             ->where('user_cases.type_user_id','8')
             ->where('cases.type_status_id','<>','15')
             ->getData($request)
-            ->select('cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law')
-            ->orderBy('cases.created_at','desc')->paginate(15); 
+            ->select('cases.case_number','cases.id','rt.name as status','rt.options as color','rt.id as status_id','rtc.name as type_case','rtr.name as branch_law');
+            
+            if ($request->has('order')) {
+                $columns = $request->order; // Get columns array from the request
+            
+                // Loop through each order directive and apply it to the query
+                foreach ($columns as $orderClause) {
+                    $columnIndex = $orderClause['column']; // Get column index from the order array
+                    $direction = $orderClause['dir']; // Get direction ('asc' or 'desc')
+            
+                    // Get the column name based on the index
+                    if (isset($columnMapping[$columnIndex])) {
+                        $columnName = $columnMapping[$columnIndex];
+                        $casesBase->orderBy($columnName, $direction);
+                    }
+                }
+                $cases = $casesBase->groupBy('cases.case_number')->paginate(15);
+            } else {
+                // Apply default ordering if no 'order' array is present in the request
+                $cases = $casesBase->orderBy('cases.created_at', 'desc')->groupBy('cases.case_number')->paginate(15);
+            }
+            
         }
         return $cases;
-
 
     }
 
