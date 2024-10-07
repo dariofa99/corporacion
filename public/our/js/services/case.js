@@ -11,7 +11,11 @@ export class CaseM {
   
     
     index(request, url) {
-        $.ajax({
+
+        var oTable = $('#cases_datatable').dataTable();
+        oTable.fnDraw(false);
+
+        /* $.ajax({
             url: url,
             type: 'GET',
             cache: false,
@@ -22,8 +26,12 @@ export class CaseM {
             },
             success: function (res) {
 
+                var oTable = $('#cases_datatable').dataTable();
+                        oTable.fnDraw(false);
+
                 if (res.view) {
-                    $("#content_cases").html(res.view);
+                    //$("#content_cases").html(res.view);
+                    
                     $("#content_list_users_table").html(res.view);
                     // $("[data-toggle='toggle']").bootstrapToggle();
                 }
@@ -31,7 +39,7 @@ export class CaseM {
             },
             error: function (xhr, textStatus, thrownError) {
             }
-        });
+        }); */
     }
 
     store(request) {

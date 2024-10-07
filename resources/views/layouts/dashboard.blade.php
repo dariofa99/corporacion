@@ -152,7 +152,11 @@ $modo_nav="dark";
 <script>var tokendefault = '';</script>
 {{-- <script src="{{ asset('plugins/new-push/io.js?v=1')}}?v={{ config('app.asset_version') }}"></script> --}}
 
+<script src="https://cdn.datatables.net/1.11.4/js/jquery.dataTables.min.js"></script>
 
+<script src="https://cdn.datatables.net/1.11.4/js/dataTables.bootstrap5.min.js"></script>
+
+<link  href="https://cdn.datatables.net/1.11.4/css/dataTables.bootstrap5.min.css" rel="stylesheet">
 
 <!-- OPTIONAL SCRIPTS -->
 <script src="{{asset('dist/js/demo.js')}}?v={{ config('app.asset_version') }}"></script>

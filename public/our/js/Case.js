@@ -8,14 +8,14 @@ const appService = new AppService();
 
 
 
-$("#content_cases").on('click', '.pagination a', function (e) {
+/* $("#content_cases").on('click', '.pagination a', function (e) {
     // alert("sss")
     e.preventDefault();
     var page = $(this).attr('href');
     var request = {};
     window.history.pushState(null, '', page);
     casef.index(request, page);
-});
+}); */
 
 $("#myFormSearchIndex").on("submit", function (e) {
     var request = $(this).serialize();
@@ -197,18 +197,13 @@ $('#types_category_novelty').on('change', function() {
     }
 });
 
-/* document.getElementById('state_novelty').addEventListener('change', function() {
-    var selectedValue = this.options[this.selectedIndex].text;
-    
-    document.getElementById('value_novelty').value = selectedValue;
-}); */
-   
 $(".state_novelty").on('click', function (e) {
     var selectedValue = this.options[this.selectedIndex].text;
     
     document.getElementById('value_novelty').value = selectedValue;
 
 });
+
 
 $(".btnAddCaseNoveltyHas").on('click', function (e) {
     $("#myformCreateNoveltyHas")[0].reset();
