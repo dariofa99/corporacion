@@ -126,7 +126,46 @@ class ReportesChartsController extends Controller
                 $chart['graph'] = $graph;
             }else{
                 foreach ($options as $key => $option) {
-                    $cases = CaseM::join('user_cases','user_cases.case_id','=','cases.id')
+                    if($ref->categories == 'type_data_novelty'){
+                        $cases = CaseM::join('user_cases','user_cases.case_id','=','cases.id')
+                        ->join('case_novelty_data as cnd','cnd.case_id','=','cases.id')  
+                        ->where("cnd.reference_data_option_id",$option->id)  
+                        ->where("user_cases.type_user_id",7)
+                        ->where("cases.type_status_id","<>",15)
+                        ->where(function($query) use ($request){
+                            if($request->has('fecha_ini') and $request->has('fecha_fin') ){
+                                return $query->whereDate('cases.created_at','>=',$request->fecha_ini)
+                                ->whereDate('cases.created_at','<=',$request->fecha_fin);
+                            }
+                        })   
+                       // ->groupBy('cases.id')               
+                        ->count();
+                        $chart[]=[
+                            "category"=>$option->value,
+                            "value"=>$cases
+                        ];
+                    }
+                    else if($ref->categories == 'type_data_novelty_has'){
+                        $cases = CaseM::join('user_cases','user_cases.case_id','=','cases.id')
+                        ->join('case_novelty_has_data as cnhd','cnhd.case_id','=','cases.id')  
+                        ->where("cnhd.reference_data_option_id",$option->id)  
+                        ->where("user_cases.type_user_id",7)
+                        ->where("cases.type_status_id","<>",15)
+                        ->where(function($query) use ($request){
+                            if($request->has('fecha_ini') and $request->has('fecha_fin') ){
+                                return $query->whereDate('cases.created_at','>=',$request->fecha_ini)
+                                ->whereDate('cases.created_at','<=',$request->fecha_fin);
+                            }
+                        })   
+                       // ->groupBy('cases.id')               
+                        ->count();
+                        $chart[]=[
+                            "category"=>$option->value,
+                            "value"=>$cases
+                        ];
+                    }
+                    else{
+                        $cases = CaseM::join('user_cases','user_cases.case_id','=','cases.id')
                         ->join('users','users.id','=','user_cases.user_id')  
                         ->join('user_aditional_data','user_aditional_data.user_id','=','users.id')  
                         ->join('references_table as tb1','tb1.id','=','cases.type_status_id')
@@ -147,6 +186,7 @@ class ReportesChartsController extends Controller
                             "category"=>$option->value,
                             "value"=>$cases
                         ];
+                    }
                 }
             }
 
@@ -198,7 +238,40 @@ class ReportesChartsController extends Controller
                         foreach ($options as $key => $option) {
                             $values=[];
                             foreach ($options_cruce as $key_2 => $option2) {
-                                $counter = CaseM::join('user_cases','user_cases.case_id','=','cases.id')
+                                if($ref->categories == 'type_data_novelty'){
+                                    $counter = CaseM::join('user_cases','user_cases.case_id','=','cases.id')
+                                    ->join('case_novelty_data as cnd','cnd.case_id','=','cases.id')  
+                                ->where("cnd.reference_data_option_id",$option2->id)  
+                                ->where("cases.".$oselected,$option->id)
+                                ->where("user_cases.type_user_id",7)
+                                ->where("cases.type_status_id","<>",15)
+                                ->where(function($query) use ($request){
+                                    if($request->has('fecha_ini') and $request->has('fecha_fin') ){
+                                        return $query->whereDate('cases.created_at','>=',$request->fecha_ini)
+                                        ->whereDate('cases.created_at','<=',$request->fecha_fin);
+                                    }
+                                })                                            
+                                ->count();
+                                $values[$option2->value] =  $counter ;
+                                }
+                                else if($ref->categories == 'type_data_novelty_has'){
+                                    $counter = CaseM::join('user_cases','user_cases.case_id','=','cases.id')
+                                    ->join('case_novelty_has_data as cnhd','cnhd.case_id','=','cases.id')  
+                                ->where("cnhd.reference_data_option_id",$option2->id)  
+                                ->where("cases.".$oselected,$option->id)
+                                ->where("user_cases.type_user_id",7)
+                                ->where("cases.type_status_id","<>",15)
+                                ->where(function($query) use ($request){
+                                    if($request->has('fecha_ini') and $request->has('fecha_fin') ){
+                                        return $query->whereDate('cases.created_at','>=',$request->fecha_ini)
+                                        ->whereDate('cases.created_at','<=',$request->fecha_fin);
+                                    }
+                                })                                            
+                                ->count();
+                                $values[$option2->value] =  $counter ;
+                                }
+                                else{
+                                    $counter = CaseM::join('user_cases','user_cases.case_id','=','cases.id')
                                 ->join('users','users.id','=','user_cases.user_id')  
                                 ->join('user_aditional_data','user_aditional_data.user_id','=','users.id')  
                                 ->join('references_table as tb1','tb1.id','=','cases.type_status_id')
@@ -216,6 +289,8 @@ class ReportesChartsController extends Controller
                                 })                                            
                                 ->count();
                                 $values[$option2->value] =  $counter ;
+                                }
+                                
                                 if($key==0)$graph[] = ['value_graph'=>$option2->value];
                             }
                             $values['encabezado'] = $option->name ;

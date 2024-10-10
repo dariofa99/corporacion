@@ -141,7 +141,7 @@
 <!-- aqui van los scripts de cada vista -->
 
 <script>  
-  var spanishLanguage = {
+var spanishLanguage = {
                 "processing": "Procesando...",
                 "lengthMenu": "Mostrar _MENU_ registros",
                 "zeroRecords": "No se encontraron resultados",
@@ -369,6 +369,7 @@
                 }
             };
 
+$("#wait").show();
 $('#cases_datatable').DataTable({
                 processing: true,
                 serverSide: true,
@@ -388,6 +389,7 @@ $('#cases_datatable').DataTable({
                     url: "{{ url('casos') }}", // The route that handles the AJAX request
                     type: 'GET',
                     data: function (d) {
+                        
                         d.page = Math.ceil(d.start / d.length) + 1;
                         //d.page = d.draw;
                         d.start = 0;
