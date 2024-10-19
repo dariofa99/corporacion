@@ -197,7 +197,7 @@ $('#types_category_novelty').on('change', function() {
     }
 });
 
-$(".state_novelty").on('click', function (e) {
+$("#state_novelty").on('click', function (e) {
     var selectedValue = this.options[this.selectedIndex].text;
     
     document.getElementById('value_novelty').value = selectedValue;
@@ -239,7 +239,7 @@ $('#types_category_novelty_has').on('change', function() {
 });
 
 
-$(".state_novelty_has").on('click', function (e) {
+$("#state_novelty_has").on('click', function (e) {
     var selectedValue = this.options[this.selectedIndex].text;    
     document.getElementById('value_novelty_has').value = selectedValue;
 

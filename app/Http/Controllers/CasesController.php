@@ -70,7 +70,7 @@ class CasesController extends Controller
             // Column for user with type_user_id 7
             ->addColumn('user_type_7', function ($case) {
                 $user = $case->users()->where('type_user_id', 7)->first();
-                return $user ? $user->name : 'Sin registrar';
+                return $user ? '<span style="white-space: normal;">' . $user->name . '</span>' : '<span style="white-space: normal;">' . 'Sin registrar' . '</span>';
             })
 
             // Column for type_case with tooltip for users with type_user_id 21
@@ -78,15 +78,15 @@ class CasesController extends Controller
                 $usersType21 = $case->users()->where('type_user_id', 21)->get();
                 if ($usersType21->count() > 0) {
                     $names = $usersType21->pluck('name')->implode('; ');
-                    return '<span data-toggle="tooltip" title="' . $names . '">' . $case->type_case . '</span>';
+                    return '<span data-toggle="tooltip" style="white-space: normal;" title="' . $names . '">' . $case->type_case . '</span>';
                 } else {
-                    return '<span data-toggle="tooltip" title="Sin demandados">' . $case->type_case . '</span>';
+                    return '<span data-toggle="tooltip" style="white-space: normal;" title="Sin demandados">' . $case->type_case . '</span>';
                 }
             })
 
             // Column for branch_law
             ->addColumn('branch_law', function ($case) {
-                return $case->branch_law;
+                return '<span style="white-space: normal;">' . $case->branch_law . '</span>';
             })
 
             // Column for created_at with custom formatting
@@ -111,7 +111,7 @@ class CasesController extends Controller
             })
 
             // Enable raw HTML output for specific columns
-            ->rawColumns(['type_case', 'status', 'action'])
+            ->rawColumns(['user_type_7', 'type_case', 'status', 'branch_law', 'action'])
 
             // Return custom response with recordsTotal and recordsFiltered
             ->with([

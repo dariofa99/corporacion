@@ -24,6 +24,7 @@ class CasesExportSheet implements FromCollection,WithHeadings,WithTitle
     }
     public function collection()
     {
+        ini_set('memory_limit', '1024M');
         return $collection = collect($this->data);;
     }
     public function headings(): array
